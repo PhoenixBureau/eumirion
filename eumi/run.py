@@ -23,6 +23,31 @@ from wsgiref.simple_server import make_server
 from html import HTML
 
 
+def make_app(pather, router, default_handler):
+  @report_problems
+  def app(environ, start_response):
+    path = environ['path'] = pather(environ)
+    handler = router.get(path, default_handler)
+    response = handler(environ)
+    return ok200(start_response, response)
+  return app
+
+
+def pather(environ):
+  return tuple(environ['PATH_INFO'].strip('/').split('/'))
+
+
+router = {('',): lambda environ: 'root'}
+
+
+def default_handler(environ):
+  message = 'No resource at ' + str(environ['path'])
+  document = HTML()
+  document.head.title(message)
+  document.body(message)
+  return document
+
+
 def start(start_response, message, mime_type):
   start_response(message, [('Content-type', mime_type)])
 
@@ -46,17 +71,7 @@ def report_problems(f):
   return inner
 
 
-@report_problems
-def app(environ, start_response):
-  path = environ['PATH_INFO'].lstrip('/').split('/', 1)
-  if path == ['']: # Root
-    body = 'root'
-  else:
-    body = str(path)
-  return ok200(start_response, HTML().body(body))
-
-
-def run(app=app, host='', port=8000):
+def run(app, host='', port=8000):
   httpd = make_server(host, port, app)
   try:
     httpd.serve_forever()
@@ -66,4 +81,4 @@ def run(app=app, host='', port=8000):
 
 if __name__ == '__main__':
   print "Serving on port http://localhost:8000/ ..."
-  run()
+  run(make_app(pather, router, default_handler))

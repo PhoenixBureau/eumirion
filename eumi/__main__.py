@@ -17,10 +17,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
-from .run import app, run
+from .run import make_app, run, pather, router, default_handler
 
 
 HOST, PORT = '', 8000
 
 
+app = make_app(pather, router, default_handler)
 run(app=app, host=HOST, port=PORT)

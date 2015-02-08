@@ -17,8 +17,40 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
-from random import randrange
 from .html import HTML
+
+
+class Fun(dict):
+
+  def __init__(self, page, *a, **b):
+    self.page = page
+    dict.__init__(self, *a, **b)
+
+  def default_handler(self, environ):
+    path = environ['path']
+    handler = self[path] = PageHandler(environ, self.make_page)
+    return handler(environ)
+
+  def make_page(self, environ, page_data, head, body):
+    return self.page(self, environ, page_data, head, body)
+
+
+class PageHandler(object):
+
+  def __init__(self, environ, make_page, data=None):
+    self.data = data
+    self.make_page = make_page
+    self.post(environ, make_page)
+
+  def __call__(self, environ):
+    if environ['REQUEST_METHOD'] == 'POST':
+      self.post(environ, self.make_page)
+    return self.response
+
+  def post(self, environ, make_page):
+    doc = HTML()
+    self.data = make_page(environ, self.data, doc.head, doc.body)
+    self.response = str(doc)
 
 
 class MalformedURL(Exception): pass
@@ -40,46 +72,3 @@ def pather(environ):
     raise MalformedURL(path)
 
   return head, tail
-
-
-def hexify(i):
-  s = hex(i)[2:]
-  return '0' * (8 - len(s)) + s
-
-
-def linkerate(head, tail):
-  return '/%08s/%s' % (hexify(head), hexify(tail))
-
-
-def path_link(home, head, tail):
-  link = linkerate(head, tail)
-  home.a(link, href=link)
-
-
-class PageHandler(object):
-
-  def __init__(self, environ, site_wide):
-    document = HTML()
-    site_wide(environ, document.head, document.body)
-    self.response = str(document)
-
-  def __call__(self, environ):
-    return self.response
-
-
-class Fun(dict):
-
-  def default_handler(self, environ):
-    path = environ['path']
-    handler = self[path] = PageHandler(environ, self.site_wide)
-    return handler(environ)
-
-  def site_wide(self, environ, head, body):
-    path = environ['path']
-    message = 'Current location: ' + linkerate(*path)
-    head.title(message)
-    body.h1(message)
-    with body.ol as ol:
-      for known_path in sorted(self):
-        path_link(ol.li, *known_path)
-    path_link(body, randrange(2**32), randrange(2**32))

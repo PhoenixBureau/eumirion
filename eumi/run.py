@@ -20,7 +20,7 @@
 #
 from traceback import format_exc
 from wsgiref.simple_server import make_server
-from html import HTML
+from .html import HTML
 
 
 def make_app(pather, router, default_handler):

@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
-from .run import main
+from .main import main
 
 
 main()

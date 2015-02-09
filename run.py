@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 #    Copyright © 2015 Simon Forman
@@ -17,7 +18,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
-from .run import main
+from eumi.run import main
 
 
 main()

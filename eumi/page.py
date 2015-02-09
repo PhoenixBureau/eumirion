@@ -61,7 +61,7 @@ def page(router, environ, page_data, head, body):
   body.hr
 
   with body.form(action=self_link, method='POST') as form:
-    labeled_field(form, 'Title:', 'text', 'title', title, cols='128')
+    labeled_field(form, 'Title:', 'text', 'title', title, size='44')
     form.br
     labeled_textarea(form, 'Text:', 'text', text, '88', '5')
     form.br

@@ -8,17 +8,26 @@ Simple game server.
 .
 |-- LICENSE
 |-- README
-`-- eumi
-    |-- __init__.py
-    |-- __main__.py
-    |-- html.py
-    `-- run.py
+|-- eumi
+|   |-- __init__.py
+|   |-- __main__.py
+|   |-- fun.py
+|   |-- html.py
+|   |-- main.py
+|   `-- page.py
+`-- run.py
 
-1 directory, 6 files
+1 directory, 9 files
 
 
 The eumi package can be run from the command line like this:
 
   python -m eumi
 
+Or, you can use the run.py script:
+
+  python run.py
+
+But it must either be in the same directory as the eumi package or that
+package must be installed in your system or Python virtual environment.
 

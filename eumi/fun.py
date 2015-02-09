@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
-from .html import HTML
+from html import HTML
 
 
 class Fun(dict):

@@ -17,7 +17,13 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
+from cgi import FieldStorage
 from random import randrange
+
+
+FIELDS = 'title', 'text'
+DEFAULT_TITLE = 'no title'
+DEFAULT_TEXT = 'Write something...'
 
 
 def page(router, environ, page_data, head, body):
@@ -30,28 +36,63 @@ def page(router, environ, page_data, head, body):
 
   Fill in the head and body and return the page's (possibly new) page_data.
   '''
-  known_paths = sorted(router)
+  if page_data is None:
+    page_data = {'text': DEFAULT_TEXT}
+
+  form = get_form_data(environ)
+  for field in FIELDS:
+    value = form.getfirst(field)
+    if value is not None:
+      page_data[field] = value
+
   location = environ['path']
   self_link = linkerate(*location)
   message = 'Current location: ' + self_link
 
-  head.title(message)
-  body.h1(message)
+  title = page_data.get('title', DEFAULT_TITLE).title()
+  text = page_data['text']
+  head.title(title)
+  body.h1.a(title, href=self_link)
+  body.div(text)
 
-  with body.ol as ol:
-    for known_path in known_paths:
-      path_link(ol.li, *known_path)
-
-  body.hr
-  path_link(body, randrange(2**32), randrange(2**32))
-  body.br
+##  body.hr
+##  path_link(body, randrange(2**32), randrange(2**32))
+##  body.br
   body.hr
 
   with body.form(action=self_link, method='POST') as form:
-    form.input(type_='hidden', name='hmm', value=str(randrange(2**32)))
-    form.input(type_='submit', value='reload')
+    labeled_field(form, 'Title:', 'text', 'title', title, cols='128')
+    form.br
+    labeled_textarea(form, 'Text:', 'text', text, '88', '5')
+    form.br
+    form.input(
+      type_='hidden',
+      name='fake_out_caching',
+      value=str(randrange(2**32)),
+      )
+    form.input(type_='submit', value='post')
 
   return page_data
+
+
+def get_form_data(environ):
+  environ['QUERY_STRING'] = ''
+  return FieldStorage(
+    fp=environ['wsgi.input'],
+    environ=environ,
+    keep_blank_values=True,
+    )
+
+
+def labeled_field(form, label, type_, name, value, **kw):
+  form.label(label, for_=name)
+  form.input(type_=type_, name=name, value=value, **kw)
+
+
+def labeled_textarea(form, label, name, value, cols, rows, **kw):
+  form.label(label, for_=name)
+  form.br
+  form.textarea(value, name=name, cols=cols, rows=rows, **kw)
 
 
 def hexify(i):

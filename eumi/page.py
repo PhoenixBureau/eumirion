@@ -94,7 +94,7 @@ def split(p, h, text, regex, router):
     p(text[begin:end])
     begin = match.end()
     h(p, match, router)
-  p(text[begin:-1])
+  p(text[begin:])
 
 
 def render_link(p, match, router):

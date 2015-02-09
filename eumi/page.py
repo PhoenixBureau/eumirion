@@ -102,7 +102,12 @@ def render_link(p, match, router):
   link = '/%s/%s' % piece
   coordinates = tuple(int(n, 16) for n in piece)
   if coordinates in router:
-    link_text = router[coordinates].data['title']
+    page_handler = router[coordinates] 
+    try:
+      link_text = page_handler.data['title']
+    except KeyError:
+      print page_handler.data
+      link_text = link
   else:
     link_text = link
   p.a(link_text, href=link)

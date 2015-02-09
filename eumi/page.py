@@ -38,26 +38,16 @@ def page(router, environ, page_data, head, body):
   '''
   if page_data is None:
     page_data = {'text': DEFAULT_TEXT}
-
-  form = get_form_data(environ)
-  for field in FIELDS:
-    value = form.getfirst(field)
-    if value is not None:
-      page_data[field] = value
+  update_page_data(page_data, environ)
 
   location = environ['path']
   self_link = linkerate(*location)
-  message = 'Current location: ' + self_link
 
   title = page_data.get('title', DEFAULT_TITLE).title()
   text = page_data['text']
   head.title(title)
   body.h1.a(title, href=self_link)
   body.div(text)
-
-##  body.hr
-##  path_link(body, randrange(2**32), randrange(2**32))
-##  body.br
   body.hr
 
   with body.form(action=self_link, method='POST') as form:
@@ -65,14 +55,18 @@ def page(router, environ, page_data, head, body):
     form.br
     labeled_textarea(form, 'Text:', 'text', text, '88', '5')
     form.br
-    form.input(
-      type_='hidden',
-      name='fake_out_caching',
-      value=str(randrange(2**32)),
-      )
+    form.input(type_='hidden', name='fake_out_caching', value=str(randrange(2**32)))
     form.input(type_='submit', value='post')
 
   return page_data
+
+
+def update_page_data(page_data, environ):
+  form = get_form_data(environ)
+  for field in FIELDS:
+    value = form.getfirst(field)
+    if value is not None:
+      page_data[field] = value
 
 
 def get_form_data(environ):
@@ -107,3 +101,8 @@ def linkerate(head, tail):
 def path_link(home, head, tail):
   link = linkerate(head, tail)
   home.a(link, href=link)
+
+
+##  body.hr
+##  path_link(body, randrange(2**32), randrange(2**32))
+##  body.br

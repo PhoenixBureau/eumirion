@@ -19,6 +19,7 @@
 #
 from cgi import FieldStorage
 from random import randrange
+from re import compile as RegularExpression, IGNORECASE
 
 
 FIELDS = 'title', 'text'
@@ -47,7 +48,7 @@ def page(router, environ, page_data, head, body):
   text = page_data['text']
   head.title(title)
   body.h1.a(title, href=self_link)
-  body.div(text)
+  render_text(body.div, text, router)
   body.hr
 
   with body.form(action=self_link, method='POST') as form:
@@ -76,6 +77,35 @@ def get_form_data(environ):
     environ=environ,
     keep_blank_values=True,
     )
+
+
+link_finder = RegularExpression('/([0-9a-f]{8})' * 2, flags=IGNORECASE)
+
+
+def render_text(home, text, router):
+  for paragraph in text.splitlines(False):
+    split(home.p, render_link, paragraph, link_finder, router)
+
+
+def split(p, h, text, regex, router):
+  begin = 0
+  for match in regex.finditer(text):
+    end = match.start()
+    p(text[begin:end])
+    begin = match.end()
+    h(p, match, router)
+  p(text[begin:-1])
+
+
+def render_link(p, match, router):
+  piece = match.groups()
+  link = '/%s/%s' % piece
+  coordinates = tuple(int(n, 16) for n in piece)
+  if coordinates in router:
+    link_text = router[coordinates].data['title']
+  else:
+    link_text = link
+  p.a(link_text, href=link)
 
 
 def labeled_field(form, label, type_, name, value, **kw):

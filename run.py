@@ -19,6 +19,7 @@
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
 from eumi.main import main
+from eumi.page import page
 
 
-main()
+main(page)

@@ -21,7 +21,6 @@
 from traceback import format_exc
 from wsgiref.simple_server import make_server
 from .html import HTML
-from .page import page
 
 
 def make_app(pather, router, default_handler):
@@ -126,7 +125,7 @@ def run(app, host='', port=8000):
     pass
 
 
-def main():
+def main(page):
   HOST, PORT = '', 8000
   print "Serving on port http://localhost:8000/ ..."
   router = Router(page=page)

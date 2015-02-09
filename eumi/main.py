@@ -21,7 +21,6 @@
 from traceback import format_exc
 from wsgiref.simple_server import make_server
 from .html import HTML
-from .fun import pather, Fun
 from .page import page
 
 
@@ -35,19 +34,62 @@ def make_app(pather, router, default_handler):
   return app
 
 
-def default_pather(environ):
-  return tuple(environ['PATH_INFO'].strip('/').split('/'))
+class Router(dict):
+
+  def __init__(self, page, *a, **b):
+    self.page = page
+    dict.__init__(self, *a, **b)
+
+  def default_handler(self, environ):
+    path = environ['path']
+    handler = self[path] = PageHandler(environ, self)
+    return handler(environ)
 
 
-router = {('',): lambda environ: 'root'}
+class PageHandler(object):
+
+  def __init__(self, environ, router, data=None):
+    self.data = data
+    self.router = router
+    self.post(environ)
+
+  def __call__(self, environ):
+    if environ['REQUEST_METHOD'] == 'POST':
+      self.post(environ)
+    return self.response
+
+  def post(self, environ):
+    doc = HTML()
+    self.data = self.router.page(
+      self.router,
+      environ,
+      self.data,
+      doc.head,
+      doc.body,
+      )
+    self.response = str(doc)
 
 
-def default_handler(environ):
-  message = 'No resource at ' + str(environ['path'])
-  document = HTML()
-  document.head.title(message)
-  document.body(message)
-  return document
+class MalformedURL(Exception):
+  '''This URL is no good: %r
+It must be xxxxxxxx/xxxxxxxx
+where the x's stand for any of
+"0123456789abcdefABCDEF".'''
+
+
+def pather(environ):
+  path = environ['PATH_INFO'].strip('/')
+  if len(path) != 17:  # nnnnnnnn/nnnnnnnn
+    raise MalformedURL(path)
+  head, slash, tail = path.partition('/')
+  if not slash:
+    raise MalformedURL(path)
+  try:
+    head = int(head, 16)
+    tail = int(tail, 16)
+  except:
+    raise MalformedURL(path)
+  return head, tail
 
 
 def start(start_response, message, mime_type):
@@ -68,6 +110,9 @@ def report_problems(f):
   def inner(environ, start_response):
     try:
       return f(environ, start_response)
+    except MalformedURL, err:
+      message = MalformedURL.__doc__ % err.args
+      return err500(start_response, message)
     except:
       return err500(start_response, format_exc())
   return inner
@@ -84,6 +129,6 @@ def run(app, host='', port=8000):
 def main():
   HOST, PORT = '', 8000
   print "Serving on port http://localhost:8000/ ..."
-  router = Fun(page=page)
+  router = Router(page=page)
   app = make_app(pather, router, router.default_handler)
   run(app=app, host=HOST, port=PORT)

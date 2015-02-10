@@ -11,7 +11,7 @@ Simple game server.
 |-- eumi
 |   |-- __init__.py
 |   |-- __main__.py
-|   |-- fun.py
+|   |-- argparser.py
 |   |-- html.py
 |   |-- main.py
 |   `-- page.py

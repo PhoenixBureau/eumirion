@@ -14,7 +14,7 @@ S'router'
 p6
 (dp7
 (I0
-I25
+I33
 tp8
 g0
 (ceumi.main
@@ -29,21 +29,21 @@ p13
 (dp14
 S'text'
 p15
-S'A spaceship.\r\n\r\nDocked in orbit around /00000000/00000000.'
+S'The massive black holes at the center of each galaxy.  Time slows down near the event horizon of such a titanic mass.\r\n\r\ncss:/12345678/12395678'
 p16
 sS'title'
 p17
-S'Excelsior'
+S'Thronestar'
 p18
 ssS'response'
 p19
-S'<html><head><title>Excelsior</title></head><body><h1><a href="/00000000/00000019">Excelsior</a></h1><div><p>A spaceship.</p><p></p><p>Docked in orbit around <a href="/00000000/00000000">Eumirion</a>.</p></div><hr><form action="/00000000/00000019" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Excelsior"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">A spaceship.\r\n\r\nDocked in orbit around /00000000/00000000.</textarea><br><input name="fake_out_caching" type="hidden" value="234453159"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Thronestar</title><style>body { background:black; color:green; }</style></head><body><h1><a href="/00000000/00000021">Thronestar</a></h1><div><p>The massive black holes at the center of each galaxy.  Time slows down near the event horizon of such a titanic mass.</p><p></p><p></p></div><hr><form action="/00000000/00000021" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Thronestar"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">The massive black holes at the center of each galaxy.  Time slows down near the event horizon of such a titanic mass.\r\n\r\ncss:/12345678/12395678</textarea><br><input name="fake_out_caching" type="hidden" value="1328884053"><input type="submit" value="post"></form></body></html>'
 p20
 sS'server'
 p21
 g4
 sbs(I0
-I33
+I32
 tp22
 g0
 (g9
@@ -55,19 +55,19 @@ g13
 (dp26
 S'text'
 p27
-S'The massive black holes at the center of each galaxy.  Time slows down near the event horizon of such a titanic mass.'
+S"Not really, that's a TV show.\r\njump to /12345678/12345678\r\ncss:/12345678/12395678"
 p28
 sS'title'
 p29
-S'Thronestar'
+S'This Is The Outer Limits'
 p30
 ssg19
-S'<html><head><title>Thronestar</title></head><body><h1><a href="/00000000/00000021">Thronestar</a></h1><div><p>The massive black holes at the center of each galaxy.  Time slows down near the event horizon of such a titanic mass.</p></div><hr><form action="/00000000/00000021" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Thronestar"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">The massive black holes at the center of each galaxy.  Time slows down near the event horizon of such a titanic mass.</textarea><br><input name="fake_out_caching" type="hidden" value="1503157135"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>This Is The Outer Limits</title><style>body { background:black; color:green; }</style></head><body><h1><a href="/00000000/00000020">This Is The Outer Limits</a></h1><div><p>Not really, that\'s a TV show.</p><p>jump to <a href="/12345678/12345678">Brobignagian</a></p><p></p></div><hr><form action="/00000000/00000020" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="This Is The Outer Limits"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Not really, that\'s a TV show.\r\njump to /12345678/12345678\r\ncss:/12345678/12395678</textarea><br><input name="fake_out_caching" type="hidden" value="1371443046"><input type="submit" value="post"></form></body></html>'
 p31
 sg21
 g4
-sbs(I0
-I32
+sbs(I305419896
+I305419896
 tp32
 g0
 (g9
@@ -77,38 +77,38 @@ Rp34
 (dp35
 g13
 (dp36
-g15
-S"Not really, that's a TV show.\r\njump to /12345678/12345678"
+S'text'
 p37
-sg17
-S'This is the outer limits'
+S'Very large and slightly awkward.\r\n\r\n\r\n/00000000/00000000'
 p38
-ssg19
-S'<html><head><title>This Is The Outer Limits</title></head><body><h1><a href="/00000000/00000020">This Is The Outer Limits</a></h1><div><p>Not really, that\'s a TV show.</p><p>jump to <a href="/12345678/12345678">Brobignagian</a></p></div><hr><form action="/00000000/00000020" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="This Is The Outer Limits"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Not really, that\'s a TV show.\r\njump to /12345678/12345678</textarea><br><input name="fake_out_caching" type="hidden" value="3368317939"><input type="submit" value="post"></form></body></html>'
+sS'title'
 p39
+S'Brobignagian'
+p40
+ssg19
+S'<html><head><title>Brobignagian</title></head><body><h1><a href="/12345678/12345678">Brobignagian</a></h1><div><p>Very large and slightly awkward.</p><p></p><p></p><p><a href="/00000000/00000000">Eumirion</a></p></div><hr><form action="/12345678/12345678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Brobignagian"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Very large and slightly awkward.\r\n\r\n\r\n/00000000/00000000</textarea><br><input name="fake_out_caching" type="hidden" value="1857543320"><input type="submit" value="post"></form></body></html>'
+p41
 sg21
 g4
-sbs(I305419896
-I305419896
-tp40
+sbs(I0
+I25
+tp42
 g0
 (g9
 g2
-Ntp41
-Rp42
-(dp43
+Ntp43
+Rp44
+(dp45
 g13
-(dp44
-S'text'
-p45
-S'Very large and slightly awkward.\r\n\r\n\r\n/00000000/00000000'
-p46
-sS'title'
+(dp46
+g27
+S'A spaceship.\r\n\r\nDocked in orbit around /00000000/00000000.'
 p47
-S'Brobignagian'
+sg29
+S'Excelsior'
 p48
 ssg19
-S'<html><head><title>Brobignagian</title></head><body><h1><a href="/12345678/12345678">Brobignagian</a></h1><div><p>Very large and slightly awkward.</p><p></p><p></p><p><a href="/00000000/00000000">Eumirion</a></p></div><hr><form action="/12345678/12345678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Brobignagian"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Very large and slightly awkward.\r\n\r\n\r\n/00000000/00000000</textarea><br><input name="fake_out_caching" type="hidden" value="755635365"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Excelsior</title></head><body><h1><a href="/00000000/00000019">Excelsior</a></h1><div><p>A spaceship.</p><p></p><p>Docked in orbit around <a href="/00000000/00000000">Eumirion</a>.</p></div><hr><form action="/00000000/00000019" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Excelsior"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">A spaceship.\r\n\r\nDocked in orbit around /00000000/00000000.</textarea><br><input name="fake_out_caching" type="hidden" value="234453159"><input type="submit" value="post"></form></body></html>'
 p49
 sg21
 g4
@@ -123,25 +123,52 @@ Rp52
 (dp53
 g13
 (dp54
-g15
+g27
 S'Home\r\nhas:/00000000/00000019 inset:/00000000/00000021\r\ndoor:/00000000/00000020'
 p55
-sg17
+sg29
 S'Eumirion'
 p56
 ssg19
-S'<html><head><title>Eumirion</title></head><body><h1><a href="/00000000/00000000">Eumirion</a></h1><div><p>Home</p><p>has:<a href="/00000000/00000019">Excelsior</a> inset:<a href="/00000000/00000021">Thronestar</a></p><p>door:<a href="/00000000/00000020">This is the outer limits</a></p></div><hr><form action="/00000000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Eumirion"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Home\r\nhas:/00000000/00000019 inset:/00000000/00000021\r\ndoor:/00000000/00000020</textarea><br><input name="fake_out_caching" type="hidden" value="1714825186"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Eumirion</title></head><body><h1><a href="/00000000/00000000">Eumirion</a></h1><div><p>Home</p><p>has:<a href="/00000000/00000019">Excelsior</a> inset:<a href="/00000000/00000021">Thronestar</a></p><p>door:<a href="/00000000/00000020">This is the outer limits</a></p></div><hr><form action="/00000000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Eumirion"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Home\r\nhas:/00000000/00000019 inset:/00000000/00000021\r\ndoor:/00000000/00000020</textarea><br><input name="fake_out_caching" type="hidden" value="891774193"><input type="submit" value="post"></form></body></html>'
 p57
 sg21
 g4
+sbs(I305419896
+I305747576
+tp58
+g0
+(g9
+g2
+Ntp59
+Rp60
+(dp61
+g13
+(dp62
+S'text'
+p63
+S'body { background:black; color:green; }'
+p64
+sS'title'
+p65
+S'Some Css'
+p66
+ssg19
+S'<html><head><title>Some Css</title></head><body><h1><a href="/12345678/12395678">Some Css</a></h1><div><p>body { background:black; color:green; }</p></div><hr><form action="/12345678/12395678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Some Css"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">body { background:black; color:green; }</textarea><br><input name="fake_out_caching" type="hidden" value="2902803716"><input type="submit" value="post"></form></body></html>'
+p67
+sg21
+g4
 sbssS'pather'
-p58
+p68
 ceumi.main
 pather
-p59
+p69
 sS'page_renderer'
-p60
+p70
 ceumi.page
 page
-p61
+p71
+sS'modified'
+p72
+I00
 sb.

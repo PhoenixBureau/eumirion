@@ -52,7 +52,7 @@ def page(router, environ, page_data, head, body):
   text = page_data['text']
   head.title(title or self_link)
   body.h1.a(title or DEFAULT_TITLE, href=self_link)
-  render_text(body.div, text or DEFAULT_TEXT, router)
+  render_text(head, body, text or DEFAULT_TEXT, router)
   body.hr
 
   with body.form(action=self_link, method='POST') as form:
@@ -86,30 +86,42 @@ def get_form_data(environ):
     )
 
 
-link_finder = RegularExpression('/([0-9a-f]{8})' * 2, flags=IGNORECASE)
+link_finder = RegularExpression(
+  '((?P<action>[a-z]{1,32}):)?'
+  '/(?P<head>[0-9a-f]{8})'
+  '/(?P<tail>[0-9a-f]{8})',
+  flags=IGNORECASE,
+  )
 
 
-def render_text(home, text, router):
+def render_text(head, body, text, router):
+  home = body.div
   for paragraph in text.splitlines(False):
-    linkenate(home.p, render_link, paragraph, link_finder, router)
+    p = home.p
+    for action, h, tail in scan_text(paragraph, link_finder):
+      if action == 'text':
+        p(h)
+      elif action == 'link':
+        render_link(p, h, tail, router)
+      elif action == 'css':
+        add_css(head, h, tail, router)
+      else:
+        p('unknown action "%s:"' % (action,))
+        render_link(p, h, tail, router)
 
 
-def linkenate(p, render_link, text, regex, router):
-  '''
-  Given some text and a paragraph element, convert links in the text to
-  actual hyperlinks, looking up titles if any, and render into the
-  paragraph element.
-  '''
+def scan_text(text, regex):
   begin = 0
   for match in regex.finditer(text):
-    p(text[begin:match.start()])
+    yield 'text', text[begin:match.start()], None
     begin = match.end()
-    render_link(p, match, router)
-  p(text[begin:])
+    d = match.groupdict('link')
+    yield d['action'], d['head'], d['tail']
+  yield 'text', text[begin:], None
 
 
-def render_link(p, match, router):
-  piece = match.groups()
+def render_link(p, head, tail, router):
+  piece = head, tail
   link = '/%s/%s' % piece
   coordinates = tuple(int(n, 16) for n in piece)
   try:
@@ -121,6 +133,16 @@ def render_link(p, match, router):
   if link_text == link:
     link_text = 'jump to ' + link_text
   p.a(link_text, href=link)
+
+
+def add_css(head, h, tail, router):
+  coordinates = int(h, 16), int(tail, 16)
+  try:
+    page_handler = router[coordinates]
+  except KeyError:
+    return
+  css = page_handler.data['text']
+  head.style(css)
 
 
 def labeled_field(form, label, type_, name, value, **kw):

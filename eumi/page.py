@@ -47,24 +47,12 @@ def page(router, environ, page_data, head, body):
 
   location = environ['path']
   self_link = linkerate(*location)
-
   title = page_data['title'].title()
   text = page_data['text']
-  head.title(title or self_link)
-  body.h1.a(title or DEFAULT_TITLE, href=self_link)
-  render_text(head, body, text or DEFAULT_TEXT, router)
-  body.hr
 
-  with body.form(action=self_link, method='POST') as form:
-    form.h4('Edit')
-    labeled_field(form, 'Title:', 'text', 'title', title,
-                  size='44', placeholder=DEFAULT_TITLE)
-    form.br
-    labeled_textarea(form, 'Text:', 'text', text,
-                     cols='88', rows='5', placeholder='Write something...')
-    form.br
-    form.input(type_='hidden', name='fake_out_caching', value=str(randrange(2**32)))
-    form.input(type_='submit', value='post')
+  all_pages_pre(head, body, title, self_link)
+  render_text(head, body, text, router)
+  all_pages_post(body, title, text, self_link)
 
   return page_data
 
@@ -86,6 +74,43 @@ def get_form_data(environ):
     )
 
 
+def all_pages_pre(head, body, title, self_link):
+  head.title(title or self_link)
+  body.h1.a(title or DEFAULT_TITLE, href=self_link)
+
+
+def all_pages_post(body, title, text, self_link):
+  body.hr
+  with body.form(action=self_link, method='POST') as form:
+    form.h4('Edit')
+    labeled_field(
+      form,
+      'Title:',
+      'text',
+      'title',
+      title,
+      size='44',
+      placeholder=DEFAULT_TITLE,
+      )
+    form.br
+    labeled_textarea(
+      form,
+      'Text:',
+      'text',
+      text,
+      cols='88',
+      rows='5',
+      placeholder='Write something...',
+      )
+    form.br
+    form.input(
+      type_='hidden',
+      name='fake_out_caching',
+      value=str(randrange(2**32)),
+      )
+    form.input(type_='submit', value='post')
+
+
 link_finder = RegularExpression(
   '((?P<action>[a-z]{1,32}):)?'
   '/(?P<head>[0-9a-f]{8})'
@@ -96,6 +121,9 @@ link_finder = RegularExpression(
 
 def render_text(head, body, text, router):
   home = body.div
+  if not text:
+     home.p(DEFAULT_TEXT, class_='default-text')
+     return
   for paragraph in text.splitlines(False):
     p = home.p
     for action, h, tail in scan_text(paragraph, link_finder):

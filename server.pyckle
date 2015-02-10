@@ -55,14 +55,14 @@ g13
 (dp26
 S'text'
 p27
-S"Not really, that's a TV show.\r\njump to /12345678/12345678\r\ncss:/12345678/12395678"
+S"Not really, that's a TV show.\r\njump to /12345678/12345678\r\n\r\nbasllsd\r\ntext:/12345678/12345678\r\n"
 p28
 sS'title'
 p29
 S'This Is The Outer Limits'
 p30
 ssg19
-S'<html><head><title>This Is The Outer Limits</title><style>body { background:black; color:green; }</style></head><body><h1><a href="/00000000/00000020">This Is The Outer Limits</a></h1><div><p>Not really, that\'s a TV show.</p><p>jump to <a href="/12345678/12345678">Brobignagian</a></p><p></p></div><hr><form action="/00000000/00000020" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="This Is The Outer Limits"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Not really, that\'s a TV show.\r\njump to /12345678/12345678\r\ncss:/12345678/12395678</textarea><br><input name="fake_out_caching" type="hidden" value="502910357"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>This Is The Outer Limits</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody { background:black; color:green; font-family: \'EB Garamond\', serif;  }</style></head><body><h1><a href="/00000000/00000020">This Is The Outer Limits</a></h1><div><p>Not really, that\'s a TV show.</p><p>jump to <a href="/12345678/12345678">Brobignagian</a></p><p></p><p>basllsd</p><p><div><p>Very large and slightly awkward.</p><p></p><p></p><p></p><p><a href="/00000000/00000000">Eumirion</a></p></div></p></div><hr><form action="/00000000/00000020" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="This Is The Outer Limits"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Not really, that\'s a TV show.\r\njump to /12345678/12345678\r\n\r\nbasllsd\r\ntext:/12345678/12345678\r\n</textarea><br><input name="fake_out_caching" type="hidden" value="4201722972"><input type="submit" value="post"></form></body></html>'
 p31
 sg21
 g4
@@ -79,14 +79,14 @@ g13
 (dp36
 S'text'
 p37
-S'Very large and slightly awkward.\r\n\r\n\r\n/00000000/00000000'
+S'Very large and slightly awkward.\r\ncss:/12345678/12395678\r\n\r\n\r\n/00000000/00000000'
 p38
 sS'title'
 p39
 S'Brobignagian'
 p40
 ssg19
-S'<html><head><title>Brobignagian</title></head><body><h1><a href="/12345678/12345678">Brobignagian</a></h1><div><p>Very large and slightly awkward.</p><p></p><p></p><p><a href="/00000000/00000000">Eumirion</a></p></div><hr><form action="/12345678/12345678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Brobignagian"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Very large and slightly awkward.\r\n\r\n\r\n/00000000/00000000</textarea><br><input name="fake_out_caching" type="hidden" value="2362164973"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Brobignagian</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody { background:black; color:green; font-family: \'EB Garamond\', serif;  }</style></head><body><h1><a href="/12345678/12345678">Brobignagian</a></h1><div><p>Very large and slightly awkward.</p><p></p><p></p><p></p><p><a href="/00000000/00000000">Eumirion</a></p></div><hr><form action="/12345678/12345678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Brobignagian"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Very large and slightly awkward.\r\ncss:/12345678/12395678\r\n\r\n\r\n/00000000/00000000</textarea><br><input name="fake_out_caching" type="hidden" value="3599643706"><input type="submit" value="post"></form></body></html>'
 p41
 sg21
 g4
@@ -130,7 +130,7 @@ sg29
 S'Eumirion'
 p56
 ssg19
-S'<html><head><title>Eumirion</title></head><body><h1><a href="/00000000/00000000">Eumirion</a></h1><div><p>Home</p><p>has:<a href="/00000000/00000019">Excelsior</a> inset:<a href="/00000000/00000021">Thronestar</a></p><p>door:<a href="/00000000/00000020">This is the outer limits</a></p></div><hr><form action="/00000000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Eumirion"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Home\r\nhas:/00000000/00000019 inset:/00000000/00000021\r\ndoor:/00000000/00000020</textarea><br><input name="fake_out_caching" type="hidden" value="891774193"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Eumirion</title></head><body><h1><a href="/00000000/00000000">Eumirion</a></h1><div><p>Home</p><p>unknown action "has:"<a href="/00000000/00000019">Excelsior</a> unknown action "inset:"<a href="/00000000/00000021">Thronestar</a></p><p>unknown action "door:"<a href="/00000000/00000020">This Is The Outer Limits</a></p></div><hr><form action="/00000000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Eumirion"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Home\r\nhas:/00000000/00000019 inset:/00000000/00000021\r\ndoor:/00000000/00000020</textarea><br><input name="fake_out_caching" type="hidden" value="3993759875"><input type="submit" value="post"></form></body></html>'
 p57
 sg21
 g4
@@ -147,14 +147,14 @@ g13
 (dp62
 S'text'
 p63
-S'body { background:black; color:green; }'
+S"@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody { background:black; color:green; font-family: 'EB Garamond', serif;  }"
 p64
 sS'title'
 p65
 S'Some Css'
 p66
 ssg19
-S'<html><head><title>Some Css</title></head><body><h1><a href="/12345678/12395678">Some Css</a></h1><div><p>body { background:black; color:green; }</p></div><hr><form action="/12345678/12395678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Some Css"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">body { background:black; color:green; }</textarea><br><input name="fake_out_caching" type="hidden" value="2902803716"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Some Css</title></head><body><h1><a href="/12345678/12395678">Some Css</a></h1><div><p>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);</p><p></p><p>body { background:black; color:green; font-family: \'EB Garamond\', serif;  }</p></div><hr><form action="/12345678/12395678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Some Css"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody { background:black; color:green; font-family: \'EB Garamond\', serif;  }</textarea><br><input name="fake_out_caching" type="hidden" value="3258326451"><input type="submit" value="post"></form></body></html>'
 p67
 sg21
 g4

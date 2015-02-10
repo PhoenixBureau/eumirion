@@ -18,7 +18,6 @@
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
 from .main import main
-from .page import page
 
 
-main(page)
+main()

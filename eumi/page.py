@@ -51,7 +51,7 @@ def page(router, environ, page_data, head, body):
   text = page_data['text']
 
   all_pages_pre(head, body, title, self_link)
-  render_text(head, body, text, router)
+  render_body(head, body, text, router)
   all_pages_post(body, title, text, self_link)
 
   return page_data
@@ -111,15 +111,7 @@ def all_pages_post(body, title, text, self_link):
     form.input(type_='submit', value='post')
 
 
-link_finder = RegularExpression(
-  '((?P<action>[a-z]{1,32}):)?'
-  '/(?P<kind>[0-9a-f]{8})'
-  '/(?P<unit>[0-9a-f]{8})',
-  flags=IGNORECASE,
-  )
-
-
-def render_text(head, body, text, router):
+def render_body(head, body, text, router):
   content = body.div
   if not text:
      content.p(DEFAULT_TEXT, class_='default-text')
@@ -129,6 +121,14 @@ def render_text(head, body, text, router):
     for action, kind, unit in scan_text(paragraph):
       renderer = RENDERERS.get(action, unknown)
       renderer(head, p, kind, unit, router, action)
+
+
+link_finder = RegularExpression(
+  '((?P<action>[a-z]{1,32}):)?'
+  '/(?P<kind>[0-9a-f]{8})'
+  '/(?P<unit>[0-9a-f]{8})',
+  flags=IGNORECASE,
+  )
 
 
 def scan_text(text, regex=link_finder):
@@ -143,39 +143,50 @@ def scan_text(text, regex=link_finder):
 
 def unknown(head, home, kind, unit, router, action):
   home('unknown action "%s:"' % (action,))
-  render_link(home, kind, unit, router)
+  render_link(head, home, kind, unit, router)
+
+
+def render_text(head, home, kind, unit, router, action):
+  if unit is None:
+    home(kind)
+    return
+  data = get_page_data(router, kind, unit)
+  if not data:
+    return
+  render_body(head, home, data['text'], router)
 
 
 def render_link(_, home, kind, unit, router, action=None):
-  piece = kind, unit
-  link = '/%s/%s' % piece
-  coordinates = tuple(int(n, 16) for n in piece)
-  try:
-    page_handler = router[coordinates]
-  except KeyError:
-    link_text = link
-  else:
-    link_text = page_handler.data['title'] or link
+  link = '/%s/%s' % (kind, unit)
+  data = get_page_data(router, kind, unit)
+  link_text = (data['title'] or link) if data else link
   if link_text == link:
     link_text = 'jump to ' + link_text
   home.a(link_text, href=link)
 
 
 def add_css(head, _, kind, unit, router, action=None):
+  data = get_page_data(router, kind, unit)
+  if not data:
+    return
+  css = data['text']
+  head.style(css)
+
+
+RENDERERS = {
+  'text': render_text,
+  'link': render_link,
+  'css': add_css,
+  }
+
+
+def get_page_data(router, kind, unit):
   coordinates = int(kind, 16), int(unit, 16)
   try:
     page_handler = router[coordinates]
   except KeyError:
     return
-  css = page_handler.data['text']
-  head.style(css)
-
-
-RENDERERS = {
-  'text': (lambda head, p, kind, unit, router, action: p(kind)),
-  'link': render_link,
-  'css': add_css,
-  }
+  return page_handler.data
 
 
 def labeled_field(form, label, type_, name, value, **kw):

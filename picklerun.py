@@ -18,13 +18,13 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
-from sys import exit as exit_program, argv as ARGV, stderr
+from sys import argv as ARGV, stderr
 from os.path import exists, realpath
-from pickle import dump, load, dumps, loads
+from pickle import dump, load
 from wsgiref.simple_server import make_server
+from eumi.argparser import make_argparser
 from eumi.main import EumiServer, pather, run
 from eumi.page import page
-from eumi.argparser import make_argparser
 
 
 class CannotFindPickle(ValueError):
@@ -72,7 +72,7 @@ def main(argv=None):
   try:
     server = read_pickle(cli_args.pickle)
   except CannotFindPickle:
-    print >> stderr, 'Cannot find ', cli_args.pickle
+    print >> stderr, 'Using new pickle file ', cli_args.pickle
     server = EumiServer(pather, page)
     save_pickle(cli_args.pickle, server)
 

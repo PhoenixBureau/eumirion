@@ -20,6 +20,8 @@
 from cgi import FieldStorage
 from random import randrange
 from re import compile as RegularExpression, IGNORECASE
+from operator import itemgetter
+from itertools import groupby
 
 
 DEFAULT_TITLE = 'No Title'
@@ -176,11 +178,34 @@ def add_css(head, _, kind, unit, router, action=None):
     head.style(css)
 
 
+keyfunc = itemgetter(0)
+
+
+def render_index(head, home, kind, unit, router, action):
+  if kind == '00000000':
+    keys = router
+  else:
+    kind = int(kind, 16)
+    keys = (key for key in router if key[0] == kind)
+  data = sorted(keys, key=keyfunc)
+  ol = home.ol
+  for kind, units in groupby(data, keyfunc):
+    kind = hexify(kind)
+    kind_li = ol.li
+    render_link(head, kind_li, kind, 8 * '0', router)
+    kind_ol = kind_li.ol
+    for _, unit in sorted(units):
+      if unit:
+        unit = hexify(unit)
+        render_link(head, kind_ol.li, kind, unit, router)
+
+
 RENDERERS = {
   'text': render_text,
   'link': render_link,
   'door': render_door,
   'css': add_css,
+  'index': render_index,
   }
 
 

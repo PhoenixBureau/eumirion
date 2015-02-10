@@ -29,6 +29,7 @@ class EumiServer(object):
     self.pather = pather
     self.router = {}
     self.page_renderer = page_renderer
+    self.modified = False
 
   def handle_request(self, environ, start_response):
     environ['path'] = path = self.pather(environ)
@@ -64,6 +65,7 @@ class PageHandler(object):
   def __call__(self, environ):
     if environ['REQUEST_METHOD'] == 'POST':
       self.post(environ)
+      self.server.modified = True
     return self.response
 
   def post(self, environ):

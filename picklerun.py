@@ -84,7 +84,9 @@ def main(argv=None):
     except KeyboardInterrupt:
       quit_loop = True
     else:
-      save_pickle(cli_args.pickle, server)
+      modified, server.modified = server.modified, False
+      if modified:
+        save_pickle(cli_args.pickle, server)
 
 
 if __name__ == '__main__':

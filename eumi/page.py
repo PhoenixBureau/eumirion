@@ -157,18 +157,14 @@ def render_text(head, home, kind, unit, router, action):
 
 
 def render_link(_, home, kind, unit, router, action=None):
-  link = _l(kind, unit)
-  data = get_page_data(router, kind, unit)
-  link_text = (data['title'] or link) if data else link
+  link, link_text = get_link_text(kind, unit, router)
   if link_text is link:
     link_text = 'jump to ' + link_text
   home.a(link_text, href=link)
 
 
 def render_door(_, home, kind, unit, router, action=None):
-  link = _l(kind, unit)
-  data = get_page_data(router, kind, unit)
-  link_text = (data['title'] or link) if data else link
+  link, link_text = get_link_text(kind, unit, router)
   link_text = '[' + link_text + ']'
   home.a(link_text, href=link, class_='door-link')
 
@@ -186,6 +182,13 @@ RENDERERS = {
   'door': render_door,
   'css': add_css,
   }
+
+
+def get_link_text(kind, unit, router):
+  link = _l(kind, unit)
+  data = get_page_data(router, kind, unit)
+  link_text = (data['title'] or link) if data else link
+  return link, link_text
 
 
 def get_page_data(router, kind, unit):

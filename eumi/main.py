@@ -20,36 +20,45 @@
 #
 from traceback import format_exc
 from wsgiref.simple_server import make_server
-from .html import HTML
+from .html import HTML, ok200, err500
 
 
-def make_app(pather, router, default_handler):
-  @report_problems
-  def app(environ, start_response):
-    path = environ['path'] = pather(environ)
-    handler = router.get(path, default_handler)
+class EumiServer(object):
+
+  def __init__(self, pather, page_renderer):
+    self.pather = pather
+    self.router = {}
+    self.page_renderer = page_renderer
+
+  def handle_request(self, environ, start_response):
+    environ['path'] = path = self.pather(environ)
+    handler = self.router.get(path, self.default_handler)
     response = handler(environ)
     return ok200(start_response, response)
-  return app
-
-
-class Router(dict):
-
-  def __init__(self, page, *a, **b):
-    self.page = page
-    dict.__init__(self, *a, **b)
 
   def default_handler(self, environ):
     path = environ['path']
-    handler = self[path] = PageHandler(environ, self)
+    self.router[path] = handler = PageHandler(self, environ)
     return handler(environ)
+
+  def render(self, environ, page_data, head, body):
+    return self.page_renderer(self.router, environ, page_data, head, body)
+
+  def __call__(self, environ, start_response):
+    try:
+      return self.handle_request(environ, start_response)
+    except MalformedURL, err:
+      message = MalformedURL.__doc__ % err.args
+      return err500(start_response, message)
+    except:
+      return err500(start_response, format_exc())
 
 
 class PageHandler(object):
 
-  def __init__(self, environ, router, data=None):
+  def __init__(self, server, environ, data=None):
+    self.server = server
     self.data = data
-    self.router = router
     self.post(environ)
 
   def __call__(self, environ):
@@ -59,13 +68,7 @@ class PageHandler(object):
 
   def post(self, environ):
     doc = HTML()
-    self.data = self.router.page(
-      self.router,
-      environ,
-      self.data,
-      doc.head,
-      doc.body,
-      )
+    self.data = self.server.render(environ, self.data, doc.head, doc.body)
     self.response = str(doc)
 
 
@@ -77,44 +80,25 @@ where the x's stand for any of
 
 
 def pather(environ):
+  '''
+  Extract and return the path (location or coordinates) from a given
+  request environ.  Raises MalformedURL if the URL is no good.
+  '''
   path = environ['PATH_INFO'].strip('/')
   if len(path) != 17:  # nnnnnnnn/nnnnnnnn
     raise MalformedURL(path)
+
   head, slash, tail = path.partition('/')
   if not slash:
     raise MalformedURL(path)
+
   try:
     head = int(head, 16)
     tail = int(tail, 16)
-  except:
+  except (TypeError, ValueError):
     raise MalformedURL(path)
+
   return head, tail
-
-
-def start(start_response, message, mime_type):
-  start_response(message, [('Content-type', mime_type)])
-
-
-def err500(start_response, message):
-  start(start_response, '500 Internal Server Error', 'text/plain')
-  return [str(message)]
-
-
-def ok200(start_response, response):
-  start(start_response, '200 OK', 'text/html')
-  return response
-
-
-def report_problems(f):
-  def inner(environ, start_response):
-    try:
-      return f(environ, start_response)
-    except MalformedURL, err:
-      message = MalformedURL.__doc__ % err.args
-      return err500(start_response, message)
-    except:
-      return err500(start_response, format_exc())
-  return inner
 
 
 def run(app, host='', port=8000):
@@ -128,6 +112,5 @@ def run(app, host='', port=8000):
 def main(page):
   HOST, PORT = '', 8000
   print "Serving on port http://localhost:8000/ ..."
-  router = Router(page=page)
-  app = make_app(pather, router, router.default_handler)
+  app = EumiServer(pather, page)
   run(app=app, host=HOST, port=PORT)

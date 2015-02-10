@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 #
-# The interface of this HTML generation class is pretty directly based on
-# https://pypi.python.org/pypi/html but it uses ElementTree to render the
-# HTML output.
-#
 #    Copyright © 2015 Simon Forman
 #
 #    This file is part of Eumirion.
@@ -21,7 +17,28 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
+'''
+Some HTML and HTTP support stuff.
+
+The interface of the HTML generation class is pretty directly based on
+https://pypi.python.org/pypi/html but it uses ElementTree to render the
+HTML output.
+'''
 from xml.etree.ElementTree import Element, SubElement, tostringlist
+
+
+def start(start_response, message, mime_type):
+  start_response(message, [('Content-type', mime_type)])
+
+
+def err500(start_response, message):
+  start(start_response, '500 Internal Server Error', 'text/plain')
+  return [str(message)]
+
+
+def ok200(start_response, response):
+  start(start_response, '200 OK', 'text/html')
+  return response
 
 
 class HTML(object):

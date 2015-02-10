@@ -22,9 +22,13 @@ from random import randrange
 from re import compile as RegularExpression, IGNORECASE
 
 
-FIELDS = 'title', 'text'
-DEFAULT_TITLE = 'no title'
-DEFAULT_TEXT = 'Write something...'
+DEFAULT_TITLE = 'No Title'
+DEFAULT_TEXT = 'You can use the editor below to write some text...'
+DEFAULT_DATA = {
+  'title': '',
+  'text': '',
+  }
+FIELDS = tuple(sorted(DEFAULT_DATA))
 
 
 def page(router, environ, page_data, head, body):
@@ -38,23 +42,26 @@ def page(router, environ, page_data, head, body):
   Fill in the head and body and return the page's (possibly new) page_data.
   '''
   if page_data is None:
-    page_data = {'text': DEFAULT_TEXT}
+    page_data = DEFAULT_DATA.copy()
   update_page_data(page_data, environ)
 
   location = environ['path']
   self_link = linkerate(*location)
 
-  title = page_data.get('title', DEFAULT_TITLE).title()
+  title = page_data['title'].title()
   text = page_data['text']
-  head.title(title)
-  body.h1.a(title, href=self_link)
-  render_text(body.div, text, router)
+  head.title(title or self_link)
+  body.h1.a(title or DEFAULT_TITLE, href=self_link)
+  render_text(body.div, text or DEFAULT_TEXT, router)
   body.hr
 
   with body.form(action=self_link, method='POST') as form:
-    labeled_field(form, 'Title:', 'text', 'title', title, size='44')
+    form.h4('Edit')
+    labeled_field(form, 'Title:', 'text', 'title', title,
+                  size='44', placeholder=DEFAULT_TITLE)
     form.br
-    labeled_textarea(form, 'Text:', 'text', text, '88', '5')
+    labeled_textarea(form, 'Text:', 'text', text,
+                     cols='88', rows='5', placeholder='Write something...')
     form.br
     form.input(type_='hidden', name='fake_out_caching', value=str(randrange(2**32)))
     form.input(type_='submit', value='post')
@@ -84,16 +91,20 @@ link_finder = RegularExpression('/([0-9a-f]{8})' * 2, flags=IGNORECASE)
 
 def render_text(home, text, router):
   for paragraph in text.splitlines(False):
-    split(home.p, render_link, paragraph, link_finder, router)
+    linkenate(home.p, render_link, paragraph, link_finder, router)
 
 
-def split(p, h, text, regex, router):
+def linkenate(p, render_link, text, regex, router):
+  '''
+  Given some text and a paragraph element, convert links in the text to
+  actual hyperlinks, looking up titles if any, and render into the
+  paragraph element.
+  '''
   begin = 0
   for match in regex.finditer(text):
-    end = match.start()
-    p(text[begin:end])
+    p(text[begin:match.start()])
     begin = match.end()
-    h(p, match, router)
+    render_link(p, match, router)
   p(text[begin:])
 
 
@@ -101,15 +112,14 @@ def render_link(p, match, router):
   piece = match.groups()
   link = '/%s/%s' % piece
   coordinates = tuple(int(n, 16) for n in piece)
-  if coordinates in router:
-    page_handler = router[coordinates] 
-    try:
-      link_text = page_handler.data['title']
-    except KeyError:
-      print page_handler.data
-      link_text = link
-  else:
+  try:
+    page_handler = router[coordinates]
+  except KeyError:
     link_text = link
+  else:
+    link_text = page_handler.data['title'] or link
+  if link_text == link:
+    link_text = 'jump to ' + link_text
   p.a(link_text, href=link)
 
 
@@ -118,10 +128,10 @@ def labeled_field(form, label, type_, name, value, **kw):
   form.input(type_=type_, name=name, value=value, **kw)
 
 
-def labeled_textarea(form, label, name, value, cols, rows, **kw):
+def labeled_textarea(form, label, name, value, **kw):
   form.label(label, for_=name)
   form.br
-  form.textarea(value, name=name, cols=cols, rows=rows, **kw)
+  form.textarea(value, name=name, **kw)
 
 
 def hexify(i):
@@ -130,7 +140,7 @@ def hexify(i):
 
 
 def linkerate(head, tail):
-  return '/%08s/%s' % (hexify(head), hexify(tail))
+  return '/%s/%s' % (hexify(head), hexify(tail))
 
 
 def path_link(home, head, tail):

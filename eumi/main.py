@@ -36,7 +36,7 @@ class EumiServer(object):
     self.modified = False
 
   def handle_request(self, environ, start_response):
-    environ['path'] = path = self.pather(environ)
+    environ['path'] = path = self.pather(environ['PATH_INFO'])
     handler = self.router.get(path, self.default_handler)
     response = handler(environ)
     return ok200(start_response, response)
@@ -53,7 +53,7 @@ class EumiServer(object):
     try:
       return self.handle_request(environ, start_response)
     except MalformedURL, err:
-      message = MalformedURL.__doc__ % err.args
+      message = MalformedURL.__doc__ % (environ['PATH_INFO'], err.args[0])
       return err500(start_response, message)
     except:
       return err500(start_response, format_exc())
@@ -80,30 +80,36 @@ class PageHandler(object):
 
 class MalformedURL(Exception):
   '''This URL is no good: %r
-It must be xxxxxxxx/xxxxxxxx
-where the x's stand for any of
+Reason: %s
+It must be /nnnnnnnn/nnnnnnnn
+where the n's stand for any of
 "0123456789abcdefABCDEF".'''
 
 
-def pather(environ):
+def pather(path_info):
   '''
   Extract and return the path (location or coordinates) from a given
-  request environ.  Raises MalformedURL if the URL is no good.
+  request PATH_INFO.  Raises MalformedURL if the URL is no good.
+  The expected pattern is '/nnnnnnnn/nnnnnnnn' where the n's are
+  hexidecimal digits.
   '''
-  path = environ['PATH_INFO'].strip('/')
-  if len(path) != 17:  # nnnnnnnn/nnnnnnnn
-    raise MalformedURL(path)
+  path = path_info.strip('/')
+  n = len(path)
+  if n < 17:
+    raise MalformedURL('Too short (%i), not just right (17)!' % n)
+  elif n > 17:
+    raise MalformedURL('Too long (%i), not just right (17)!' % n)
 
   kind, slash, unit = path.partition('/')
   if not slash:
-    raise MalformedURL(path)
+    raise MalformedURL('There should be a slash in it.')
 
   try:
     kind = int(kind, 16)
     unit = int(unit, 16)
   except (TypeError, ValueError):
-    raise MalformedURL(path)
-
+    raise MalformedURL('The chars can only be one of'
+                       ' abcdef or ABCDEF or 0123456789.')
   return kind, unit
 
 

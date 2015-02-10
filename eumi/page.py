@@ -157,25 +157,33 @@ def render_text(head, home, kind, unit, router, action):
 
 
 def render_link(_, home, kind, unit, router, action=None):
-  link = '/%s/%s' % (kind, unit)
+  link = _l(kind, unit)
   data = get_page_data(router, kind, unit)
   link_text = (data['title'] or link) if data else link
-  if link_text == link:
+  if link_text is link:
     link_text = 'jump to ' + link_text
   home.a(link_text, href=link)
 
 
+def render_door(_, home, kind, unit, router, action=None):
+  link = _l(kind, unit)
+  data = get_page_data(router, kind, unit)
+  link_text = (data['title'] or link) if data else link
+  link_text = '[' + link_text + ']'
+  home.a(link_text, href=link, class_='door-link')
+
+
 def add_css(head, _, kind, unit, router, action=None):
   data = get_page_data(router, kind, unit)
-  if not data:
-    return
-  css = data['text']
-  head.style(css)
+  if data:
+    css = data['text']
+    head.style(css)
 
 
 RENDERERS = {
   'text': render_text,
   'link': render_link,
+  'door': render_door,
   'css': add_css,
   }
 
@@ -206,14 +214,17 @@ def hexify(i):
 
 
 def linkerate(kind, unit):
-  return '/%s/%s' % (hexify(kind), hexify(unit))
+  return _l(hexify(kind), hexify(unit))
 
 
-def path_link(home, kind, unit):
-  link = linkerate(kind, unit)
-  home.a(link, href=link)
+_l = lambda kind, unit:'/%s/%s' % (kind, unit)
 
 
+##def path_link(home, kind, unit):
+##  link = linkerate(kind, unit)
+##  home.a(link, href=link)
+##
+##
 ##  body.hr
 ##  path_link(body, randrange(2**32), randrange(2**32))
 ##  body.br

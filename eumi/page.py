@@ -113,43 +113,41 @@ def all_pages_post(body, title, text, self_link):
 
 link_finder = RegularExpression(
   '((?P<action>[a-z]{1,32}):)?'
-  '/(?P<head>[0-9a-f]{8})'
-  '/(?P<tail>[0-9a-f]{8})',
+  '/(?P<kind>[0-9a-f]{8})'
+  '/(?P<unit>[0-9a-f]{8})',
   flags=IGNORECASE,
   )
 
 
 def render_text(head, body, text, router):
-  home = body.div
+  content = body.div
   if not text:
-     home.p(DEFAULT_TEXT, class_='default-text')
+     content.p(DEFAULT_TEXT, class_='default-text')
      return
   for paragraph in text.splitlines(False):
-    p = home.p
-    for action, h, tail in scan_text(paragraph, link_finder):
-      if action == 'text':
-        p(h)
-      elif action == 'link':
-        render_link(p, h, tail, router)
-      elif action == 'css':
-        add_css(head, h, tail, router)
-      else:
-        p('unknown action "%s:"' % (action,))
-        render_link(p, h, tail, router)
+    p = content.p
+    for action, kind, unit in scan_text(paragraph):
+      renderer = RENDERERS.get(action, unknown)
+      renderer(head, p, kind, unit, router, action)
 
 
-def scan_text(text, regex):
+def scan_text(text, regex=link_finder):
   begin = 0
   for match in regex.finditer(text):
     yield 'text', text[begin:match.start()], None
     begin = match.end()
     d = match.groupdict('link')
-    yield d['action'], d['head'], d['tail']
+    yield d['action'], d['kind'], d['unit']
   yield 'text', text[begin:], None
 
 
-def render_link(p, head, tail, router):
-  piece = head, tail
+def unknown(head, home, kind, unit, router, action):
+  home('unknown action "%s:"' % (action,))
+  render_link(home, kind, unit, router)
+
+
+def render_link(_, home, kind, unit, router, action=None):
+  piece = kind, unit
   link = '/%s/%s' % piece
   coordinates = tuple(int(n, 16) for n in piece)
   try:
@@ -160,17 +158,24 @@ def render_link(p, head, tail, router):
     link_text = page_handler.data['title'] or link
   if link_text == link:
     link_text = 'jump to ' + link_text
-  p.a(link_text, href=link)
+  home.a(link_text, href=link)
 
 
-def add_css(head, h, tail, router):
-  coordinates = int(h, 16), int(tail, 16)
+def add_css(head, _, kind, unit, router, action=None):
+  coordinates = int(kind, 16), int(unit, 16)
   try:
     page_handler = router[coordinates]
   except KeyError:
     return
   css = page_handler.data['text']
   head.style(css)
+
+
+RENDERERS = {
+  'text': (lambda head, p, kind, unit, router, action: p(kind)),
+  'link': render_link,
+  'css': add_css,
+  }
 
 
 def labeled_field(form, label, type_, name, value, **kw):
@@ -189,12 +194,12 @@ def hexify(i):
   return '0' * (8 - len(s)) + s
 
 
-def linkerate(head, tail):
-  return '/%s/%s' % (hexify(head), hexify(tail))
+def linkerate(kind, unit):
+  return '/%s/%s' % (hexify(kind), hexify(unit))
 
 
-def path_link(home, head, tail):
-  link = linkerate(head, tail)
+def path_link(home, kind, unit):
+  link = linkerate(kind, unit)
   home.a(link, href=link)
 
 

@@ -18,7 +18,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
-from sys import argv as ARGV, stderr
 from os.path import exists, realpath
 from pickle import dump, load
 from traceback import format_exc
@@ -108,61 +107,32 @@ def pather(environ):
   return kind, unit
 
 
-def run(app, host='', port=8000):
-  httpd = make_server(host, port, app)
-  try:
-    httpd.serve_forever()
-  except KeyboardInterrupt:
-    pass
-
-
-class CannotFindPickle(ValueError):
-  pass
-
-
-def real(fn):
-  realfn = realpath(fn)
-  if not exists(realfn):
-    raise CannotFindPickle(realfn)
-  return realfn
-
-
-def read_pickle(fn):
-  with open(real(fn), 'r') as pickle_file:
-    server = load(pickle_file)
-  return server
-
-
-def save_pickle(fn, server):
-  with open(realpath(fn), 'w') as pickle_file:
-    dump(server, pickle_file)
-    pickle_file.flush()
-
-
 def main(argv=None):
   if argv is None:
-    argv = ARGV[1:]
-  cli_args = make_argparser().parse_args(argv)
+    import sys
+    argv = sys.argv[1:]
+  args = make_argparser().parse_args(argv)
 
-  print "eumi serving at http://%s:%i/00000000/00000000" % (
-    cli_args.host or 'localhost',
-    cli_args.port,
-    )
-
-  if cli_args.pickle is None:
-    print 'Running without saving pickles.'
+  pickle_name = realpath(args.pickle)
+  if exists(pickle_name):
+    print 'Loading server from pickle file:', pickle_name
+    server = read_pickle(pickle_name)
+  else:
+    print 'Loading new blank server.'
     server = EumiServer(pather, page)
-    run(server, cli_args.host, cli_args.port)
+
+  if args.crazy_town:
+    print 'Running without saving pickles.'
+    _print_serving(args.host, args.port)
+    run(server, args.host, args.port)
     return
 
-  try:
-    server = read_pickle(cli_args.pickle)
-  except CannotFindPickle:
-    print >> stderr, 'Using new pickle file ', cli_args.pickle
-    server = EumiServer(pather, page)
-    save_pickle(cli_args.pickle, server)
+  if not exists(pickle_name):
+    print 'Using new pickle file:', pickle_name
+    save_pickle(pickle_name, server)
 
-  httpd = make_server(cli_args.host, cli_args.port, server)
+  httpd = make_server(args.host, args.port, server)
+  _print_serving(args.host, args.port)
   quit_loop = False
   while not quit_loop:
     try:
@@ -172,4 +142,31 @@ def main(argv=None):
     else:
       modified, server.modified = server.modified, False
       if modified:
-        save_pickle(cli_args.pickle, server)
+        save_pickle(pickle_name, server)
+
+
+def run(app, host='', port=8000):
+  httpd = make_server(host, port, app)
+  try:
+    httpd.serve_forever()
+  except KeyboardInterrupt:
+    pass
+
+
+def read_pickle(fn):
+  with open(fn, 'r') as pickle_file:
+    server = load(pickle_file)
+  return server
+
+
+def save_pickle(fn, server):
+  with open(fn, 'w') as pickle_file:
+    dump(server, pickle_file)
+    pickle_file.flush()
+
+
+def _print_serving(host, port):
+  print (
+    'eumi at http://%s:%i/00000000/00000000'
+    % (host or 'localhost', port)
+    )

@@ -24,19 +24,40 @@ Definitions
   functions as equations
 
 
+Use this to re-generate the definitions in initializer.py.
+
+>>> from eumi.joy.definitions import generate_definitions
+>>> generate_definitions()
+
+Copy and paste the output into initializer.py.  It is a little crude but
+it works.
+
+
 '''
+from textwrap import dedent
 from .joy import joy
 from .parser import text_to_expression
-from .stack import strstack
-from .functions import note
-from . import tracer
+from .functions import FunctionWrapper, FUNCTIONS
+from . import initializer
 
 
 DEFINITIONS = '''
 
+# This is one of the most basic commands.
+# It provides the rest of a sequence...
 
-  rest == uncons popd ;
-  first == uncons pop ;
+  rest == uncons popd
+
+
+;
+# This is ALSO one of the most basic commands.
+# It provides the first item of a sequence...
+
+  first == uncons pop
+
+
+;
+
   second == rest first ;
   third == rest rest first ;
 
@@ -96,32 +117,59 @@ DEFINITIONS = '''
 ''' # End of DEFINITIONS
 
 
-def partition_definition(d):
-  name, proper, body_text = (n.strip() for n in d.partition('=='))
-  if not proper and d:
-    raise ValueError('Definition %r failed' % (d,))
-  return name, body_text
-
-
-def add_definition(d):
+class DefinitionWrapper(FunctionWrapper):
   '''
-  Given the text of a definition such as "sum == 0 swap [+] step" add the
-  parsed body expression to FUNCTIONS under that name.
+  Allow functions to have a nice repr().
   '''
-  name, body_text = partition_definition(d)
-  body = text_to_expression(body_text)
-  strbody = strstack(body) # Normalized body_text.
-  _enter_message = '%s == %s' % (name, strbody)
-  _exit_message = '%s done.' % name
 
-  def f(stack):
-    if tracer.TRACE: joy.add_message(_enter_message)
+  def __init__(self, name, body_text, doc=None):
+    self.name = self.__name__ = name
+    self.body = text_to_expression(body_text)
+    self.__doc__ = doc or body_text
+
+  def __call__(self, stack):
+    return joy(self.body, stack)
+
+  def __repr__(self):
+    return self.name
+
+  @classmethod
+  def parse_definition(class_, definition, doc_char='#'):
+    '''
+    Given some text describing a Joy function definition parse it and
+    return a DefinitionWrapper.
+    '''
+    lines = body_lines, doc_lines = [], []
+    for line in definition.splitlines(True):
+      lines[line.startswith(doc_char)].append(line.lstrip(doc_char))
+    doc, defi = dedent(''.join(doc_lines)), ''.join(body_lines)
+    name, proper, body_text = (n.strip() for n in defi.partition('=='))
+    if not proper:
+      raise ValueError('Definition %r failed' % (definition,))
+    return DefinitionWrapper(name, body_text, doc)
+
+
+def generate_definitions(defs=DEFINITIONS, funcs=FUNCTIONS):
+  for definition in defs.split(';'):
+    definition = definition.lstrip()
+    if not definition or definition.isspace():
+      continue
     try:
-      return joy(body, stack)
-    finally:
-      if tracer.TRACE: joy.add_message(_exit_message)
+      f = DefinitionWrapper.parse_definition(definition)
+    except KeyError, err:
+##      print 'Error', err, 'in', definition
+      continue
+    d = definition.splitlines()
+    if len(d) == 1:
+      s = "'%s'" % d[0]
+    else:
+      d = '\n'.join('    '  + line for line in d)
+      s = "'''\\\n%s'''" % d
+    funcs[f.name] = f
+    print "  '%s': DefinitionWrapper(%s)," % (f.name, s)
 
-  f.__name__ = name
-  f.__doc__ = strbody
-  f.__body__ = body
-  return note(f)
+
+#generate_definitions()
+
+
+

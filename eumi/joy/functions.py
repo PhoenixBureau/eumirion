@@ -48,6 +48,9 @@ from __future__ import print_function
 from sys import stderr
 
 
+FUNCTIONS = {}
+
+
 class FunctionWrapper(object):
   '''
   Allow functions to have a nice repr().
@@ -62,9 +65,6 @@ class FunctionWrapper(object):
 
   def __repr__(self):
     return self.name
-
-
-FUNCTIONS = {}
 
 
 ALIASES = (
@@ -96,8 +96,7 @@ def convert(token):
   try:
     return FUNCTIONS[token]
   except KeyError:
-    print('unknown word', token, file=stderr)
-    return token
+    raise KeyError('unknown word: %r' % (token,))
 
 
 def is_function(term):

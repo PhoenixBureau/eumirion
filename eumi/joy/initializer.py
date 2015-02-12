@@ -27,6 +27,7 @@ Initialize functions.
 from library import *
 from combinators import *
 from functions import FUNCTIONS, FunctionWrapper
+from definitions import DefinitionWrapper
 
 
 FUNCTIONS.update({
@@ -72,4 +73,38 @@ FUNCTIONS.update({
   'unary': FunctionWrapper(unary),
   'while': FunctionWrapper(while_),
   'x': FunctionWrapper(x),
+
+  # Definitions.
+  'rest': DefinitionWrapper('''\
+    # This is one of the most basic commands.
+    # It provides the rest of a sequence...
+    
+      rest == uncons popd
+    
+    '''),
+  'first': DefinitionWrapper('''\
+    # This is ALSO one of the most basic commands.
+    # It provides the first item of a sequence...
+    
+      first == uncons pop
+    
+    '''),
+  'second': DefinitionWrapper('second == rest first '),
+  'third': DefinitionWrapper('third == rest rest first '),
+  'swons': DefinitionWrapper('swons == swap cons '),
+  'swoncat': DefinitionWrapper('swoncat == swap concat '),
+  'shunt': DefinitionWrapper('shunt == [swons] step '),
+  'reverse': DefinitionWrapper('reverse == [] swap shunt '),
+  'flatten': DefinitionWrapper('flatten == [] swap [concat] step '),
+  'unit': DefinitionWrapper('unit == [] cons '),
+  'quoted': DefinitionWrapper('quoted == [unit] dip '),
+  'unquoted': DefinitionWrapper('unquoted == [i] dip '),
+  'enstacken': DefinitionWrapper('enstacken == stack [clear] dip '),
+  'pam': DefinitionWrapper('pam == [i] map '),
+  'run': DefinitionWrapper('run == [] swap infra '),
+
+
+
+
+
   })

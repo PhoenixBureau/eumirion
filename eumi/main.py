@@ -123,8 +123,6 @@ def main(argv=None):
     argv = sys.argv[1:]
   args = make_argparser().parse_args(argv)
 
-#  initialize()  # Joy.
-
   pickle_name = realpath(args.pickle)
   if exists(pickle_name):
     print 'Loading server from pickle file:', pickle_name

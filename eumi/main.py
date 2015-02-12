@@ -25,6 +25,9 @@ from wsgiref.simple_server import make_server
 from .argparser import make_argparser
 from .html import HTML, ok200, err500, posting
 from .page import page
+#from .joy.initializer import initialize
+#from .joy import library # Import loads library functions.
+#from .joy import combinators # Import loads combinators.
 
 
 class EumiServer(object):
@@ -122,6 +125,8 @@ def main(argv=None):
     argv = sys.argv[1:]
   args = make_argparser().parse_args(argv)
 
+#  initialize()  # Joy.
+
   pickle_name = realpath(args.pickle)
   if exists(pickle_name):
     print 'Loading server from pickle file:', pickle_name
@@ -129,6 +134,9 @@ def main(argv=None):
   else:
     print 'Loading new blank server.'
     server = EumiServer(pather, page)
+
+  if not hasattr(server, 'debug'):
+    server.debug = False
 
   if args.crazy_town:
     print 'Running without saving pickles.'

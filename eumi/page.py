@@ -23,7 +23,9 @@ from re import compile as RegularExpression, IGNORECASE
 from operator import itemgetter
 from itertools import groupby
 from .html import posting
-from .joy import joy, text_to_expression
+from .joy.joy import joy
+from .joy.parser import text_to_expression
+from .joy.stack import strstack
 
 
 DEFAULT_TITLE = 'No Title'
@@ -80,8 +82,9 @@ def check_for_joy(page_data):
   text = page_data['text']
   if text.startswith('#!joy'):
     first_line = text.splitlines(False)[0][5:]
-    page_data['joy'] = text_to_expression(first_line)
-    print page_data['joy']
+    expression = page_data['joy'] = text_to_expression(first_line)
+    print 'setting joy expression to', strstack(expression)
+    print 'aka', expression
 
 
 def run_command(page_data, command, router):
@@ -95,10 +98,15 @@ def run_command(page_data, command, router):
   except KeyError:
     raise ValueError('No available expression for: %r' % (command,))
 
+  print 'about to run', strstack(expression)
+  print 'aka', expression
   stack = page_data.get('stack', ())
-  result = joy(stack, expression)
+  print 'on stack', strstack(stack)
+  print 'aka', stack
+  result = joy(expression, stack)
   page_data['stack'] = result
-  print 'stack', page_data['stack']
+  print 'with result', strstack(result)
+  print 'aka', result
 
 
 def get_form_data(environ):
@@ -134,8 +142,8 @@ def all_pages_post(body, title, text, self_link):
       'Text:',
       'text',
       text,
-      cols='88',
-      rows='5',
+      cols='58',
+      rows='15',
       placeholder='Write something...',
       )
     form.br
@@ -186,14 +194,14 @@ def unknown(head, home, kind, unit, router, action, self_link=None):
   render_link(head, home, kind, unit, router)
 
 
-def render_text(head, home, kind, unit, router, action, self_link=None):
+def render_text(head, home, kind, unit, router, action, self_link):
   if unit is None:
     home(kind)
     return
   data = get_page_data(router, kind, unit)
   if not data:
     return
-  render_body(head, home, data['text'], router)
+  render_body(head, home, data['text'], router, self_link)
 
 
 def render_link(_, home, kind, unit, router, action=None, self_link=None):

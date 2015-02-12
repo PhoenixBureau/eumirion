@@ -25,7 +25,7 @@ from wsgiref.simple_server import make_server
 from .argparser import make_argparser
 from .html import HTML, ok200, err500, posting
 from .page import page
-from .joy import initializer
+from .joy import initializer  # FIXME these aren't the same as the ones in the pickle...
 
 
 class EumiServer(object):
@@ -118,11 +118,27 @@ def pather(path_info):
 
 
 def main(argv=None):
+  args = get_args(argv)
+  pickle_name, server = get_server(args)
+  if args.crazy_town:
+    print 'Running without saving pickles.'
+    _print_serving(args.host, args.port)
+    run(server, args.host, args.port)
+  else:
+    if not exists(pickle_name):
+      print 'Using new pickle file:', pickle_name
+      save_pickle(pickle_name, server)
+    go(args, pickle_name, server)
+
+
+def get_args(argv=None):
   if argv is None:
     import sys
     argv = sys.argv[1:]
-  args = make_argparser().parse_args(argv)
+  return make_argparser().parse_args(argv)
 
+
+def get_server(args):
   pickle_name = realpath(args.pickle)
   if exists(pickle_name):
     print 'Loading server from pickle file:', pickle_name
@@ -130,32 +146,22 @@ def main(argv=None):
   else:
     print 'Loading new blank server.'
     server = EumiServer(pather, page)
-
   if not hasattr(server, 'debug'):
     server.debug = False
+  return pickle_name, server
 
-  if args.crazy_town:
-    print 'Running without saving pickles.'
-    _print_serving(args.host, args.port)
-    run(server, args.host, args.port)
-    return
 
-  if not exists(pickle_name):
-    print 'Using new pickle file:', pickle_name
-    save_pickle(pickle_name, server)
-
+def go(args, pickle_name, server):
   httpd = make_server(args.host, args.port, server)
   _print_serving(args.host, args.port)
-  quit_loop = False
-  while not quit_loop:
+  while True:
     try:
       httpd.handle_request()
     except KeyboardInterrupt:
-      quit_loop = True
-    else:
-      modified, server.modified = server.modified, False
-      if modified:
-        save_pickle(pickle_name, server)
+      break
+    modified, server.modified = server.modified, False
+    if modified:
+      save_pickle(pickle_name, server)
 
 
 def run(app, host='', port=8000):
@@ -173,6 +179,8 @@ def read_pickle(fn):
 
 
 def save_pickle(fn, server):
+  # TODO: Use a temp file in case of errors during pickling, so we don't
+  # scuttle the pickle file.
   with open(fn, 'w') as pickle_file:
     dump(server, pickle_file)
     pickle_file.flush()

@@ -5,19 +5,6 @@
 |_____\__,_|_| |_| |_|_|_|  |_|\___/|_| |_|
 
 Simple game server.
-.
-|-- LICENSE
-|-- README
-|-- eumi
-|   |-- __init__.py
-|   |-- __main__.py
-|   |-- argparser.py
-|   |-- html.py
-|   |-- main.py
-|   `-- page.py
-`-- run.py
-
-1 directory, 9 files
 
 
 The eumi package can be run from the command line like this:
@@ -31,3 +18,33 @@ Or, you can use the run.py script:
 But it must either be in the same directory as the eumi package or that
 package must be installed in your system or Python virtual environment.
 
+
+A brief outline of the source code.
+
+├── LICENSE - GNU GPL v3
+├── README  - This file.
+│
+├── eumi - Self-editable web server.
+│   │
+│   ├── __init__.py  - Make this dir into a Python package.
+│   ├── __main__.py  - Allows 'python -m eumi' to start server.
+│   ├── argparser.py - Parse command line arguments.
+│   │
+│   ├── html.py - Simple and flexible HTML generator.
+│   ├── main.py - Server, a WSGI app, and functions to run it.
+│   ├── page.py - Page rendering.
+│   │
+│   └── joy - Powerful language by Manfred von Thun,
+│             see links below for more information.
+│
+├── run.py - Script to run the server.
+│
+└── server.pyckle - The saved content, default file.
+
+
+
+Links to more information on Joy:
+
+  http://www.latrobe.edu.au/humanities/research/research-projects/past-projects/joy-programming-language
+  http://www.kevinalbrecht.com/code/joy-mirror/index.html
+  http://en.wikipedia.org/wiki/Joy_%28programming_language%29

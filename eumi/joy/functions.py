@@ -46,8 +46,22 @@ important it is..
 '''
 from __future__ import print_function
 from sys import stderr
-from functools import wraps
-from collections import Callable
+
+
+class FunctionWrapper(object):
+  '''
+  Allow functions to have a nice repr().
+  '''
+
+  def __init__(self, f):
+    self.f = f
+    self.name = f.__name__.rstrip('_')
+
+  def __call__(self, stack):
+    return self.f(stack)
+
+  def __repr__(self):
+    return self.name
 
 
 FUNCTIONS = {}
@@ -77,29 +91,6 @@ ALIASES = (
   )
 
 
-class FunctionWrapper(object):
-  '''
-  Allow functions to have a nice repr().
-  '''
-
-  def __init__(self, f):
-    self.f = f
-    self.name = f.__name__.rstrip('_')
-
-  def __call__(self, stack):
-    return self.f(stack)
-
-  def __repr__(self):
-    return self.name
-
-
-def note(f):
-  '''Decorator to enter functions into the function map.'''
-  F = wraps(f)(FunctionWrapper(f))
-  FUNCTIONS[F.name] = F
-  return f
-
-
 def convert(token):
   '''Look up symbols in the functions dict.'''
   try:
@@ -113,44 +104,4 @@ def is_function(term):
   '''
   Return a Boolean value indicating whether or not a term is a function.
   '''
-  # In Python the tuple type is callable so we have to check for that.
-  # We could also just check isinstance(term, FunctionWrapper), but this
-  # way we can use any old callable as a function if we like.
-  return isinstance(term, Callable) and not isinstance(term, tuple)
-
-
-# Helper functions tp auto-generate Joy functions from Python builtins.
-
-
-def joyful_1_arg_op(f):
-  '''
-  Return a Joy function that pops the top argument from the stack and
-  pushes f(tos) back.
-  '''
-# return wraps(f)(lambda ((tos, stack)): (f(tos), stack))
-  return wraps(f)(lambda tos_stack: (f(tos_stack[0]), tos_stack[1]))
-
-
-def joyful_2_arg_op(f):
-  '''
-  Return a Joy function that pops the top two arguments from the stack
-  and pushes f(second, tos) back.
-  '''
-# return wraps(f)(lambda ((tos, (second, stack))): (f(second, tos), stack))
-  return wraps(f)(lambda tos_second_stack: (f(tos_second_stack[1][0], tos_second_stack[0]), tos_second_stack[1][1]))
-
-
-def is_unary_math_op(op):
-  try:
-    op(1)
-  except:
-    return False
-  return True
-
-
-def is_binary_math_op(op):
-  try:
-    op(1, 1)
-  except:
-    return False
-  return True
+  return isinstance(term, FunctionWrapper)

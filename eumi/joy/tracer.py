@@ -34,7 +34,6 @@ when that function is declared (immediately below.)
 from __future__ import print_function
 
 from .stack import strstack, iter_stack, list_to_stack
-from .functions import note
 
 
 TRACE = False
@@ -110,13 +109,3 @@ class Tracer(object):
     stack = list(iter_stack(stack))
     stack.reverse()
     print(strstack(list_to_stack(stack)), '•', strstack(expression))
-
-
-@note
-def TRACE_(stack):
-  '''
-  Toggle print-out of execution trace.
-  '''
-  global TRACE
-  TRACE = not TRACE
-  return stack

@@ -25,9 +25,7 @@ from wsgiref.simple_server import make_server
 from .argparser import make_argparser
 from .html import HTML, ok200, err500, posting
 from .page import page
-#from .joy.initializer import initialize
-#from .joy import library # Import loads library functions.
-#from .joy import combinators # Import loads combinators.
+from .joy import initializer
 
 
 class EumiServer(object):

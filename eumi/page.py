@@ -25,7 +25,8 @@ from itertools import groupby
 from .html import posting
 from .joy.joy import joy
 from .joy.parser import text_to_expression
-from .joy.stack import strstack
+#from .joy.stack import strstack
+from .joy.stack import iter_stack, stack_to_string
 
 
 DEFAULT_TITLE = 'No Title'
@@ -51,8 +52,7 @@ def page(router, environ, page_data, head, body):
     page_data = DEFAULT_DATA.copy()
   update_page_data(page_data, environ, router)
 
-  location = environ['path']
-  self_link = linkerate(*location)
+  self_link = linkerate(*environ['path'])
   title = page_data['title']
   text = page_data['text']
 
@@ -65,7 +65,7 @@ def page(router, environ, page_data, head, body):
 
 def update_page_data(page_data, environ, router):
   form = get_form_data(environ)
-  print form
+##  print form
   for field in FIELDS:
     value = form.getfirst(field)
     if value is not None:
@@ -83,8 +83,8 @@ def check_for_joy(page_data):
   if text.startswith('#!joy'):
     first_line = text.splitlines(False)[0][5:]
     expression = page_data['joy'] = text_to_expression(first_line)
-    print 'setting joy expression to', strstack(expression)
-    print 'aka', expression
+##    print 'setting joy expression to', strstack(expression)
+##    print 'aka', expression
 
 
 def run_command(page_data, command, router):
@@ -100,15 +100,15 @@ def run_command(page_data, command, router):
   except KeyError:
     raise ValueError('No available expression for: %r' % (command,))
 
-  print 'about to run', strstack(expression)
-  print 'aka', expression
+##  print 'about to run', strstack(expression)
+##  print 'aka', expression
   stack = page_data.get('stack', ())
-  print 'on stack', strstack(stack)
-  print 'aka', stack
+##  print 'on stack', strstack(stack)
+##  print 'aka', stack
   result = joy(expression, stack)
   page_data['stack'] = result
-  print 'with result', strstack(result)
-  print 'aka', result
+##  print 'with result', strstack(result)
+##  print 'aka', result
 
 
 def get_form_data(environ):
@@ -196,6 +196,16 @@ def unknown(head, home, kind, unit, router, action, self_link=None):
   render_link(head, home, kind, unit, router)
 
 
+def render_stack(head, home, kind, unit, router, action, self_link):
+  data = get_page_data(router, kind, unit)
+  if not data or 'stack' not in data:
+    return
+  ol = home.ol
+  for item in iter_stack(data['stack']):
+    ol.li(stack_to_string(item))
+#    render_body(head, home, data['text'], router, self_link)
+
+
 def render_text(head, home, kind, unit, router, action, self_link):
   if unit is None:
     home(kind)
@@ -266,6 +276,7 @@ RENDERERS = {
   'css': add_css,
   'index': render_index,
   'command': render_command,
+  'stack': render_stack,
   }
 
 

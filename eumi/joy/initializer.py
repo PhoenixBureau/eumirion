@@ -76,10 +76,10 @@ FUNCTIONS.update({
   })
 
 
+# Definitions.
+# (Note that these are not in alphabetical order, as some depend on
+# others that must be defined before them.)
 
-  # Definitions.
-  # (Note that these are not in alphabetical order, as some depend on
-  # others that must be defined before them.)
 FUNCTIONS.update({
   'rest': DefinitionWrapper.parse_definition('''\
     # This is one of the most basic commands.

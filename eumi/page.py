@@ -22,6 +22,8 @@ from random import randrange
 from re import compile as RegularExpression, IGNORECASE
 from operator import itemgetter
 from itertools import groupby
+from .html import posting
+from .joy import joy, text_to_expression
 
 
 DEFAULT_TITLE = 'No Title'
@@ -45,26 +47,58 @@ def page(router, environ, page_data, head, body):
   '''
   if page_data is None:
     page_data = DEFAULT_DATA.copy()
-  update_page_data(page_data, environ)
+  update_page_data(page_data, environ, router)
 
   location = environ['path']
   self_link = linkerate(*location)
-  title = page_data['title'].title()
+  title = page_data['title']
   text = page_data['text']
 
   all_pages_pre(head, body, title, self_link)
-  render_body(head, body, text, router)
+  render_body(head, body, text, router, self_link)
   all_pages_post(body, title, text, self_link)
 
   return page_data
 
 
-def update_page_data(page_data, environ):
+def update_page_data(page_data, environ, router):
   form = get_form_data(environ)
+  print form
   for field in FIELDS:
     value = form.getfirst(field)
     if value is not None:
       page_data[field] = value
+
+  check_for_joy(page_data)
+
+  if posting(environ) and 'command' in form:
+    command = form.getfirst('command')
+    run_command(page_data, command, router)
+
+
+def check_for_joy(page_data):
+  text = page_data['text']
+  if text.startswith('#!joy'):
+    first_line = text.splitlines(False)[0][5:]
+    page_data['joy'] = text_to_expression(first_line)
+    print page_data['joy']
+
+
+def run_command(page_data, command, router):
+  match = link_finder.match(command)
+  if match is None:
+    raise ValueError('The command arg is messed up: %r' % (command,))
+  action, kind, unit = match_dict(match, 'joy')
+  command_data = get_page_data(router, kind, unit)
+  try:
+    expression = command_data[action]
+  except KeyError:
+    raise ValueError('No available expression for: %r' % (command,))
+
+  stack = page_data.get('stack', ())
+  result = joy(stack, expression)
+  page_data['stack'] = result
+  print 'stack', page_data['stack']
 
 
 def get_form_data(environ):
@@ -113,7 +147,7 @@ def all_pages_post(body, title, text, self_link):
     form.input(type_='submit', value='post')
 
 
-def render_body(head, body, text, router):
+def render_body(head, body, text, router, self_link):
   content = body.div
   if not text:
      content.p(DEFAULT_TEXT, class_='default-text')
@@ -122,7 +156,7 @@ def render_body(head, body, text, router):
     p = content.p
     for action, kind, unit in scan_text(paragraph):
       renderer = RENDERERS.get(action, unknown)
-      renderer(head, p, kind, unit, router, action)
+      renderer(head, p, kind, unit, router, action, self_link)
 
 
 link_finder = RegularExpression(
@@ -138,17 +172,21 @@ def scan_text(text, regex=link_finder):
   for match in regex.finditer(text):
     yield 'text', text[begin:match.start()], None
     begin = match.end()
-    d = match.groupdict('link')
-    yield d['action'], d['kind'], d['unit']
+    yield match_dict(match)
   yield 'text', text[begin:], None
 
 
-def unknown(head, home, kind, unit, router, action):
+def match_dict(match, default='link'):
+  d = match.groupdict(default)
+  return d['action'], d['kind'], d['unit']
+
+
+def unknown(head, home, kind, unit, router, action, self_link=None):
   home('unknown action "%s:"' % (action,))
   render_link(head, home, kind, unit, router)
 
 
-def render_text(head, home, kind, unit, router, action):
+def render_text(head, home, kind, unit, router, action, self_link=None):
   if unit is None:
     home(kind)
     return
@@ -158,20 +196,20 @@ def render_text(head, home, kind, unit, router, action):
   render_body(head, home, data['text'], router)
 
 
-def render_link(_, home, kind, unit, router, action=None):
+def render_link(_, home, kind, unit, router, action=None, self_link=None):
   link, link_text = get_link_text(kind, unit, router)
   if link_text is link:
     link_text = 'jump to ' + link_text
   home.a(link_text, href=link)
 
 
-def render_door(_, home, kind, unit, router, action=None):
+def render_door(_, home, kind, unit, router, action=None, self_link=None):
   link, link_text = get_link_text(kind, unit, router)
   link_text = '[' + link_text + ']'
   home.a(link_text, href=link, class_='door-link')
 
 
-def add_css(head, _, kind, unit, router, action=None):
+def add_css(head, _, kind, unit, router, action=None, self_link=None):
   data = get_page_data(router, kind, unit)
   if data:
     css = data['text']
@@ -181,7 +219,7 @@ def add_css(head, _, kind, unit, router, action=None):
 keyfunc = itemgetter(0)
 
 
-def render_index(head, home, kind, unit, router, action):
+def render_index(head, home, kind, unit, router, action, self_link=None):
   if kind == '00000000':
     keys = router
   else:
@@ -200,12 +238,24 @@ def render_index(head, home, kind, unit, router, action):
         render_link(head, kind_ol.li, kind, unit, router)
 
 
+def render_command(head, home, kind, unit, router, action, self_link):
+  link, link_text = get_link_text(kind, unit, router)
+  with home.form(
+    action=self_link,
+    method='POST',
+    class_='command',
+    ) as form:
+    form.input(type_='hidden', name='command', value=_l(kind, unit))
+    form.input(type_='submit', value=link_text)
+
+
 RENDERERS = {
   'text': render_text,
   'link': render_link,
   'door': render_door,
   'css': add_css,
   'index': render_index,
+  'command': render_command,
   }
 
 

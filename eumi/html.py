@@ -27,6 +27,10 @@ HTML output.
 from xml.etree.ElementTree import Element, SubElement, tostringlist
 
 
+def posting(environ):
+  return environ['REQUEST_METHOD'] == 'POST'
+
+
 def start(start_response, message, mime_type):
   start_response(message, [('Content-type', mime_type)])
 

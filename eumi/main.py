@@ -23,7 +23,7 @@ from pickle import dump, load
 from traceback import format_exc
 from wsgiref.simple_server import make_server
 from .argparser import make_argparser
-from .html import HTML, ok200, err500
+from .html import HTML, ok200, err500, posting
 from .page import page
 
 
@@ -34,6 +34,7 @@ class EumiServer(object):
     self.router = {}
     self.page_renderer = page_renderer
     self.modified = False
+    self.debug = False
 
   def handle_request(self, environ, start_response):
     environ['path'] = path = self.pather(environ['PATH_INFO'])
@@ -50,6 +51,8 @@ class EumiServer(object):
     return self.page_renderer(self.router, environ, page_data, head, body)
 
   def __call__(self, environ, start_response):
+    if self.debug:
+      return self.handle_request(environ, start_response)
     try:
       return self.handle_request(environ, start_response)
     except MalformedURL, err:
@@ -67,7 +70,7 @@ class PageHandler(object):
     self.post(environ)
 
   def __call__(self, environ):
-    if environ['REQUEST_METHOD'] == 'POST':
+    if posting(environ):
       self.post(environ)
       self.server.modified = True
     return self.response

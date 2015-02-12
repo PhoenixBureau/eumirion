@@ -73,38 +73,81 @@ FUNCTIONS.update({
   'unary': FunctionWrapper(unary),
   'while': FunctionWrapper(while_),
   'x': FunctionWrapper(x),
+  })
+
+
 
   # Definitions.
-  'rest': DefinitionWrapper('''\
+  # (Note that these are not in alphabetical order, as some depend on
+  # others that must be defined before them.)
+FUNCTIONS.update({
+  'rest': DefinitionWrapper.parse_definition('''\
     # This is one of the most basic commands.
     # It provides the rest of a sequence...
     
       rest == uncons popd
     
     '''),
-  'first': DefinitionWrapper('''\
+  })
+
+FUNCTIONS.update({
+  'first': DefinitionWrapper.parse_definition('''\
     # This is ALSO one of the most basic commands.
     # It provides the first item of a sequence...
     
       first == uncons pop
     
     '''),
-  'second': DefinitionWrapper('second == rest first '),
-  'third': DefinitionWrapper('third == rest rest first '),
-  'swons': DefinitionWrapper('swons == swap cons '),
-  'swoncat': DefinitionWrapper('swoncat == swap concat '),
-  'shunt': DefinitionWrapper('shunt == [swons] step '),
-  'reverse': DefinitionWrapper('reverse == [] swap shunt '),
-  'flatten': DefinitionWrapper('flatten == [] swap [concat] step '),
-  'unit': DefinitionWrapper('unit == [] cons '),
-  'quoted': DefinitionWrapper('quoted == [unit] dip '),
-  'unquoted': DefinitionWrapper('unquoted == [i] dip '),
-  'enstacken': DefinitionWrapper('enstacken == stack [clear] dip '),
-  'pam': DefinitionWrapper('pam == [i] map '),
-  'run': DefinitionWrapper('run == [] swap infra '),
+  })
 
+FUNCTIONS.update({
+  'second': DefinitionWrapper.parse_definition('second == rest first '),
+  })
 
+FUNCTIONS.update({
+  'third': DefinitionWrapper.parse_definition('third == rest rest first '),
+  })
 
+FUNCTIONS.update({
+  'swons': DefinitionWrapper.parse_definition('swons == swap cons '),
+  })
 
+FUNCTIONS.update({
+  'swoncat': DefinitionWrapper.parse_definition('swoncat == swap concat '),
+  })
 
+FUNCTIONS.update({
+  'shunt': DefinitionWrapper.parse_definition('shunt == [swons] step '),
+  })
+
+FUNCTIONS.update({
+  'reverse': DefinitionWrapper.parse_definition('reverse == [] swap shunt '),
+  })
+
+FUNCTIONS.update({
+  'flatten': DefinitionWrapper.parse_definition('flatten == [] swap [concat] step '),
+  })
+
+FUNCTIONS.update({
+  'unit': DefinitionWrapper.parse_definition('unit == [] cons '),
+  })
+
+FUNCTIONS.update({
+  'quoted': DefinitionWrapper.parse_definition('quoted == [unit] dip '),
+  })
+
+FUNCTIONS.update({
+  'unquoted': DefinitionWrapper.parse_definition('unquoted == [i] dip '),
+  })
+
+FUNCTIONS.update({
+  'enstacken': DefinitionWrapper.parse_definition('enstacken == stack [clear] dip '),
+  })
+
+FUNCTIONS.update({
+  'pam': DefinitionWrapper.parse_definition('pam == [i] map '),
+  })
+
+FUNCTIONS.update({
+  'run': DefinitionWrapper.parse_definition('run == [] swap infra '),
   })

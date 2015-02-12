@@ -26,6 +26,7 @@ Definitions
 
 Use this to re-generate the definitions in initializer.py.
 
+>>> from eumi.joy import initializer
 >>> from eumi.joy.definitions import generate_definitions
 >>> generate_definitions()
 
@@ -38,7 +39,6 @@ from textwrap import dedent
 from .joy import joy
 from .parser import text_to_expression
 from .functions import FunctionWrapper, FUNCTIONS
-from . import initializer
 
 
 DEFINITIONS = '''
@@ -141,7 +141,8 @@ class DefinitionWrapper(FunctionWrapper):
     '''
     lines = body_lines, doc_lines = [], []
     for line in definition.splitlines(True):
-      lines[line.startswith(doc_char)].append(line.lstrip(doc_char))
+      docy = line.lstrip().startswith(doc_char)
+      lines[docy].append(line.lstrip(doc_char))
     doc, defi = dedent(''.join(doc_lines)), ''.join(body_lines)
     name, proper, body_text = (n.strip() for n in defi.partition('=='))
     if not proper:
@@ -166,10 +167,4 @@ def generate_definitions(defs=DEFINITIONS, funcs=FUNCTIONS):
       d = '\n'.join('    '  + line for line in d)
       s = "'''\\\n%s'''" % d
     funcs[f.name] = f
-    print "  '%s': DefinitionWrapper(%s)," % (f.name, s)
-
-
-#generate_definitions()
-
-
-
+    print "  '%s': DefinitionWrapper.parse_definition(%s)," % (f.name, s)

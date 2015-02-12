@@ -93,6 +93,8 @@ def run_command(page_data, command, router):
     raise ValueError('The command arg is messed up: %r' % (command,))
   action, kind, unit = match_dict(match, 'joy')
   command_data = get_page_data(router, kind, unit)
+  if command_data is None:
+    raise ValueError('No page for: %r' % (command,))
   try:
     expression = command_data[action]
   except KeyError:

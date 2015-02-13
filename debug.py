@@ -19,7 +19,7 @@
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
 from wsgiref.simple_server import make_server
-from eumi.main import pather, page, read_pickle
+from eumi.main import pather, Page, read_pickle
 
 
 pickle_name = 'server.pyckle'

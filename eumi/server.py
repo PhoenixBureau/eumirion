@@ -43,7 +43,7 @@ class EumiServer(object):
     return handler(environ)
 
   def render(self, environ, page_data, head, body):
-    return self.page_renderer(self.router, environ, page_data, head, body)
+    return self.page_renderer(self.router, environ, page_data, head, body)()
 
   def __call__(self, environ, start_response):
     if self.debug:

@@ -40,29 +40,32 @@ DEFAULT_DATA = {
 FIELDS = tuple(sorted(DEFAULT_DATA))
 
 
-def page(router, environ, page_data, head, body):
-  '''
-  router: the dict mapping paths to page handlers.
-  environ: the WSGI environ.
-  page_data: the current instance data for this page.
-  head: the head HTML element.
-  body: the body HTML element.
+class Page(object):
 
-  Fill in the head and body and return the page's (possibly new) page_data.
-  '''
-  if page_data is None:
-    page_data = DEFAULT_DATA.copy()
-  update_page_data(page_data, environ, router)
+  def __init__(self, router, environ, page_data, head, body):
+    '''
+    router: the dict mapping paths to page handlers.
+    page_data: the current instance data for this page.
 
-  self_link = linkerate(*environ['path'])
-  title = page_data['title']
-  text = page_data['text']
+    Fill in the head and body and return the page's (possibly new) page_data.
+    '''
+    if page_data is None:
+      page_data = DEFAULT_DATA.copy()
+    self.link = linkerate(*environ['path'])
+    self.title = page_data['title']
+    self.text = page_data['text']
+    self.router = router
+    self.data = page_data
+    self.environ = environ
+    self.head = head
+    self.body = body
 
-  all_pages_pre(head, body, title, self_link, DEFAULT_TEXT)
-  render_body(head, body.div, text, router, self_link, DEFAULT_TEXT)
-  all_pages_post(body, title, text, self_link, DEFAULT_TEXT)
-
-  return page_data
+  def __call__(self):
+    update_page_data(self.data, self.environ, self.router)
+    all_pages_pre(self.head, self.body, self.title, self.link, DEFAULT_TEXT)
+    render_body(self.head, self.body.div, self, DEFAULT_TEXT)
+    all_pages_post(self.body, self.title, self.text, self.link, DEFAULT_TEXT)
+    return self.data
 
 
 def update_page_data(page_data, environ, router):

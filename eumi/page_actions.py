@@ -17,6 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
+from copy import copy
 from itertools import groupby
 from operator import itemgetter
 from re import compile as RegularExpression, IGNORECASE
@@ -26,7 +27,10 @@ from .joy.parser import text_to_expression
 from .joy.library import concat
 
 
-def render_body(head, content, text, router, self_link, default=''):
+def render_body(head, content, page, default=''):
+  text = page.text
+  router = page.router
+  self_link = page.link
   if not text:
     if default:
       content.p(default, class_='default-text')
@@ -35,7 +39,7 @@ def render_body(head, content, text, router, self_link, default=''):
     p = content.p
     for action, kind, unit in scan_text(paragraph):
       renderer = RENDERERS.get(action, unknown)
-      renderer(head, p, kind, unit, router, action, self_link)
+      renderer(head, p, page, kind, unit, action)
 
 
 link_finder = RegularExpression(
@@ -65,8 +69,8 @@ def unknown(head, home, kind, unit, router, action, self_link=None):
   render_link(head, home, kind, unit, router)
 
 
-def render_stack(head, home, kind, unit, router, action, self_link):
-  data = get_page_data(router, kind, unit)
+def render_stack(head, home, page, kind, unit, action):
+  data = get_page_data(page.router, kind, unit)
   if not data or 'stack' not in data:
     return
   ol = home.ol
@@ -75,48 +79,53 @@ def render_stack(head, home, kind, unit, router, action, self_link):
 #    render_body(head, home, data['text'], router, self_link)
 
 
-def render_stackinto(head, home, kind, unit, router, action, self_link):
-  data = get_page_data(router, kind, unit)
+def render_stackinto(head, home, page, kind, unit, action):
+  data = get_page_data(page.router, kind, unit)
   if not data or 'stack' not in data:
     return
   for item in iter_stack(data['stack']):
     text = item if isinstance(item, str) else stack_to_string(item)
-    render_body(head, home, text, router, self_link)
-#    render_text(head, home, text, router, self_link)
+    render_text_deluxe(head, home, page, text)
 
 
-def render_text(head, home, kind, unit, router, action, self_link):
+def render_text(head, home, page, kind, unit, action):
   if unit is None:
     home(kind)
     return
-  data = get_page_data(router, kind, unit)
+  data = get_page_data(page.router, kind, unit)
   if not data:
     return
-  render_body(head, home, data['text'], router, self_link)
+  render_text_deluxe(head, home, page, data['text'])
 
 
-def render_link(_, home, kind, unit, router, action=None, self_link=None):
-  link, link_text = get_link_text(kind, unit, router)
+def render_text_deluxe(head, home, page, text):
+  page = copy(page)
+  page.text = text
+  render_body(head, home, page)
+
+
+def render_link(_, home, page, kind, unit, action=None):
+  link, link_text = get_link_text(kind, unit, page.router)
   if link_text is link:
     link_text = 'jump to ' + link_text
   home.a(link_text, href=link)
 
 
-def render_door(_, home, kind, unit, router, action=None, self_link=None):
-  link, link_text = get_link_text(kind, unit, router)
+def render_door(_, home, page, kind, unit, action=None):
+  link, link_text = get_link_text(kind, unit, page.router)
   link_text = '[' + link_text + ']'
   home.a(link_text, href=link, class_='door-link')
 
 
-def add_css(head, _, kind, unit, router, action=None, self_link=None):
-  data = get_page_data(router, kind, unit)
+def add_css(head, _, page, kind, unit, action=None):
+  data = get_page_data(page.router, kind, unit)
   if data:
     css = data['text']
     head.style(css)
 
 
-def add_joy(_, __, kind, unit, router, action=None, self_link=None):
-  data = get_page_data(router, kind, unit)
+def add_joy(_, __, page, kind, unit, action=None):
+  data = get_page_data(page.router, kind, unit)
   if not data:
     return
   joy, semicolon, doc = data['text'].partition(';')
@@ -137,26 +146,26 @@ def index_filter(kind, unit, router):
   return (key for key in router if key[0] == kind)
 
 
-def render_index(head, home, kind, unit, router, action, self_link=None,
+def render_index(head, home, page, kind, unit, action,
                  keyfunc=itemgetter(0), filter_=index_filter):
-  keys = filter_(kind, unit, router)
+  keys = filter_(kind, unit, page.router)
   data = sorted(keys, key=keyfunc)
   with home.ol as ol:
     for kind, units in groupby(data, keyfunc):
       kind = hexify(kind)
       with ol.li as kind_li:
-        render_link(head, kind_li, kind, 8 * '0', router)
+        render_link(head, kind_li, page, kind, 8 * '0')
         with kind_li.ol as kind_ol:
           for _, unit in sorted(units):
             if unit:
               unit = hexify(unit)
-              render_link(head, kind_ol.li, kind, unit, router)
+              render_link(head, kind_ol.li, page, kind, unit)
 
 
-def render_command(head, home, kind, unit, router, action, self_link):
-  link, link_text = get_link_text(kind, unit, router)
+def render_command(head, home, page, kind, unit, action):
+  link, link_text = get_link_text(kind, unit, page.router)
   with home.form(
-    action=self_link,
+    action=page.link,
     method='POST',
     class_='command',
     ) as form:

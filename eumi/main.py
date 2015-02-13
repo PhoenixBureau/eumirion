@@ -23,7 +23,7 @@ from os.path import exists, realpath
 from pickle import dump, load
 from wsgiref.simple_server import make_server
 from .argparser import make_argparser
-from .page import page
+from .page import Page
 from .server import EumiServer, pather
 from .joy import initializer  # FIXME these aren't the same as the ones in the pickle...
 
@@ -55,7 +55,7 @@ def get_server(args):
     server = read_pickle(pickle_name)
   else:
     print 'Loading new blank server.'
-    server = EumiServer(pather, page)
+    server = EumiServer(pather, Page)
   if not hasattr(server, 'debug'):
     server.debug = False
   return pickle_name, server

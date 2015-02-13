@@ -51,6 +51,7 @@ class Page(object):
     '''
     if page_data is None:
       page_data = DEFAULT_DATA.copy()
+    update_page_data(page_data, environ, router)
     self.link = linkerate(*environ['path'])
     self.title = page_data['title']
     self.text = page_data['text']
@@ -61,8 +62,7 @@ class Page(object):
     self.body = body
 
   def __call__(self):
-    update_page_data(self.data, self.environ, self.router)
-    all_pages_pre(self.head, self.body, self.title, self.link, DEFAULT_TEXT)
+    all_pages_pre(self.head, self.body, self.title, self.link, DEFAULT_TITLE)
     render_body(self.body.div, self, DEFAULT_TEXT)
     all_pages_post(self.body, self.title, self.text, self.link, DEFAULT_TEXT)
     return self.data
@@ -92,8 +92,8 @@ def run_command(page_data, command, router):
     expression = command_data['joy']
   except KeyError:
     raise ValueError('No available expression for: %r' % (command,))
-  stack = page_data.get('stack', ())
-  page_data['stack'] = joy(expression, stack)
+  stack = page_data.get('joy', ())
+  page_data['joy'] = joy(expression, stack)
 
 
 def get_form_data(environ):

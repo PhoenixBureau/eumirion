@@ -63,23 +63,23 @@ def match_dict(match, default='link'):
 
 def unknown(home, page, kind, unit, action):
   home('unknown action "%s:"' % (action,))
-  render_link(home, kind, unit, router)
+  render_link(home, page, kind, unit)
 
 
 def render_stack(home, page, kind, unit, action):
   data = get_page_data(page.router, kind, unit)
-  if not data or 'stack' not in data:
+  if not data or 'joy' not in data:
     return
   ol = home.ol
-  for item in iter_stack(data['stack']):
+  for item in iter_stack(data['joy']):
     ol.li(stack_to_string(item))
 
 
 def render_stackinto(home, page, kind, unit, action):
   data = get_page_data(page.router, kind, unit)
-  if not data or 'stack' not in data:
+  if not data or 'joy' not in data:
     return
-  for item in iter_stack(data['stack']):
+  for item in iter_stack(data['joy']):
     text = item if isinstance(item, str) else stack_to_string(item)
     render_text_deluxe(home, page, text)
 
@@ -127,13 +127,13 @@ def add_joy(_, page, kind, unit, action=None):
     return
   joy, semicolon, doc = data['text'].partition(';')
   expression = text_to_expression(joy)
-  if 'joy' in data:
-    stack = (expression, (data['joy'], ()))
+  if 'joy' in page.data:
+    stack = (expression, (page.data['joy'], ()))
     result = concat(stack)[0]
   else:
     result = expression
-  data['joy'] = result
-  print 'Adding joy %s to "%s"' % (result, data['title'])
+  page.data['joy'] = result
+  print 'Adding joy %s to "%s"' % (result, page.data['title'])
 
 
 def index_filter(kind, unit, router):

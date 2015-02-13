@@ -19,14 +19,17 @@
 #
 from cgi import FieldStorage
 from random import randrange
-from re import compile as RegularExpression, IGNORECASE
-from operator import itemgetter
-from itertools import groupby
 from .html import posting
 from .joy.joy import joy
 from .joy.parser import text_to_expression
-#from .joy.stack import strstack
 from .joy.stack import iter_stack, stack_to_string
+from .page_actions import (
+  linkerate,
+  render_body,
+  link_finder,
+  match_dict,
+  get_page_data,
+  )
 
 
 DEFAULT_TITLE = 'No Title'
@@ -57,7 +60,7 @@ def page(router, environ, page_data, head, body):
   text = page_data['text']
 
   all_pages_pre(head, body, title, self_link)
-  render_body(head, body.div, text, router, self_link)
+  render_body(head, body.div, text, router, self_link, DEFAULT_TEXT)
   all_pages_post(body, title, text, self_link)
 
   return page_data
@@ -129,155 +132,6 @@ def all_pages_post(body, title, text, self_link):
     form.input(type_='submit', value='post')
 
 
-def render_body(head, content, text, router, self_link):
-  if not text:
-     content.p(DEFAULT_TEXT, class_='default-text')
-     return
-  for paragraph in text.splitlines(False):
-    p = content.p
-    for action, kind, unit in scan_text(paragraph):
-      renderer = RENDERERS.get(action, unknown)
-      renderer(head, p, kind, unit, router, action, self_link)
-
-
-link_finder = RegularExpression(
-  '((?P<action>[a-z]{1,32}):)?'
-  '/(?P<kind>[0-9a-f]{8})'
-  '/(?P<unit>[0-9a-f]{8})',
-  flags=IGNORECASE,
-  )
-
-
-def scan_text(text, regex=link_finder):
-  begin = 0
-  for match in regex.finditer(text):
-    yield 'text', text[begin:match.start()], None
-    begin = match.end()
-    yield match_dict(match)
-  yield 'text', text[begin:], None
-
-
-def match_dict(match, default='link'):
-  d = match.groupdict(default)
-  return d['action'], d['kind'], d['unit']
-
-
-def unknown(head, home, kind, unit, router, action, self_link=None):
-  home('unknown action "%s:"' % (action,))
-  render_link(head, home, kind, unit, router)
-
-
-def render_stack(head, home, kind, unit, router, action, self_link):
-  data = get_page_data(router, kind, unit)
-  if not data or 'stack' not in data:
-    return
-  ol = home.ol
-  for item in iter_stack(data['stack']):
-    ol.li(stack_to_string(item))
-#    render_body(head, home, data['text'], router, self_link)
-
-
-def render_stackinto(head, home, kind, unit, router, action, self_link):
-  data = get_page_data(router, kind, unit)
-  if not data or 'stack' not in data:
-    return
-  for item in iter_stack(data['stack']):
-    text = item if isinstance(item, str) else stack_to_string(item)
-    render_body(head, home, text, router, self_link)
-#    render_text(head, home, text, router, self_link)
-
-
-def render_text(head, home, kind, unit, router, action, self_link):
-  if unit is None:
-    home(kind)
-    return
-  data = get_page_data(router, kind, unit)
-  if not data:
-    return
-  render_body(head, home, data['text'], router, self_link)
-
-
-def render_link(_, home, kind, unit, router, action=None, self_link=None):
-  link, link_text = get_link_text(kind, unit, router)
-  if link_text is link:
-    link_text = 'jump to ' + link_text
-  home.a(link_text, href=link)
-
-
-def render_door(_, home, kind, unit, router, action=None, self_link=None):
-  link, link_text = get_link_text(kind, unit, router)
-  link_text = '[' + link_text + ']'
-  home.a(link_text, href=link, class_='door-link')
-
-
-def add_css(head, _, kind, unit, router, action=None, self_link=None):
-  data = get_page_data(router, kind, unit)
-  if data:
-    css = data['text']
-    head.style(css)
-
-
-keyfunc = itemgetter(0)
-
-
-def render_index(head, home, kind, unit, router, action, self_link=None):
-  if kind == '00000000':
-    keys = router
-  else:
-    kind = int(kind, 16)
-    keys = (key for key in router if key[0] == kind)
-  data = sorted(keys, key=keyfunc)
-  ol = home.ol
-  for kind, units in groupby(data, keyfunc):
-    kind = hexify(kind)
-    kind_li = ol.li
-    render_link(head, kind_li, kind, 8 * '0', router)
-    kind_ol = kind_li.ol
-    for _, unit in sorted(units):
-      if unit:
-        unit = hexify(unit)
-        render_link(head, kind_ol.li, kind, unit, router)
-
-
-def render_command(head, home, kind, unit, router, action, self_link):
-  link, link_text = get_link_text(kind, unit, router)
-  with home.form(
-    action=self_link,
-    method='POST',
-    class_='command',
-    ) as form:
-    form.input(type_='hidden', name='command', value=_l(kind, unit))
-    form.input(type_='submit', value=link_text)
-
-
-RENDERERS = {
-  'text': render_text,
-  'link': render_link,
-  'door': render_door,
-  'css': add_css,
-  'index': render_index,
-  'command': render_command,
-  'stack': render_stack,
-  'stackinto': render_stackinto,
-  }
-
-
-def get_link_text(kind, unit, router):
-  link = _l(kind, unit)
-  data = get_page_data(router, kind, unit)
-  link_text = (data['title'] or link) if data else link
-  return link, link_text
-
-
-def get_page_data(router, kind, unit):
-  coordinates = int(kind, 16), int(unit, 16)
-  try:
-    page_handler = router[coordinates]
-  except KeyError:
-    return
-  return page_handler.data
-
-
 def labeled_field(form, label, type_, name, value, **kw):
   form.label(label, for_=name)
   form.input(type_=type_, name=name, value=value, **kw)
@@ -287,18 +141,6 @@ def labeled_textarea(form, label, name, value, **kw):
   form.label(label, for_=name)
   form.br
   form.textarea(value, name=name, **kw)
-
-
-def hexify(i):
-  s = hex(i)[2:]
-  return '0' * (8 - len(s)) + s
-
-
-def linkerate(kind, unit):
-  return _l(hexify(kind), hexify(unit))
-
-
-_l = lambda kind, unit:'/%s/%s' % (kind, unit)
 
 
 ##def path_link(home, kind, unit):

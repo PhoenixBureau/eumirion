@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
+from os import remove, rename
 from os.path import exists, realpath
 from pickle import dump, load
 from traceback import format_exc
@@ -122,7 +123,6 @@ def main(argv=None):
   pickle_name, server = get_server(args)
   if args.crazy_town:
     print 'Running without saving pickles.'
-    _print_serving(args.host, args.port)
     run(server, args.host, args.port)
   else:
     if not exists(pickle_name):
@@ -166,6 +166,7 @@ def go(args, pickle_name, server):
 
 def run(app, host='', port=8000):
   httpd = make_server(host, port, app)
+  _print_serving(host, port)
   try:
     httpd.serve_forever()
   except KeyboardInterrupt:
@@ -179,11 +180,24 @@ def read_pickle(fn):
 
 
 def save_pickle(fn, server):
-  # TODO: Use a temp file in case of errors during pickling, so we don't
-  # scuttle the pickle file.
-  with open(fn, 'w') as pickle_file:
-    dump(server, pickle_file)
-    pickle_file.flush()
+  tfn = fn + '.temp'
+  success = False
+  try:
+    with open(tfn, 'w') as pickle_file:
+      dump(server, pickle_file)
+    success = True
+  finally:
+    if success:
+      move(tfn, fn)
+
+
+def move(from_, to):
+  try:
+    remove(to)
+  except OSError:
+    pass
+  rename(from_, to)
+  remove(from_)
 
 
 def _print_serving(host, port):

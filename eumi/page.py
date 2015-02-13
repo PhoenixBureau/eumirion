@@ -57,7 +57,7 @@ def page(router, environ, page_data, head, body):
   text = page_data['text']
 
   all_pages_pre(head, body, title, self_link)
-  render_body(head, body, text, router, self_link)
+  render_body(head, body.div, text, router, self_link)
   all_pages_post(body, title, text, self_link)
 
   return page_data
@@ -65,7 +65,6 @@ def page(router, environ, page_data, head, body):
 
 def update_page_data(page_data, environ, router):
   form = get_form_data(environ)
-##  print form
   for field in FIELDS:
     value = form.getfirst(field)
     if value is not None:
@@ -83,32 +82,22 @@ def check_for_joy(page_data):
   if text.startswith('#!joy'):
     first_line = text.splitlines(False)[0][5:]
     expression = page_data['joy'] = text_to_expression(first_line)
-##    print 'setting joy expression to', strstack(expression)
-##    print 'aka', expression
 
 
 def run_command(page_data, command, router):
   match = link_finder.match(command)
   if match is None:
     raise ValueError('The command arg is messed up: %r' % (command,))
-  action, kind, unit = match_dict(match, 'joy')
+  _, kind, unit = match_dict(match)
   command_data = get_page_data(router, kind, unit)
   if command_data is None:
     raise ValueError('No page for: %r' % (command,))
   try:
-    expression = command_data[action]
+    expression = command_data['joy']
   except KeyError:
     raise ValueError('No available expression for: %r' % (command,))
-
-##  print 'about to run', strstack(expression)
-##  print 'aka', expression
   stack = page_data.get('stack', ())
-##  print 'on stack', strstack(stack)
-##  print 'aka', stack
-  result = joy(expression, stack)
-  page_data['stack'] = result
-##  print 'with result', strstack(result)
-##  print 'aka', result
+  page_data['stack'] = joy(expression, stack)
 
 
 def get_form_data(environ):
@@ -129,36 +118,18 @@ def all_pages_post(body, title, text, self_link):
   body.hr
   with body.form(action=self_link, method='POST') as form:
     form.h4('Edit')
-    labeled_field(
-      form,
-      'Title:',
-      'text',
-      'title',
-      title,
-      size='44',
-      placeholder=DEFAULT_TITLE,
-      )
+    labeled_field(form, 'Title:', 'text', 'title', title,
+      size='44', placeholder=DEFAULT_TITLE)
     form.br
-    labeled_textarea(
-      form,
-      'Text:',
-      'text',
-      text,
-      cols='58',
-      rows='15',
-      placeholder='Write something...',
-      )
+    labeled_textarea(form, 'Text:', 'text', text,
+      cols='58', rows='15', placeholder='Write something...')
     form.br
-    form.input(
-      type_='hidden',
-      name='fake_out_caching',
-      value=str(randrange(2**32)),
-      )
+    form.input(type_='hidden', name='fake_out_caching',
+               value=str(randrange(2**32)))
     form.input(type_='submit', value='post')
 
 
-def render_body(head, body, text, router, self_link):
-  content = body.div
+def render_body(head, content, text, router, self_link):
   if not text:
      content.p(DEFAULT_TEXT, class_='default-text')
      return
@@ -204,6 +175,16 @@ def render_stack(head, home, kind, unit, router, action, self_link):
   for item in iter_stack(data['stack']):
     ol.li(stack_to_string(item))
 #    render_body(head, home, data['text'], router, self_link)
+
+
+def render_stackinto(head, home, kind, unit, router, action, self_link):
+  data = get_page_data(router, kind, unit)
+  if not data or 'stack' not in data:
+    return
+  for item in iter_stack(data['stack']):
+    text = item if isinstance(item, str) else stack_to_string(item)
+    render_body(head, home, text, router, self_link)
+#    render_text(head, home, text, router, self_link)
 
 
 def render_text(head, home, kind, unit, router, action, self_link):
@@ -277,6 +258,7 @@ RENDERERS = {
   'index': render_index,
   'command': render_command,
   'stack': render_stack,
+  'stackinto': render_stackinto,
   }
 
 

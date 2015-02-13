@@ -28,14 +28,11 @@ from .joy.library import concat
 
 
 def render_body(content, page, default=''):
-  text = page.text
-  router = page.router
-  self_link = page.link
-  if not text:
+  if not page.text:
     if default:
       content.p(default, class_='default-text')
     return
-  for paragraph in text.splitlines(False):
+  for paragraph in page.text.splitlines(False):
     p = content.p
     for action, kind, unit in scan_text(paragraph):
       renderer = RENDERERS.get(action, unknown)
@@ -64,7 +61,7 @@ def match_dict(match, default='link'):
   return d['action'], d['kind'], d['unit']
 
 
-def unknown(home, kind, unit, router, action, self_link=None):
+def unknown(home, page, kind, unit, action):
   home('unknown action "%s:"' % (action,))
   render_link(home, kind, unit, router)
 
@@ -76,7 +73,6 @@ def render_stack(home, page, kind, unit, action):
   ol = home.ol
   for item in iter_stack(data['stack']):
     ol.li(stack_to_string(item))
-#    render_body(home, data['text'], router, self_link)
 
 
 def render_stackinto(home, page, kind, unit, action):

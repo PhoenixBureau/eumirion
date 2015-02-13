@@ -27,7 +27,7 @@ from .joy.parser import text_to_expression
 from .joy.library import concat
 
 
-def render_body(head, content, page, default=''):
+def render_body(content, page, default=''):
   text = page.text
   router = page.router
   self_link = page.link
@@ -39,7 +39,7 @@ def render_body(head, content, page, default=''):
     p = content.p
     for action, kind, unit in scan_text(paragraph):
       renderer = RENDERERS.get(action, unknown)
-      renderer(head, p, page, kind, unit, action)
+      renderer(p, page, kind, unit, action)
 
 
 link_finder = RegularExpression(
@@ -64,67 +64,68 @@ def match_dict(match, default='link'):
   return d['action'], d['kind'], d['unit']
 
 
-def unknown(head, home, kind, unit, router, action, self_link=None):
+def unknown(home, kind, unit, router, action, self_link=None):
   home('unknown action "%s:"' % (action,))
-  render_link(head, home, kind, unit, router)
+  render_link(home, kind, unit, router)
 
 
-def render_stack(head, home, page, kind, unit, action):
+def render_stack(home, page, kind, unit, action):
   data = get_page_data(page.router, kind, unit)
   if not data or 'stack' not in data:
     return
   ol = home.ol
   for item in iter_stack(data['stack']):
     ol.li(stack_to_string(item))
-#    render_body(head, home, data['text'], router, self_link)
+#    render_body(home, data['text'], router, self_link)
 
 
-def render_stackinto(head, home, page, kind, unit, action):
+def render_stackinto(home, page, kind, unit, action):
   data = get_page_data(page.router, kind, unit)
   if not data or 'stack' not in data:
     return
   for item in iter_stack(data['stack']):
     text = item if isinstance(item, str) else stack_to_string(item)
-    render_text_deluxe(head, home, page, text)
+    render_text_deluxe(home, page, text)
 
 
-def render_text(head, home, page, kind, unit, action):
+def render_text(home, page, kind, unit, action):
   if unit is None:
-    home(kind)
+    if kind:
+      home(kind)
     return
   data = get_page_data(page.router, kind, unit)
   if not data:
     return
-  render_text_deluxe(head, home, page, data['text'])
+  render_text_deluxe(home, page, data['text'])
 
 
-def render_text_deluxe(head, home, page, text):
+def render_text_deluxe(home, page, text):
   page = copy(page)
   page.text = text
-  render_body(head, home, page)
+  render_body(home, page)
 
 
-def render_link(_, home, page, kind, unit, action=None):
+def render_link(home, page, kind, unit, action=None):
   link, link_text = get_link_text(kind, unit, page.router)
   if link_text is link:
     link_text = 'jump to ' + link_text
   home.a(link_text, href=link)
 
 
-def render_door(_, home, page, kind, unit, action=None):
+def render_door(home, page, kind, unit, action=None):
   link, link_text = get_link_text(kind, unit, page.router)
   link_text = '[' + link_text + ']'
   home.a(link_text, href=link, class_='door-link')
 
 
-def add_css(head, _, page, kind, unit, action=None):
+def add_css(_, page, kind, unit, action=None):
   data = get_page_data(page.router, kind, unit)
   if data:
     css = data['text']
-    head.style(css)
+    page.head.style(css)
 
 
-def add_joy(_, __, page, kind, unit, action=None):
+def add_joy(_, page, kind, unit, action=None):
   data = get_page_data(page.router, kind, unit)
   if not data:
     return
@@ -146,7 +147,7 @@ def index_filter(kind, unit, router):
   return (key for key in router if key[0] == kind)
 
 
-def render_index(head, home, page, kind, unit, action,
+def render_index(home, page, kind, unit, action,
                  keyfunc=itemgetter(0), filter_=index_filter):
   keys = filter_(kind, unit, page.router)
   data = sorted(keys, key=keyfunc)
@@ -154,15 +155,15 @@ def render_index(head, home, page, kind, unit, action,
     for kind, units in groupby(data, keyfunc):
       kind = hexify(kind)
       with ol.li as kind_li:
-        render_link(head, kind_li, page, kind, 8 * '0')
+        render_link(kind_li, page, kind, 8 * '0')
         with kind_li.ol as kind_ol:
           for _, unit in sorted(units):
             if unit:
               unit = hexify(unit)
-              render_link(head, kind_ol.li, page, kind, unit)
+              render_link(kind_ol.li, page, kind, unit)
 
 
-def render_command(head, home, page, kind, unit, action):
+def render_command(home, page, kind, unit, action):
   link, link_text = get_link_text(kind, unit, page.router)
   with home.form(
     action=page.link,

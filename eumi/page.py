@@ -63,7 +63,7 @@ class Page(object):
   def __call__(self):
     update_page_data(self.data, self.environ, self.router)
     all_pages_pre(self.head, self.body, self.title, self.link, DEFAULT_TEXT)
-    render_body(self.head, self.body.div, self, DEFAULT_TEXT)
+    render_body(self.body.div, self, DEFAULT_TEXT)
     all_pages_post(self.body, self.title, self.text, self.link, DEFAULT_TEXT)
     return self.data
 

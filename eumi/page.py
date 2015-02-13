@@ -72,18 +72,9 @@ def update_page_data(page_data, environ, router):
     if value is not None:
       page_data[field] = value
 
-  check_for_joy(page_data)
-
   if posting(environ) and 'command' in form:
     command = form.getfirst('command')
     run_command(page_data, command, router)
-
-
-def check_for_joy(page_data):
-  text = page_data['text']
-  if text.startswith('#!joy'):
-    first_line = text.splitlines(False)[0][5:]
-    expression = page_data['joy'] = text_to_expression(first_line)
 
 
 def run_command(page_data, command, router):

@@ -22,6 +22,8 @@ from operator import itemgetter
 from re import compile as RegularExpression, IGNORECASE
 from .html import fake_out_caching
 from .joy.stack import iter_stack, stack_to_string
+from .joy.parser import text_to_expression
+from .joy.library import concat
 
 
 def render_body(head, content, text, router, self_link, default=''):
@@ -113,6 +115,21 @@ def add_css(head, _, kind, unit, router, action=None, self_link=None):
     head.style(css)
 
 
+def add_joy(_, __, kind, unit, router, action=None, self_link=None):
+  data = get_page_data(router, kind, unit)
+  if not data:
+    return
+  joy, semicolon, doc = data['text'].partition(';')
+  expression = text_to_expression(joy)
+  if 'joy' in data:
+    stack = (expression, (data['joy'], ()))
+    result = concat(stack)[0]
+  else:
+    result = expression
+  data['joy'] = result
+  print 'Adding joy %s to "%s"' % (result, data['title'])
+
+
 def index_filter(kind, unit, router):
   if kind == '00000000':
     return router
@@ -153,6 +170,7 @@ RENDERERS = {
   'link': render_link,
   'door': render_door,
   'css': add_css,
+  'joy': add_joy,
   'index': render_index,
   'command': render_command,
   'stack': render_stack,

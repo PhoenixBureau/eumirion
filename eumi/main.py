@@ -107,7 +107,6 @@ def move(from_, to):
   except OSError:
     pass
   rename(from_, to)
-  remove(from_)
 
 
 def _print_serving(host, port):

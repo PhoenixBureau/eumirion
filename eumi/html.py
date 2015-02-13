@@ -24,6 +24,7 @@ The interface of the HTML generation class is pretty directly based on
 https://pypi.python.org/pypi/html but it uses ElementTree to render the
 HTML output.
 '''
+from random import randrange
 from xml.etree.ElementTree import Element, SubElement, tostringlist
 
 
@@ -110,3 +111,47 @@ class HTML(object):
 
   def __iter__(self):
     return iter(self._stringify())
+
+
+def all_pages_pre(head, body, title, self_link, default):
+  head.title(title or self_link)
+  body.h1.a(title or default, href=self_link)
+
+
+def all_pages_post(body, title, text, self_link, default):
+  body.hr
+  with body.form(action=self_link, method='POST') as form:
+    form.h4('Edit')
+    labeled_field(form, 'Title:', 'text', 'title', title,
+      size='44', placeholder=default)
+    form.br
+    labeled_textarea(form, 'Text:', 'text', text,
+      cols='58', rows='15', placeholder='Write something...')
+    form.br
+    fake_out_caching(form)
+    form.input(type_='submit', value='post')
+
+
+def fake_out_caching(form):
+  form.input(type_='hidden', name='fake_out_caching', value=str(randrange(2**32)))
+
+
+def labeled_field(form, label, type_, name, value, **kw):
+  form.label(label, for_=name)
+  form.input(type_=type_, name=name, value=value, **kw)
+
+
+def labeled_textarea(form, label, name, value, **kw):
+  form.label(label, for_=name)
+  form.br
+  form.textarea(value, name=name, **kw)
+
+
+##def path_link(home, kind, unit):
+##  link = linkerate(kind, unit)
+##  home.a(link, href=link)
+##
+##
+##  body.hr
+##  path_link(body, randrange(2**32), randrange(2**32))
+##  body.br

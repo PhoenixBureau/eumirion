@@ -18,8 +18,7 @@
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
 from cgi import FieldStorage
-from random import randrange
-from .html import posting
+from .html import posting, all_pages_pre, all_pages_post
 from .joy.joy import joy
 from .joy.parser import text_to_expression
 from .joy.stack import iter_stack, stack_to_string
@@ -59,9 +58,9 @@ def page(router, environ, page_data, head, body):
   title = page_data['title']
   text = page_data['text']
 
-  all_pages_pre(head, body, title, self_link)
+  all_pages_pre(head, body, title, self_link, DEFAULT_TEXT)
   render_body(head, body.div, text, router, self_link, DEFAULT_TEXT)
-  all_pages_post(body, title, text, self_link)
+  all_pages_post(body, title, text, self_link, DEFAULT_TEXT)
 
   return page_data
 
@@ -110,44 +109,3 @@ def get_form_data(environ):
     environ=environ,
     keep_blank_values=True,
     )
-
-
-def all_pages_pre(head, body, title, self_link):
-  head.title(title or self_link)
-  body.h1.a(title or DEFAULT_TITLE, href=self_link)
-
-
-def all_pages_post(body, title, text, self_link):
-  body.hr
-  with body.form(action=self_link, method='POST') as form:
-    form.h4('Edit')
-    labeled_field(form, 'Title:', 'text', 'title', title,
-      size='44', placeholder=DEFAULT_TITLE)
-    form.br
-    labeled_textarea(form, 'Text:', 'text', text,
-      cols='58', rows='15', placeholder='Write something...')
-    form.br
-    form.input(type_='hidden', name='fake_out_caching',
-               value=str(randrange(2**32)))
-    form.input(type_='submit', value='post')
-
-
-def labeled_field(form, label, type_, name, value, **kw):
-  form.label(label, for_=name)
-  form.input(type_=type_, name=name, value=value, **kw)
-
-
-def labeled_textarea(form, label, name, value, **kw):
-  form.label(label, for_=name)
-  form.br
-  form.textarea(value, name=name, **kw)
-
-
-##def path_link(home, kind, unit):
-##  link = linkerate(kind, unit)
-##  home.a(link, href=link)
-##
-##
-##  body.hr
-##  path_link(body, randrange(2**32), randrange(2**32))
-##  body.br

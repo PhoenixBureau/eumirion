@@ -20,6 +20,7 @@
 from itertools import groupby
 from operator import itemgetter
 from re import compile as RegularExpression, IGNORECASE
+from .html import fake_out_caching
 from .joy.stack import iter_stack, stack_to_string
 
 
@@ -142,6 +143,7 @@ def render_command(head, home, kind, unit, router, action, self_link):
     method='POST',
     class_='command',
     ) as form:
+    fake_out_caching(form)
     form.input(type_='hidden', name='command', value=l(kind, unit))
     form.input(type_='submit', value=link_text)
 

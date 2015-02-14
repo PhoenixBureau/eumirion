@@ -29,9 +29,12 @@ from .joy.library import concat
 
 def render_body(content, page, default=''):
   if page.text:
-    for action, kind, unit in scan_text(page.text):
-      renderer = RENDERERS.get(action, unknown)
-      renderer(content, page, kind, unit, action)
+    Ps = page.text.split('\r\n\r\n')
+    if len(Ps) == 1:
+      scan_and_render(page.text, content, page)
+    else:
+      for paragraph in Ps:
+        scan_and_render(paragraph, content.p, page)
   else:
     if default:
       content.p(default, class_='default-text')
@@ -43,6 +46,12 @@ link_finder = RegularExpression(
   '/(?P<unit>[0-9a-f]{8})',
   flags=IGNORECASE,
   )
+
+
+def scan_and_render(text, content, page):
+  for action, kind, unit in scan_text(text):
+    renderer = RENDERERS.get(action, unknown)
+    renderer(content, page, kind, unit, action)
 
 
 def scan_text(text, regex=link_finder):
@@ -85,12 +94,7 @@ def render_stackinto(home, page, kind, unit, action):
 def render_text(home, page, kind, unit, action):
   if unit is None:
     if kind:
-      for paragraph in kind.splitlines():
-        if paragraph:
-          if paragraph.isspace():
-            home.br
-          else:
-            home.p(paragraph)
+      home += kind
   else:
     data = get_page_data(page.router, kind, unit)
     if data:
@@ -123,6 +127,12 @@ def add_css(_, page, kind, unit, action=None):
   if data:
     css = data['text']
     page.head.style(css)
+
+
+def add_class(home, page, kind, unit, action=None):
+  data = get_page_data(page.router, kind, unit)
+  if data:
+    home(class_=data['text'])
 
 
 def add_joy(_, page, kind, unit, action=None):
@@ -185,6 +195,7 @@ RENDERERS = {
   'link': render_link,
   'door': render_door,
   'css': add_css,
+  'cssclass': add_class,
   'joy': add_joy,
   'index': render_index,
   'command': render_command,

@@ -21,7 +21,7 @@ from cgi import FieldStorage
 from .html import posting, all_pages_pre, all_pages_post
 from .joy.joy import joy
 from .joy.parser import text_to_expression
-from .joy.stack import iter_stack, stack_to_string
+from .joy.stack import iter_stack, strstack
 from .page_actions import (
   linkerate,
   render_body,
@@ -93,7 +93,11 @@ def run_command(page_data, command, router):
   except KeyError:
     raise ValueError('No available expression for: %r' % (command,))
   stack = page_data.get('joy', ())
-  page_data['joy'] = joy(expression, stack)
+  result = joy(expression, stack)
+  print 'running', strstack(expression)
+  print 'on', strstack(stack)
+  print 'result', strstack(result)
+  page_data['joy'] = result
 
 
 def get_form_data(environ):

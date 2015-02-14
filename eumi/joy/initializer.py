@@ -28,6 +28,7 @@ from library import *
 from combinators import *
 from functions import FUNCTIONS, FunctionWrapper
 from definitions import DefinitionWrapper
+from morewords import d
 
 
 FUNCTIONS.update({
@@ -52,6 +53,8 @@ FUNCTIONS.update({
   'uncons': FunctionWrapper(uncons),
   'unstack': FunctionWrapper(unstack),
   'zip': FunctionWrapper(zip_),
+
+  'd': FunctionWrapper(d),
 
   # Combinators.
   'app1': FunctionWrapper(app1),

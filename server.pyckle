@@ -45,7 +45,7 @@ p21
 sS'server'
 p22
 g4
-sbs(I0
+sbs(I2290614272
 I0
 tp23
 g0
@@ -58,14 +58,14 @@ g14
 (dp27
 S'text'
 p28
-S'Home\r\nClick here to parametrically create a solar system. /77700000/00000000\r\nbutton:/01010101/00000033 turns into a form with one visible button that POSTs to this URL with the link of \'times\' as an arg.  That causes the server to evaluate the Joy expression in the text of \'times\' in the context of...  this page?  the server?  the "toplevel" of this page?  I dunno yet..\r\n has:/00000000/00000019 inset:/00000000/00000021 /00000000/00000003\r\ndoor:/00000000/00000020\r\n\r\ncss:/12345678/12395679'
+S'index:/88880000/00000000'
 p29
 sS'title'
 p30
-S'Eumirion'
+S'Spaceships'
 p31
 ssg20
-S'<html><head><title>Eumirion</title><style>.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/00000000/00000000">Eumirion</a></h1><div><p>Home</p><p>Click here to parametrically create a solar system. <a href="/77700000/00000000">Parametric Creation Of Content, Including Planets</a></p><p>unknown action "button:"<a href="/01010101/00000033">times</a> turns into a form with one visible button that POSTs to this URL with the link of \'times\' as an arg.  That causes the server to evaluate the Joy expression in the text of \'times\' in the context of...  this page?  the server?  the "toplevel" of this page?  I dunno yet..</p><p> unknown action "has:"<a href="/00000000/00000019">Excelsior</a> unknown action "inset:"<a href="/00000000/00000021">Thronestar</a> <a href="/00000000/00000003">Is This An Index?</a></p><p><a class="door-link" href="/00000000/00000020">[This Is The Outer Limits]</a></p><p></p><p></p></div><hr><form action="/00000000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Eumirion"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">Home\r\nClick here to parametrically create a solar system. /77700000/00000000\r\nbutton:/01010101/00000033 turns into a form with one visible button that POSTs to this URL with the link of \'times\' as an arg.  That causes the server to evaluate the Joy expression in the text of \'times\' in the context of...  this page?  the server?  the "toplevel" of this page?  I dunno yet..\r\n has:/00000000/00000019 inset:/00000000/00000021 /00000000/00000003\r\ndoor:/00000000/00000020\r\n\r\ncss:/12345678/12395679</textarea><br><input name="fake_out_caching" type="hidden" value="4280355820"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Spaceships</title></head><body><h1><a href="/88880000/00000000">Spaceships</a></h1><div><p><ol><li><a href="/88880000/00000000">Spaceships</a><ol><li><a href="/88880000/00000001">The TARDIS</a></li></ol></li></ol></p></div><hr><form action="/88880000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Spaceships"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">index:/88880000/00000000</textarea><br><input name="fake_out_caching" type="hidden" value="2859869683"><input type="submit" value="post"></form></body></html>'
 p32
 sg22
 g4
@@ -117,8 +117,8 @@ S'<html><head><title>Is This An Index?</title></head><body><h1><a href="/0000000
 p52
 sg22
 g4
-sbs(I16843009
-I56
+sbs(I1511424
+I0
 tp53
 g0
 (g10
@@ -130,219 +130,219 @@ g14
 (dp57
 S'text'
 p58
-S'enstacken ;text:/01010102/00000002'
+S'div:/00171000/00000001\r\np:/00171000/00000001\r\nol:/00171000/00000002\r\ntext:/00171000/00000001\r\ntext:/00171000/00000001\r\np:/00171000/00000001\r\nul:/00171000/00000002\r\ndiv:/00171000/00000001\r\ncss:/12345678/12395678'
 p59
 sS'title'
 p60
-S'enstacken'
+S'Try the new stuff'
 p61
-sS'joy'
+ssg20
+S'<html><head><title>Try the new stuff</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/00171000/00000000">Try the new stuff</a></h1><div><div>Bananas are delicious.</div>\r\n<p>Bananas are delicious.</p>\r\n<ol><li>Bananas are delicious.</li>\r\n<li><p>Bananas are delicious.</p>\r\n<div>Bananas are delicious.</div>\r\nBananas are delicious.</li>\r\n<li>Bananas are delicious.</li></ol>\r\nBananas are delicious.\r\nBananas are delicious.\r\n<p>Bananas are delicious.</p>\r\n<ul><li>Bananas are delicious.</li>\r\n<li><p>Bananas are delicious.</p>\r\n<div>Bananas are delicious.</div>\r\nBananas are delicious.</li>\r\n<li>Bananas are delicious.</li></ul>\r\n<div>Bananas are delicious.</div>\r\n</div><hr><form action="/00171000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Try the new stuff"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">div:/00171000/00000001\r\np:/00171000/00000001\r\nol:/00171000/00000002\r\ntext:/00171000/00000001\r\ntext:/00171000/00000001\r\np:/00171000/00000001\r\nul:/00171000/00000002\r\ndiv:/00171000/00000001\r\ncss:/12345678/12395678</textarea><br><input name="fake_out_caching" type="hidden" value="2035636750"><input type="submit" value="post"></form></body></html>'
 p62
-(g0
-(ceumi.joy.definitions
-DefinitionWrapper
-p63
+sg22
+g4
+sbs(I16843009
+I56
+tp63
+g0
+(g10
 g2
 Ntp64
 Rp65
 (dp66
+g14
+(dp67
+S'text'
+p68
+S'enstacken ;text:/01010102/00000002'
+p69
+sS'title'
+p70
+S'enstacken'
+p71
+sS'joy'
+p72
+(g0
+(ceumi.joy.definitions
+DefinitionWrapper
+p73
+g2
+Ntp74
+Rp75
+(dp76
 S'body'
-p67
+p77
 (g0
 (ceumi.joy.functions
 FunctionWrapper
-p68
+p78
 g2
-Ntp69
-Rp70
-(dp71
+Ntp79
+Rp80
+(dp81
 S'name'
-p72
+p82
 S'stack'
-p73
+p83
 sS'f'
-p74
+p84
 ceumi.joy.library
 stack_
-p75
+p85
 sb((g0
-(g68
+(g78
 g2
-Ntp76
-Rp77
-(dp78
-g72
+Ntp86
+Rp87
+(dp88
+g82
 S'clear'
-p79
-sg74
+p89
+sg84
 ceumi.joy.library
 clear
-p80
-sb(ttp81
+p90
+sb(ttp91
 (g0
-(g68
+(g78
 g2
-Ntp82
-Rp83
-(dp84
-g72
+Ntp92
+Rp93
+(dp94
+g82
 S'dip'
-p85
-sg74
+p95
+sg84
 ceumi.joy.combinators
 dip
-p86
-sb(ttp87
-tp88
-tp89
+p96
+sb(ttp97
+tp98
+tp99
 sS'__name__'
-p90
+p100
 S'enstacken'
-p91
-sg72
-g91
+p101
+sg82
+g101
 sS'__doc__'
-p92
+p102
 S'stack [clear] dip'
-p93
-sb(ttp94
+p103
+sb(ttp104
 ssg20
 S'<html><head><title>enstacken</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010101/00000038">enstacken</a></h1><div><p>enstacken ;<p><form action="/01010101/00000038" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="782127247"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form></p></p></div><hr><form action="/01010101/00000038" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="enstacken"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">enstacken ;text:/01010102/00000002</textarea><br><input name="fake_out_caching" type="hidden" value="2737218329"><input type="submit" value="post"></form></body></html>'
-p95
+p105
 sg22
 g4
 sbs(I0
 I524320
-tp96
+tp106
 g0
 (g10
 g2
-Ntp97
-Rp98
-(dp99
+Ntp107
+Rp108
+(dp109
 g14
-(dp100
+(dp110
 S'text'
-p101
+p111
 S'command:/01010101/00000001 command:/01010101/00000035 command:/01010101/00000037 command:/01010101/00000038\r\nstack:/00000000/00080020\r\nstackinto:/00000000/00080020\r\ncss:/12345678/00000023'
-p102
+p112
 sS'joy'
-p103
+p113
 ((I1
 (I0
 ((I1
-(ttp104
-(ttp105
-tp106
-tp107
-(ttp108
+(ttp114
+(ttp115
+tp116
+tp117
+(ttp118
 sS'stack'
-p109
+p119
 (tsS'title'
-p110
+p120
 S'Control Panel Testing'
-p111
+p121
 ssg20
 S'<html><head><title>Control Panel Testing</title><style>form.command { display: inline; padding: 0.5em; }</style></head><body><h1><a href="/00000000/00080020">Control Panel Testing</a></h1><div><p><form action="/00000000/00080020" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="3215229214"><input name="command" type="hidden" value="/01010101/00000001"><input type="submit" value="01"></form> <form action="/00000000/00080020" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="3654399711"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form> <form action="/00000000/00080020" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="3862369416"><input name="command" type="hidden" value="/01010101/00000037"><input type="submit" value="first"></form> <form action="/00000000/00080020" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="1223623683"><input name="command" type="hidden" value="/01010101/00000038"><input type="submit" value="enstacken"></form></p><p><ol><li>[1 0 [1]]</li></ol></p><p><p>[1 0 [1]]</p></p><p></p></div><hr><form action="/00000000/00080020" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Control Panel Testing"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">command:/01010101/00000001 command:/01010101/00000035 command:/01010101/00000037 command:/01010101/00000038\r\nstack:/00000000/00080020\r\nstackinto:/00000000/00080020\r\ncss:/12345678/00000023</textarea><br><input name="fake_out_caching" type="hidden" value="3764455293"><input type="submit" value="post"></form></body></html>'
-p112
+p122
 sg22
 g4
 sbs(I16843009
 I55
-tp113
+tp123
 g0
 (g10
 g2
-Ntp114
-Rp115
-(dp116
+Ntp124
+Rp125
+(dp126
 g14
-(dp117
+(dp127
 S'text'
-p118
+p128
 S'first ;text:/01010102/00000002'
-p119
-sS'title'
-p120
-S'first'
-p121
-sS'joy'
-p122
-(g0
-(g63
-g2
-Ntp123
-Rp124
-(dp125
-g67
-(g0
-(g68
-g2
-Ntp126
-Rp127
-(dp128
-g72
-S'uncons'
 p129
-sg74
+sS'title'
+p130
+S'first'
+p131
+sS'joy'
+p132
+(g0
+(g73
+g2
+Ntp133
+Rp134
+(dp135
+g77
+(g0
+(g78
+g2
+Ntp136
+Rp137
+(dp138
+g82
+S'uncons'
+p139
+sg84
 ceumi.joy.library
 uncons
-p130
+p140
 sb(g0
-(g68
+(g78
 g2
-Ntp131
-Rp132
-(dp133
-g72
+Ntp141
+Rp142
+(dp143
+g82
 S'pop'
-p134
-sg74
+p144
+sg84
 ceumi.joy.library
 pop
-p135
-sb(ttp136
-tp137
-sg90
+p145
+sb(ttp146
+tp147
+sg100
 S'first'
-p138
-sg72
-g138
-sg92
+p148
+sg82
+g148
+sg102
 S'# This is ALSO one of the most basic commands.\n# It provides the first item of a sequence...\n'
-p139
-sb(ttp140
+p149
+sb(ttp150
 ssg20
 S'<html><head><title>first</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010101/00000037">first</a></h1><div><p>first ;<p><form action="/01010101/00000037" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="2656798380"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form></p></p></div><hr><form action="/01010101/00000037" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="first"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">first ;text:/01010102/00000002</textarea><br><input name="fake_out_caching" type="hidden" value="2758267846"><input type="submit" value="post"></form></body></html>'
-p141
-sg22
-g4
-sbs(I2003828736
-I0
-tp142
-g0
-(g10
-g2
-Ntp143
-Rp144
-(dp145
-g14
-(dp146
-S'text'
-p147
-S'I want to provide tools that can be used in-server to parametrically create things like star systems, species, artifacts and phenomenon, etc... using e.g. 2d6 5d12 1d20 &c. D&D-style "dice" and charts.  Maybe pull content from fan wikis of sci-fi shows and books etc...\r\n\r\n\r\n\r\ncss:/12345678/12395678\r\nParametric dice are easy to make, along with tables and ways to sample from the tables to build new content and load it into the server.'
-p148
-sS'title'
-p149
-S'Parametric Creation Of Content, Including Planets'
-p150
-ssg20
-S'<html><head><title>Parametric Creation Of Content, Including Planets</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/77700000/00000000">Parametric Creation Of Content, Including Planets</a></h1><div><p>I want to provide tools that can be used in-server to parametrically create things like star systems, species, artifacts and phenomenon, etc... using e.g. 2d6 5d12 1d20 &amp;c. D&amp;D-style "dice" and charts.  Maybe pull content from fan wikis of sci-fi shows and books etc...</p><p></p><p></p><p></p><p></p><p>Parametric dice are easy to make, along with tables and ways to sample from the tables to build new content and load it into the server.</p></div><hr><form action="/77700000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Parametric Creation Of Content, Including Planets"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">I want to provide tools that can be used in-server to parametrically create things like star systems, species, artifacts and phenomenon, etc... using e.g. 2d6 5d12 1d20 &amp;c. D&amp;D-style "dice" and charts.  Maybe pull content from fan wikis of sci-fi shows and books etc...\r\n\r\n\r\n\r\ncss:/12345678/12395678\r\nParametric dice are easy to make, along with tables and ways to sample from the tables to build new content and load it into the server.</textarea><br><input name="fake_out_caching" type="hidden" value="1829539789"><input type="submit" value="post"></form></body></html>'
 p151
 sg22
 g4
-sbs(I305419896
-I305747577
+sbs(I0
+I0
 tp152
 g0
 (g10
@@ -354,19 +354,19 @@ g14
 (dp156
 S'text'
 p157
-S'.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/'
+S'Home\r\nClick here to parametrically create a solar system. /77700000/00000000\r\nbutton:/01010101/00000033 turns into a form with one visible button that POSTs to this URL with the link of \'times\' as an arg.  That causes the server to evaluate the Joy expression in the text of \'times\' in the context of...  this page?  the server?  the "toplevel" of this page?  I dunno yet..\r\n has:/00000000/00000019 inset:/00000000/00000021 /00000000/00000003\r\ndoor:/00000000/00000020\r\n\r\ncss:/12345678/12395679'
 p158
 sS'title'
 p159
-S'Door Css'
+S'Eumirion'
 p160
 ssg20
-S'<html><head><title>Door Css</title><style>p {\r\n  margin: 0px;\r\n}\r\n \r\ndiv { background: #ffa; }\r\n\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/12345678/12395679">Door Css</a></h1><div><p>.door-link { border: 1px solid black; background: tan; }</p><p>.door-link:hover { border: 1px solid orange; background: black; color: tan; }</p><p>/**/</p></div><hr><form action="/12345678/12395679" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Door Css"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/</textarea><br><input name="fake_out_caching" type="hidden" value="2507020139"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Eumirion</title><style>.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/00000000/00000000">Eumirion</a></h1><div><p>Home</p><p>Click here to parametrically create a solar system. <a href="/77700000/00000000">Parametric Creation Of Content, Including Planets</a></p><p>unknown action "button:"<a href="/01010101/00000033">times</a> turns into a form with one visible button that POSTs to this URL with the link of \'times\' as an arg.  That causes the server to evaluate the Joy expression in the text of \'times\' in the context of...  this page?  the server?  the "toplevel" of this page?  I dunno yet..</p><p> unknown action "has:"<a href="/00000000/00000019">Excelsior</a> unknown action "inset:"<a href="/00000000/00000021">Thronestar</a> <a href="/00000000/00000003">Is This An Index?</a></p><p><a class="door-link" href="/00000000/00000020">[This Is The Outer Limits]</a></p><p></p><p></p></div><hr><form action="/00000000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Eumirion"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">Home\r\nClick here to parametrically create a solar system. /77700000/00000000\r\nbutton:/01010101/00000033 turns into a form with one visible button that POSTs to this URL with the link of \'times\' as an arg.  That causes the server to evaluate the Joy expression in the text of \'times\' in the context of...  this page?  the server?  the "toplevel" of this page?  I dunno yet..\r\n has:/00000000/00000019 inset:/00000000/00000021 /00000000/00000003\r\ndoor:/00000000/00000020\r\n\r\ncss:/12345678/12395679</textarea><br><input name="fake_out_caching" type="hidden" value="4280355820"><input type="submit" value="post"></form></body></html>'
 p161
 sg22
 g4
-sbs(I16843009
-I51
+sbs(I305419896
+I305747577
 tp162
 g0
 (g10
@@ -376,43 +376,43 @@ Rp164
 (dp165
 g14
 (dp166
+S'text'
+p167
+S'.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/'
+p168
+sS'title'
+p169
+S'Door Css'
+p170
+ssg20
+S'<html><head><title>Door Css</title><style>p {\r\n  margin: 0px;\r\n}\r\n \r\ndiv { background: #ffa; }\r\n\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/12345678/12395679">Door Css</a></h1><div><p>.door-link { border: 1px solid black; background: tan; }</p><p>.door-link:hover { border: 1px solid orange; background: black; color: tan; }</p><p>/**/</p></div><hr><form action="/12345678/12395679" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Door Css"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/</textarea><br><input name="fake_out_caching" type="hidden" value="2507020139"><input type="submit" value="post"></form></body></html>'
+p171
+sg22
+g4
+sbs(I16843009
+I51
+tp172
+g0
+(g10
+g2
+Ntp173
+Rp174
+(dp175
+g14
+(dp176
 g38
 S'[-- dip] cons [swap] infra [0 >] swap while pop\r\n\r\nDo something n times.\r\n\r\ncss:/12345678/01010101'
-p167
+p177
 sg40
 S'times'
-p168
+p178
 ssg20
 S'<html><head><title>times</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010101/00000033">times</a></h1><div><p>[-- dip] cons [swap] infra [0 &gt;] swap while pop</p><p></p><p>Do something n times.</p><p></p><p></p></div><hr><form action="/01010101/00000033" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="times"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">[-- dip] cons [swap] infra [0 &gt;] swap while pop\r\n\r\nDo something n times.\r\n\r\ncss:/12345678/01010101</textarea><br><input name="fake_out_caching" type="hidden" value="471531137"><input type="submit" value="post"></form></body></html>'
-p169
+p179
 sg22
 g4
 sbs(I16843010
 I2
-tp170
-g0
-(g10
-g2
-Ntp171
-Rp172
-(dp173
-g14
-(dp174
-S'text'
-p175
-S'command:/01010101/00000035css:/12345678/01010101'
-p176
-sS'title'
-p177
-S'Template for commands.'
-p178
-ssg20
-S'<html><head><title>Template for commands.</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010102/00000002">Template for commands.</a></h1><div><p><form action="/01010102/00000002" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="3629048052"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form></p></div><hr><form action="/01010102/00000002" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Template for commands."><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">command:/01010101/00000035css:/12345678/01010101</textarea><br><input name="fake_out_caching" type="hidden" value="1836385450"><input type="submit" value="post"></form></body></html>'
-p179
-sg22
-g4
-sbs(I2290614272
-I0
 tp180
 g0
 (g10
@@ -424,19 +424,19 @@ g14
 (dp184
 S'text'
 p185
-S'index:/88880000/00000000'
+S'command:/01010101/00000035css:/12345678/01010101'
 p186
 sS'title'
 p187
-S'Spaceships'
+S'Template for commands.'
 p188
 ssg20
-S'<html><head><title>Spaceships</title></head><body><h1><a href="/88880000/00000000">Spaceships</a></h1><div><p><ol><li><a href="/88880000/00000000">Spaceships</a><ol><li><a href="/88880000/00000001">The TARDIS</a></li></ol></li></ol></p></div><hr><form action="/88880000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Spaceships"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">index:/88880000/00000000</textarea><br><input name="fake_out_caching" type="hidden" value="2859869683"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Template for commands.</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010102/00000002">Template for commands.</a></h1><div><p><form action="/01010102/00000002" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="3629048052"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form></p></div><hr><form action="/01010102/00000002" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Template for commands."><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">command:/01010101/00000035css:/12345678/01010101</textarea><br><input name="fake_out_caching" type="hidden" value="1836385450"><input type="submit" value="post"></form></body></html>'
 p189
 sg22
 g4
-sbs(I16843009
-I1
+sbs(I2003828736
+I0
 tp190
 g0
 (g10
@@ -448,75 +448,75 @@ g14
 (dp194
 S'text'
 p195
-S'0 1  ;text:/01010102/00000002'
+S'I want to provide tools that can be used in-server to parametrically create things like star systems, species, artifacts and phenomenon, etc... using e.g. 2d6 5d12 1d20 &c. D&D-style "dice" and charts.  Maybe pull content from fan wikis of sci-fi shows and books etc...\r\n\r\n\r\n\r\ncss:/12345678/12395678\r\nParametric dice are easy to make, along with tables and ways to sample from the tables to build new content and load it into the server.'
 p196
-sS'joy'
+sS'title'
 p197
+S'Parametric Creation Of Content, Including Planets'
+p198
+ssg20
+S'<html><head><title>Parametric Creation Of Content, Including Planets</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/77700000/00000000">Parametric Creation Of Content, Including Planets</a></h1><div><p>I want to provide tools that can be used in-server to parametrically create things like star systems, species, artifacts and phenomenon, etc... using e.g. 2d6 5d12 1d20 &amp;c. D&amp;D-style "dice" and charts.  Maybe pull content from fan wikis of sci-fi shows and books etc...</p><p></p><p></p><p></p><p></p><p>Parametric dice are easy to make, along with tables and ways to sample from the tables to build new content and load it into the server.</p></div><hr><form action="/77700000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Parametric Creation Of Content, Including Planets"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">I want to provide tools that can be used in-server to parametrically create things like star systems, species, artifacts and phenomenon, etc... using e.g. 2d6 5d12 1d20 &amp;c. D&amp;D-style "dice" and charts.  Maybe pull content from fan wikis of sci-fi shows and books etc...\r\n\r\n\r\n\r\ncss:/12345678/12395678\r\nParametric dice are easy to make, along with tables and ways to sample from the tables to build new content and load it into the server.</textarea><br><input name="fake_out_caching" type="hidden" value="1829539789"><input type="submit" value="post"></form></body></html>'
+p199
+sg22
+g4
+sbs(I16843009
+I1
+tp200
+g0
+(g10
+g2
+Ntp201
+Rp202
+(dp203
+g14
+(dp204
+S'text'
+p205
+S'0 1  ;text:/01010102/00000002'
+p206
+sS'joy'
+p207
 (I0
 (I1
-(ttp198
-tp199
+(ttp208
+tp209
 sS'title'
-p200
+p210
 S'01'
-p201
+p211
 ssg20
 S'<html><head><title>01</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010101/00000001">01</a></h1><div><p>0 1  ;<p><form action="/01010101/00000001" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="41567031"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form></p></p></div><hr><form action="/01010101/00000001" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="01"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">0 1  ;text:/01010102/00000002</textarea><br><input name="fake_out_caching" type="hidden" value="2537374234"><input type="submit" value="post"></form></body></html>'
-p202
+p212
 sg22
 g4
 sbs(I0
 I33
-tp203
+tp213
 g0
 (g10
 g2
-Ntp204
-Rp205
-(dp206
+Ntp214
+Rp215
+(dp216
 g14
-(dp207
-S'text'
-p208
-S'The massive black hole at the center of each galaxy is called the "Thronestar"..  Time slows down near the event horizon of such a titanic mass and galactic civilizations seek proximity to it as a means of prolonging existance.\r\ntext:/00000000/00080020\r\ncss:/12345678/12395678\r\nstack:/00000000/00000021'
-p209
-sS'stack'
-p210
-(tsS'title'
-p211
-S'Thronestar'
-p212
-ssg20
-S'<html><head><title>Thronestar</title><style>form.command { display: inline; padding: 0.5em; }</style><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/00000000/00000021">Thronestar</a></h1><div><p>The massive black hole at the center of each galaxy is called the "Thronestar"..  Time slows down near the event horizon of such a titanic mass and galactic civilizations seek proximity to it as a means of prolonging existance.</p><p><p><form action="/00000000/00000021" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="283296855"><input name="command" type="hidden" value="/01010101/00000001"><input type="submit" value="01"></form> <form action="/00000000/00000021" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="2146222775"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form> <form action="/00000000/00000021" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="1146893214"><input name="command" type="hidden" value="/01010101/00000037"><input type="submit" value="first"></form> <form action="/00000000/00000021" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="518449896"><input name="command" type="hidden" value="/01010101/00000038"><input type="submit" value="enstacken"></form></p><p><ol></ol></p><p></p><p></p></p><p></p><p><ol></ol></p></div><hr><form action="/00000000/00000021" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Thronestar"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">The massive black hole at the center of each galaxy is called the "Thronestar"..  Time slows down near the event horizon of such a titanic mass and galactic civilizations seek proximity to it as a means of prolonging existance.\r\ntext:/00000000/00080020\r\ncss:/12345678/12395678\r\nstack:/00000000/00000021</textarea><br><input name="fake_out_caching" type="hidden" value="3539956530"><input type="submit" value="post"></form></body></html>'
-p213
-sg22
-g4
-sbs(I1915748352
-I0
-tp214
-g0
-(g10
-g2
-Ntp215
-Rp216
 (dp217
-g14
-(dp218
 S'text'
+p218
+S'The massive black hole at the center of each galaxy is called the "Thronestar"..  Time slows down near the event horizon of such a titanic mass and galactic civilizations seek proximity to it as a means of prolonging existance.\r\ntext:/00000000/00080020\r\ncss:/12345678/12395678\r\nstack:/00000000/00000021'
 p219
-S'/00000000/00000000\r\nte xt:/72300000/00000000'
+sS'stack'
 p220
-sS'title'
+(tsS'title'
 p221
-S'Whoops'
+S'Thronestar'
 p222
 ssg20
-S'<html><head><title>Whoops</title></head><body><h1><a href="/72300000/00000000">Whoops</a></h1><div><p><a href="/00000000/00000000">Eumirion</a></p><p>te unknown action "xt:"<a href="/72300000/00000000">Whoops</a></p></div><hr><form action="/72300000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Whoops"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">/00000000/00000000\r\nte xt:/72300000/00000000</textarea><br><input name="fake_out_caching" type="hidden" value="3111074977"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Thronestar</title><style>form.command { display: inline; padding: 0.5em; }</style><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/00000000/00000021">Thronestar</a></h1><div><p>The massive black hole at the center of each galaxy is called the "Thronestar"..  Time slows down near the event horizon of such a titanic mass and galactic civilizations seek proximity to it as a means of prolonging existance.</p><p><p><form action="/00000000/00000021" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="283296855"><input name="command" type="hidden" value="/01010101/00000001"><input type="submit" value="01"></form> <form action="/00000000/00000021" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="2146222775"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form> <form action="/00000000/00000021" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="1146893214"><input name="command" type="hidden" value="/01010101/00000037"><input type="submit" value="first"></form> <form action="/00000000/00000021" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="518449896"><input name="command" type="hidden" value="/01010101/00000038"><input type="submit" value="enstacken"></form></p><p><ol></ol></p><p></p><p></p></p><p></p><p><ol></ol></p></div><hr><form action="/00000000/00000021" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Thronestar"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">The massive black hole at the center of each galaxy is called the "Thronestar"..  Time slows down near the event horizon of such a titanic mass and galactic civilizations seek proximity to it as a means of prolonging existance.\r\ntext:/00000000/00080020\r\ncss:/12345678/12395678\r\nstack:/00000000/00000021</textarea><br><input name="fake_out_caching" type="hidden" value="3539956530"><input type="submit" value="post"></form></body></html>'
 p223
 sg22
 g4
-sbs(I0
-I25
+sbs(I2290614272
+I1
 tp224
 g0
 (g10
@@ -527,18 +527,18 @@ Rp226
 g14
 (dp228
 g28
-S'A spaceship.\r\n\r\nDocked in orbit around /00000000/00000000.'
+S'Technically not a spaceship.'
 p229
 sg30
-S'Excelsior'
+S'The TARDIS'
 p230
 ssg20
-S'<html><head><title>Excelsior</title></head><body><h1><a href="/00000000/00000019">Excelsior</a></h1><div><p>A spaceship.</p><p></p><p>Docked in orbit around <a href="/00000000/00000000">Eumirion</a>.</p></div><hr><form action="/00000000/00000019" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Excelsior"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">A spaceship.\r\n\r\nDocked in orbit around /00000000/00000000.</textarea><br><input name="fake_out_caching" type="hidden" value="234453159"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>The Tardis</title></head><body><h1><a href="/88880000/00000001">The Tardis</a></h1><div><p>Technically not a spaceship.</p></div><hr><form action="/88880000/00000001" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="The Tardis"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Technically not a spaceship.</textarea><br><input name="fake_out_caching" type="hidden" value="60472379"><input type="submit" value="post"></form></body></html>'
 p231
 sg22
 g4
-sbs(I0
-I32
+sbs(I1915748352
+I0
 tp232
 g0
 (g10
@@ -548,43 +548,43 @@ Rp234
 (dp235
 g14
 (dp236
-g28
-S"Not really, that's a TV show.\r\njump to /12345678/12345678\r\nbasil\r\ntext:/12345678/12345678\r\n"
+S'text'
 p237
-sg30
-S'This Is The Outer Limits'
+S'/00000000/00000000\r\nte xt:/72300000/00000000'
 p238
-ssg20
-S'<html><head><title>This Is The Outer Limits</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</style><style>.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/00000000/00000020">This Is The Outer Limits</a></h1><div><p>Not really, that\'s a TV show.</p><p>jump to <a href="/12345678/12345678">Brobignagian</a></p><p>basil</p><p><p>Very large and slightly awkward.</p><p></p><p></p><p></p><p><a href="/00000000/00000000">Eumirion</a></p><p></p><p><a class="door-link" href="/00000000/00000020">[This Is The Outer Limits]</a></p><p></p><p></p></p></div><hr><form action="/00000000/00000020" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="This Is The Outer Limits"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">Not really, that\'s a TV show.\r\njump to /12345678/12345678\r\nbasil\r\ntext:/12345678/12345678\r\n</textarea><br><input name="fake_out_caching" type="hidden" value="836457097"><input type="submit" value="post"></form></body></html>'
+sS'title'
 p239
+S'Whoops'
+p240
+ssg20
+S'<html><head><title>Whoops</title></head><body><h1><a href="/72300000/00000000">Whoops</a></h1><div><p><a href="/00000000/00000000">Eumirion</a></p><p>te unknown action "xt:"<a href="/72300000/00000000">Whoops</a></p></div><hr><form action="/72300000/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Whoops"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">/00000000/00000000\r\nte xt:/72300000/00000000</textarea><br><input name="fake_out_caching" type="hidden" value="3111074977"><input type="submit" value="post"></form></body></html>'
+p241
 sg22
 g4
 sbs(I0
-I3405691582
-tp240
+I25
+tp242
 g0
 (g10
 g2
-Ntp241
-Rp242
-(dp243
+Ntp243
+Rp244
+(dp245
 g14
-(dp244
-S'text'
-p245
-S'very young red dragon grab helpless goblin as guide through the human world'
-p246
-sS'title'
+(dp246
+g157
+S'A spaceship.\r\n\r\nDocked in orbit around /00000000/00000000.'
 p247
-S'warrior dark elf'
+sg159
+S'Excelsior'
 p248
 ssg20
-S'<html><head><title>warrior dark elf</title></head><body><h1><a href="/00000000/cafebabe">warrior dark elf</a></h1><div><p>very young red dragon grab helpless goblin as guide through the human world</p></div><hr><form action="/00000000/cafebabe" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="warrior dark elf"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">very young red dragon grab helpless goblin as guide through the human world</textarea><br><input name="fake_out_caching" type="hidden" value="1433741694"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Excelsior</title></head><body><h1><a href="/00000000/00000019">Excelsior</a></h1><div><p>A spaceship.</p><p></p><p>Docked in orbit around <a href="/00000000/00000000">Eumirion</a>.</p></div><hr><form action="/00000000/00000019" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Excelsior"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">A spaceship.\r\n\r\nDocked in orbit around /00000000/00000000.</textarea><br><input name="fake_out_caching" type="hidden" value="234453159"><input type="submit" value="post"></form></body></html>'
 p249
 sg22
 g4
-sbs(I16843009
-I0
+sbs(I1511424
+I3
 tp250
 g0
 (g10
@@ -594,134 +594,134 @@ Rp252
 (dp253
 g14
 (dp254
-g38
-S'a b [c d] [e f] while\r\ncss:/12345678/01010101'
+S'text'
 p255
-sg40
-S'Joy Code'
+S'p:/00171000/00000001\r\ndiv:/00171000/00000001\r\ntext:/00171000/00000001'
 p256
-ssg20
-S'<html><head><title>Joy Code</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010101/00000000">Joy Code</a></h1><div><p>a b [c d] [e f] while</p><p></p></div><hr><form action="/01010101/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Joy Code"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">a b [c d] [e f] while\r\ncss:/12345678/01010101</textarea><br><input name="fake_out_caching" type="hidden" value="1219654015"><input type="submit" value="post"></form></body></html>'
+sS'title'
 p257
+S'Some other junk.'
+p258
+ssg20
+S'<html><head><title>Some other junk.</title></head><body><h1><a href="/00171000/00000003">Some other junk.</a></h1><div><p>Bananas are delicious.</p>\r\n<div>Bananas are delicious.</div>\r\nBananas are delicious.</div><hr><form action="/00171000/00000003" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Some other junk."><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">p:/00171000/00000001\r\ndiv:/00171000/00000001\r\ntext:/00171000/00000001</textarea><br><input name="fake_out_caching" type="hidden" value="3068731307"><input type="submit" value="post"></form></body></html>'
+p259
 sg22
 g4
-sbs(I2290614272
-I1
-tp258
+sbs(I0
+I32
+tp260
 g0
 (g10
 g2
-Ntp259
-Rp260
-(dp261
+Ntp261
+Rp262
+(dp263
 g14
-(dp262
-g185
-S'Technically not a spaceship.'
-p263
-sg187
-S'The TARDIS'
-p264
-ssg20
-S'<html><head><title>The Tardis</title></head><body><h1><a href="/88880000/00000001">The Tardis</a></h1><div><p>Technically not a spaceship.</p></div><hr><form action="/88880000/00000001" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="The Tardis"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">Technically not a spaceship.</textarea><br><input name="fake_out_caching" type="hidden" value="60472379"><input type="submit" value="post"></form></body></html>'
+(dp264
+g157
+S"Not really, that's a TV show.\r\njump to /12345678/12345678\r\nbasil\r\ntext:/12345678/12345678\r\n"
 p265
+sg159
+S'This Is The Outer Limits'
+p266
+ssg20
+S'<html><head><title>This Is The Outer Limits</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</style><style>.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/00000000/00000020">This Is The Outer Limits</a></h1><div><p>Not really, that\'s a TV show.</p><p>jump to <a href="/12345678/12345678">Brobignagian</a></p><p>basil</p><p><p>Very large and slightly awkward.</p><p></p><p></p><p></p><p><a href="/00000000/00000000">Eumirion</a></p><p></p><p><a class="door-link" href="/00000000/00000020">[This Is The Outer Limits]</a></p><p></p><p></p></p></div><hr><form action="/00000000/00000020" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="This Is The Outer Limits"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">Not really, that\'s a TV show.\r\njump to /12345678/12345678\r\nbasil\r\ntext:/12345678/12345678\r\n</textarea><br><input name="fake_out_caching" type="hidden" value="836457097"><input type="submit" value="post"></form></body></html>'
+p267
+sg22
+g4
+sbs(I0
+I3405691582
+tp268
+g0
+(g10
+g2
+Ntp269
+Rp270
+(dp271
+g14
+(dp272
+S'text'
+p273
+S'very young red dragon grab helpless goblin as guide through the human world'
+p274
+sS'title'
+p275
+S'warrior dark elf'
+p276
+ssg20
+S'<html><head><title>warrior dark elf</title></head><body><h1><a href="/00000000/cafebabe">warrior dark elf</a></h1><div><p>very young red dragon grab helpless goblin as guide through the human world</p></div><hr><form action="/00000000/cafebabe" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="warrior dark elf"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">very young red dragon grab helpless goblin as guide through the human world</textarea><br><input name="fake_out_caching" type="hidden" value="1433741694"><input type="submit" value="post"></form></body></html>'
+p277
+sg22
+g4
+sbs(I16843009
+I0
+tp278
+g0
+(g10
+g2
+Ntp279
+Rp280
+(dp281
+g14
+(dp282
+g38
+S'a b [c d] [e f] while\r\ncss:/12345678/01010101'
+p283
+sg40
+S'Joy Code'
+p284
+ssg20
+S'<html><head><title>Joy Code</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010101/00000000">Joy Code</a></h1><div><p>a b [c d] [e f] while</p><p></p></div><hr><form action="/01010101/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Joy Code"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">a b [c d] [e f] while\r\ncss:/12345678/01010101</textarea><br><input name="fake_out_caching" type="hidden" value="1219654015"><input type="submit" value="post"></form></body></html>'
+p285
+sg22
+g4
+sbs(I1511424
+I1
+tp286
+g0
+(g10
+g2
+Ntp287
+Rp288
+(dp289
+g14
+(dp290
+g58
+S'Bananas are delicious.'
+p291
+sg60
+S'Bananas'
+p292
+ssg20
+S'<html><head><title>Bananas</title></head><body><h1><a href="/00171000/00000001">Bananas</a></h1><div>Bananas are delicious.</div><hr><form action="/00171000/00000001" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Bananas"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">Bananas are delicious.</textarea><br><input name="fake_out_caching" type="hidden" value="2132820238"><input type="submit" value="post"></form></body></html>'
+p293
 sg22
 g4
 sbs(I16843009
 I53
-tp266
+tp294
 g0
 (g10
 g2
-Ntp267
-Rp268
-(dp269
+Ntp295
+Rp296
+(dp297
 g14
-(dp270
-g245
+(dp298
+g273
 S'clear ;text:/01010102/00000002'
-p271
-sg197
-(tsg247
-S'clear'
-p272
-ssg20
-S'<html><head><title>clear</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010101/00000035">clear</a></h1><div><p>clear ;<p><form action="/01010101/00000035" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="1546824105"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form></p></p></div><hr><form action="/01010101/00000035" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="clear"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">clear ;text:/01010102/00000002</textarea><br><input name="fake_out_caching" type="hidden" value="2222275958"><input type="submit" value="post"></form></body></html>'
-p273
-sg22
-g4
-sbs(I305419896
-I0
-tp274
-g0
-(g10
-g2
-Ntp275
-Rp276
-(dp277
-g14
-(dp278
-g185
-S'index:/12345678/cafebabe'
-p279
-sg187
-S'Csses'
-p280
-ssg20
-S'<html><head><title>Csses</title></head><body><h1><a href="/12345678/00000000">Csses</a></h1><div><p><ol><li><a href="/12345678/00000000">Csses</a><ol><li><a href="/12345678/12345678">Brobignagian</a></li><li><a href="/12345678/12395678">Some Css</a></li><li><a href="/12345678/12395679">Door Css</a></li></ol></li></ol></p></div><hr><form action="/12345678/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Csses"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">index:/12345678/cafebabe</textarea><br><input name="fake_out_caching" type="hidden" value="925644716"><input type="submit" value="post"></form></body></html>'
-p281
-sg22
-g4
-sbs(I305415800
-I0
-tp282
-g0
-(g10
-g2
-Ntp283
-Rp284
-(dp285
-g14
-(dp286
-S'text'
-p287
-S'You add zee content!'
-p288
-sS'title'
-p289
-S'And then...'
-p290
-ssg20
-S'<html><head><title>And then...</title></head><body><h1><a href="/12344678/00000000">And then...</a></h1><div><p>You add zee content!</p></div><hr><form action="/12344678/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="And then..."><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">You add zee content!</textarea><br><input name="fake_out_caching" type="hidden" value="2346855653"><input type="submit" value="post"></form></body></html>'
-p291
-sg22
-g4
-sbs(I305419896
-I305419896
-tp292
-g0
-(g10
-g2
-Ntp293
-Rp294
-(dp295
-g14
-(dp296
-S'text'
-p297
-S'Very large and slightly awkward.\r\ncss:/12345678/12395678\r\n\r\n\r\n/00000000/00000000\r\n\r\ndoor:/00000000/00000020\r\n\r\ncss:/12345678/12395679'
-p298
-sS'title'
 p299
-S'Brobignagian'
+sg207
+(tsg275
+S'clear'
 p300
 ssg20
-S'<html><head><title>Brobignagian</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</style><style>.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/12345678/12345678">Brobignagian</a></h1><div><p>Very large and slightly awkward.</p><p></p><p></p><p></p><p><a href="/00000000/00000000">Eumirion</a></p><p></p><p><a class="door-link" href="/00000000/00000020">[This Is The Outer Limits]</a></p><p></p><p></p></div><hr><form action="/12345678/12345678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Brobignagian"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">Very large and slightly awkward.\r\ncss:/12345678/12395678\r\n\r\n\r\n/00000000/00000000\r\n\r\ndoor:/00000000/00000020\r\n\r\ncss:/12345678/12395679</textarea><br><input name="fake_out_caching" type="hidden" value="1860503211"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>clear</title><style>body { background:#cfc; }</style></head><body><h1><a href="/01010101/00000035">clear</a></h1><div><p>clear ;<p><form action="/01010101/00000035" class="command" method="POST"><input name="fake_out_caching" type="hidden" value="1546824105"><input name="command" type="hidden" value="/01010101/00000035"><input type="submit" value="clear"></form></p></p></div><hr><form action="/01010101/00000035" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="clear"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">clear ;text:/01010102/00000002</textarea><br><input name="fake_out_caching" type="hidden" value="2222275958"><input type="submit" value="post"></form></body></html>'
 p301
 sg22
 g4
 sbs(I305419896
-I35
+I0
 tp302
 g0
 (g10
@@ -731,19 +731,19 @@ Rp304
 (dp305
 g14
 (dp306
-g245
-S'form.command { display: inline; padding: 0.5em; }'
+g28
+S'index:/12345678/cafebabe'
 p307
-sg247
-S'command form CSS'
+sg30
+S'Csses'
 p308
 ssg20
-S'<html><head><title>command form CSS</title></head><body><h1><a href="/12345678/00000023">command form CSS</a></h1><div><p>form.command { display: inline; padding: 0.5em; }</p></div><hr><form action="/12345678/00000023" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="command form CSS"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">form.command { display: inline; padding: 0.5em; }</textarea><br><input name="fake_out_caching" type="hidden" value="3229924183"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>Csses</title></head><body><h1><a href="/12345678/00000000">Csses</a></h1><div><p><ol><li><a href="/12345678/00000000">Csses</a><ol><li><a href="/12345678/12345678">Brobignagian</a></li><li><a href="/12345678/12395678">Some Css</a></li><li><a href="/12345678/12395679">Door Css</a></li></ol></li></ol></p></div><hr><form action="/12345678/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Csses"><br><label for="text">Text:</label><br><textarea cols="88" name="text" placeholder="Write something..." rows="5">index:/12345678/cafebabe</textarea><br><input name="fake_out_caching" type="hidden" value="925644716"><input type="submit" value="post"></form></body></html>'
 p309
 sg22
 g4
-sbs(I305419896
-I305747576
+sbs(I305415800
+I0
 tp310
 g0
 (g10
@@ -755,19 +755,19 @@ g14
 (dp314
 S'text'
 p315
-S"@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: 'EB Garamond', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/"
+S'You add zee content!'
 p316
 sS'title'
 p317
-S'Some CSS'
+S'And then...'
 p318
 ssg20
-S'<html><head><title>Some CSS</title><style>p {\r\n  margin: 0px;\r\n}\r\n \r\ndiv { background: #ffa; }\r\n\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/12345678/12395678">Some CSS</a></h1><div><p>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);</p><p></p><p>body {</p><p>  background: black;</p><p>  color: #00ff00;</p><p>  font-family: \'EB Garamond\', serif;</p><p>  font-size: 133%;</p><p>}</p><p></p><p>div {</p><p>  border: 0.1em solid;</p><p>  border-radius: 3em;</p><p>  padding: 1.25em 2.25em 1.25em 2.25em;</p><p>}</p><p></p><p>/**/</p></div><hr><form action="/12345678/12395678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Some CSS"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</textarea><br><input name="fake_out_caching" type="hidden" value="1459831538"><input type="submit" value="post"></form></body></html>'
+S'<html><head><title>And then...</title></head><body><h1><a href="/12344678/00000000">And then...</a></h1><div><p>You add zee content!</p></div><hr><form action="/12344678/00000000" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="And then..."><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">You add zee content!</textarea><br><input name="fake_out_caching" type="hidden" value="2346855653"><input type="submit" value="post"></form></body></html>'
 p319
 sg22
 g4
 sbs(I305419896
-I305747584
+I305419896
 tp320
 g0
 (g10
@@ -777,27 +777,119 @@ Rp322
 (dp323
 g14
 (dp324
+S'text'
+p325
+S'Very large and slightly awkward.\r\ncss:/12345678/12395678\r\n\r\n\r\n/00000000/00000000\r\n\r\ndoor:/00000000/00000020\r\n\r\ncss:/12345678/12395679'
+p326
+sS'title'
+p327
+S'Brobignagian'
+p328
+ssg20
+S'<html><head><title>Brobignagian</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</style><style>.door-link { border: 1px solid black; background: tan; }\r\n.door-link:hover { border: 1px solid orange; background: black; color: tan; }\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/12345678/12345678">Brobignagian</a></h1><div><p>Very large and slightly awkward.</p><p></p><p></p><p></p><p><a href="/00000000/00000000">Eumirion</a></p><p></p><p><a class="door-link" href="/00000000/00000020">[This Is The Outer Limits]</a></p><p></p><p></p></div><hr><form action="/12345678/12345678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Brobignagian"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">Very large and slightly awkward.\r\ncss:/12345678/12395678\r\n\r\n\r\n/00000000/00000000\r\n\r\ndoor:/00000000/00000020\r\n\r\ncss:/12345678/12395679</textarea><br><input name="fake_out_caching" type="hidden" value="1860503211"><input type="submit" value="post"></form></body></html>'
+p329
+sg22
+g4
+sbs(I305419896
+I35
+tp330
+g0
+(g10
+g2
+Ntp331
+Rp332
+(dp333
+g14
+(dp334
+g273
+S'form.command { display: inline; padding: 0.5em; }'
+p335
+sg275
+S'command form CSS'
+p336
+ssg20
+S'<html><head><title>command form CSS</title></head><body><h1><a href="/12345678/00000023">command form CSS</a></h1><div><p>form.command { display: inline; padding: 0.5em; }</p></div><hr><form action="/12345678/00000023" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="command form CSS"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">form.command { display: inline; padding: 0.5em; }</textarea><br><input name="fake_out_caching" type="hidden" value="3229924183"><input type="submit" value="post"></form></body></html>'
+p337
+sg22
+g4
+sbs(I305419896
+I305747576
+tp338
+g0
+(g10
+g2
+Ntp339
+Rp340
+(dp341
+g14
+(dp342
+S'text'
+p343
+S"@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: 'EB Garamond', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/"
+p344
+sS'title'
+p345
+S'Some CSS'
+p346
+ssg20
+S'<html><head><title>Some CSS</title><style>p {\r\n  margin: 0px;\r\n}\r\n \r\ndiv { background: #ffa; }\r\n\r\n/*css:/12345678/12395681*/</style></head><body><h1><a href="/12345678/12395678">Some CSS</a></h1><div><p>@import url(http://fonts.googleapis.com/css?family=EB+Garamond);</p><p></p><p>body {</p><p>  background: black;</p><p>  color: #00ff00;</p><p>  font-family: \'EB Garamond\', serif;</p><p>  font-size: 133%;</p><p>}</p><p></p><p>div {</p><p>  border: 0.1em solid;</p><p>  border-radius: 3em;</p><p>  padding: 1.25em 2.25em 1.25em 2.25em;</p><p>}</p><p></p><p>/**/</p></div><hr><form action="/12345678/12395678" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value="Some CSS"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">@import url(http://fonts.googleapis.com/css?family=EB+Garamond);\r\n\r\nbody {\r\n  background: black;\r\n  color: #00ff00;\r\n  font-family: \'EB Garamond\', serif;\r\n  font-size: 133%;\r\n}\r\n\r\ndiv {\r\n  border: 0.1em solid;\r\n  border-radius: 3em;\r\n  padding: 1.25em 2.25em 1.25em 2.25em;\r\n}\r\n\r\n/*css:/12345678/12395681*/</textarea><br><input name="fake_out_caching" type="hidden" value="1459831538"><input type="submit" value="post"></form></body></html>'
+p347
+sg22
+g4
+sbs(I305419896
+I305747584
+tp348
+g0
+(g10
+g2
+Ntp349
+Rp350
+(dp351
+g14
+(dp352
 g16
 S''
-p325
+p353
 sg18
-g325
+g353
 ssg20
 S'<html><head><title>/12345678/12395680</title></head><body><h1><a href="/12345678/12395680">No Title</a></h1><div><p class="default-text">You can use the editor below to write some text...</p></div><hr><form action="/12345678/12395680" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="No Title" size="44" type="text" value=""><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15"></textarea><br><input name="fake_out_caching" type="hidden" value="681643869"><input type="submit" value="post"></form></body></html>'
-p326
+p354
+sg22
+g4
+sbs(I1511424
+I2
+tp355
+g0
+(g10
+g2
+Ntp356
+Rp357
+(dp358
+g14
+(dp359
+g255
+S'li:/00171000/00000001\r\nli:/00171000/00000003\r\nli:/00171000/00000001'
+p360
+sg257
+S'A List'
+p361
+ssg20
+S'<html><head><title>A List</title></head><body><h1><a href="/00171000/00000002">A List</a></h1><div><li>Bananas are delicious.</li>\r\n<li><p>Bananas are delicious.</p>\r\n<div>Bananas are delicious.</div>\r\nBananas are delicious.</li>\r\n<li>Bananas are delicious.</li></div><hr><form action="/00171000/00000002" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="A List"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">li:/00171000/00000001\r\nli:/00171000/00000003\r\nli:/00171000/00000001</textarea><br><input name="fake_out_caching" type="hidden" value="46902788"><input type="submit" value="post"></form></body></html>'
+p362
 sg22
 g4
 sbssS'pather'
-p327
+p363
 ceumi.server
 pather
-p328
+p364
 sS'page_renderer'
-p329
+p365
 ceumi.page
 Page
-p330
+p366
 sS'modified'
-p331
+p367
 I00
 sb.

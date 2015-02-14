@@ -28,15 +28,13 @@ from .joy.library import concat
 
 
 def render_body(content, page, default=''):
-  if not page.text:
+  if page.text:
+    for action, kind, unit in scan_text(page.text):
+      renderer = RENDERERS.get(action, unknown)
+      renderer(content, page, kind, unit, action)
+  else:
     if default:
       content.p(default, class_='default-text')
-    return
-  for paragraph in page.text.splitlines(False):
-    p = content.p
-    for action, kind, unit in scan_text(paragraph):
-      renderer = RENDERERS.get(action, unknown)
-      renderer(p, page, kind, unit, action)
 
 
 link_finder = RegularExpression(
@@ -87,12 +85,13 @@ def render_stackinto(home, page, kind, unit, action):
 def render_text(home, page, kind, unit, action):
   if unit is None:
     if kind:
-      home(kind)
-    return
-  data = get_page_data(page.router, kind, unit)
-  if not data:
-    return
-  render_text_deluxe(home, page, data['text'])
+      home += kind
+  else:
+    data = get_page_data(page.router, kind, unit)
+    if data:
+      if action != 'text':
+        home = getattr(home, action)
+      render_text_deluxe(home, page, data['text'])
 
 
 def render_text_deluxe(home, page, text):
@@ -173,6 +172,11 @@ def render_command(home, page, kind, unit, action):
 
 RENDERERS = {
   'text': render_text,
+  'div': render_text,
+  'p': render_text,
+  'ol': render_text,
+  'ul': render_text,
+  'li': render_text,
   'link': render_link,
   'door': render_door,
   'css': add_css,

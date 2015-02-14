@@ -85,7 +85,12 @@ def render_stackinto(home, page, kind, unit, action):
 def render_text(home, page, kind, unit, action):
   if unit is None:
     if kind:
-      home += kind
+      for paragraph in kind.splitlines():
+        if paragraph:
+          if paragraph.isspace():
+            home.br
+          else:
+            home.p(paragraph)
   else:
     data = get_page_data(page.router, kind, unit)
     if data:

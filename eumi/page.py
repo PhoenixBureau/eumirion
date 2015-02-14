@@ -20,8 +20,7 @@
 from cgi import FieldStorage
 from .html import posting, all_pages_pre, all_pages_post
 from .joy.joy import joy
-from .joy.parser import text_to_expression
-from .joy.stack import iter_stack, strstack
+from .joy.stack import strstack
 from .page_actions import (
   linkerate,
   render_body,

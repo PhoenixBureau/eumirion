@@ -20,6 +20,26 @@
 from .stack import list_to_stack, iter_stack
 
 
+def min_(S):
+  '''
+  Given a list find the minimum.
+  '''
+  tos, stack = S
+  return min(iter_stack(tos)), stack
+
+
+def sum_(S):
+  tos, stack = S
+  return sum(iter_stack(tos)), stack
+
+
+def remove(S):
+  (tos, (second, stack)) = S
+  l = list(iter_stack(second))
+  l.remove(tos)
+  return list_to_stack(l), stack
+
+
 def cons(S):
   '''
   The cons operator expects a list on top of the stack and the potential

@@ -1,13 +1,6 @@
 from collections import defaultdict
-from pprint import pformat
-from eumi.main import pather, Page, read_pickle
 from eumi.joy.stack import strstack
 from eumi.page_actions import scan_text, linkerate, l
-
-
-pickle_name = 'server.pyckle'
-server = read_pickle(pickle_name)
-server.debug = True
 
 
 def print_server(server):
@@ -35,8 +28,3 @@ def build_dependency_graph(data):
       page_deps[action].add(l(kind, unit))
     deps[key] = dict(page_deps)
   return deps
-
-
-if __name__ == '__main__':
-  print pformat(print_server(server))
-#  print pformat(build_dependency_graph(print_server(server)))

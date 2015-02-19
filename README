@@ -1,4 +1,4 @@
- _____                _      _
+﻿ _____                _      _
 | ____|   _ _ __ ___ (_)_ __(_) ___  _ __
 |  _|| | | | '_ ` _ \| | '__| |/ _ \| '_ \
 | |__| |_| | | | | | | | |  | | (_) | | | |
@@ -25,18 +25,18 @@ A brief outline of the source code.
 ├── README  - This file.
 │
 ├── eumi - Self-editable web server.
-│   │
-│   ├── __init__.py  - Make this dir into a Python package.
-│   ├── __main__.py  - Allows 'python -m eumi' to start server.
-│   ├── argparser.py - Parse command line arguments.
-│   │
-│   ├── html.py - Simple and flexible HTML generator.
-│   ├── main.py - WSGI app, and functions to run it.
-│   ├── page.py - Page rendering.
-│   ├── page_actions.py - Code for page actions.
-│   ├── server.py - Server. Duh.
-│   │
-│   └── joy - Powerful language by Manfred von Thun,
+│    │
+│    ├── __init__.py  - Make this dir into a Python package.
+│    ├── __main__.py  - Allows 'python -m eumi' to start server.
+│    ├── argparser.py - Parse command line arguments.
+│    │
+│    ├── html.py - Simple and flexible HTML generator.
+│    ├── main.py - WSGI app, and functions to run it.
+│    ├── page.py - Page rendering.
+│    ├── page_actions.py - Code for page actions.
+│    ├── server.py - Server.
+│    │
+│    └── joy - Powerful language by Manfred von Thun,
 │             see links below for more information.
 │
 ├── run.py - Script to run the server.
@@ -50,29 +50,3 @@ Links to more information on Joy:
   http://www.latrobe.edu.au/humanities/research/research-projects/past-projects/joy-programming-language
   http://www.kevinalbrecht.com/code/joy-mirror/index.html
   http://en.wikipedia.org/wiki/Joy_%28programming_language%29
-.
-|-- LICENSE
-|-- README
-|-- debug.py
-|-- eumi
-|   |-- __init__.py
-|   |-- __main__.py
-|   |-- argparser.py
-|   |-- html.py
-|   |-- joy
-|   |   |-- __init__.py
-|   |   |-- combinators.py
-|   |   |-- definitions.py
-|   |   |-- functions.py
-|   |   |-- initializer.py
-|   |   |-- joy.py
-|   |   |-- library.py
-|   |   |-- parser.py
-|   |   |-- stack.py
-|   |   `-- tracer.py
-|   |-- main.py
-|   |-- page.py
-|-- run.py
-`-- server.pyckle
-
-2 directories, 23 files

@@ -1,0 +1,13 @@
+.door-link { 
+  border: 1px solid black;
+  background: tan;
+  padding: 0.5em;
+}
+
+.door-link:hover {
+  border: 1px solid orange;
+  background: black;
+  color: tan;
+  padding: 0.75em;
+}
+/*css:/12345678/12395681*/

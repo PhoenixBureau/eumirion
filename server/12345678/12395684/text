@@ -1,0 +1,11 @@
+h1 {
+  animation-duration: 3s;
+  animation-name: slidein;
+  animation-iteration-count: infinite;
+}
+
+@keyframes slidein {
+  50% {
+    font-size: 300%;
+  }
+}

@@ -1,0 +1,12 @@
+.lof {
+  border-top: 2px solid black;
+  border-right: 2px solid black;
+  padding: 0.25em;
+  margin: 0.25em;
+  float: left;
+}
+/*
+css:/12345678/12395681
+css:/12345678/12395685
+cssclass:/12345678/12395682
+*/

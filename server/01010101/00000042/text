@@ -1,0 +1,10 @@
+dup min remove sum
+;
+This is a companion command to the /01010101/00000040 command.  Together they implement one of the old methods for rolling D&D character stats.  You wanted to get 3d6 but with a bias towards higher rolls, so one way to do that is to roll 4d6 and drop the lowest roll from the sum.
+
+Once you have used /01010101/00000040 to generate four 1d6 rolls you can use this command to find the lowest roll, remove it, and add up the rest.
+
+Try it at /77700000/00000000
+
+joy:/01010101/00000042
+text:/01010102/00000002

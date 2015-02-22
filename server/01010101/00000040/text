@@ -1,0 +1,14 @@
+1 6 d 1 6 d 1 6 d 1 6 d [] cons cons cons cons
+;
+
+Results in a list [1d6 1d6 1d6 1d6]
+
+Then you can remove the least of the four and sum the remaining three to get a score for a D&D stat, "Roll 4d6 and discard the lowest roll."
+
+[] [[1 6 d] 4 times] infra
+
+[1 6 d] 4 times [] [cons] 4 times
+
+dup min remove sum
+
+joy:/01010101/00000040text:/01010102/00000002

@@ -1,0 +1,5 @@
+Go to /00000000/00000000
+
+Remove the space between 'text:' and /72300000/00000000 in the link below to see the error that happens when there is a loop in the text tree.
+
+text: /72300000/00000000

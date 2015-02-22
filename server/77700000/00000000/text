@@ -1,0 +1,10 @@
+I want to provide tools that can be used in-server to parametrically create things like star systems, species, artifacts and phenomenon, etc... using e.g. 2d6 5d12 1d20 &c. D&D-style "dice" and charts.  Maybe pull content from fan wikis of sci-fi shows and books etc...
+
+command:/01010101/00000040
+command:/01010101/00000042
+command:/01010101/00000043
+command:/01010101/00000035
+
+css:/12345678/12395678css:/12345678/00000023
+Parametric dice are easy to make, along with tables and ways to sample from the tables to build new content and load it into the server.
+stackinto:/77700000/00000000

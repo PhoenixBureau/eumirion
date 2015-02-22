@@ -1,0 +1,6 @@
+If you render the stack into the page and create a command that puts a css: action onto the stack, then that CSS will take effect.  Try it: command:/01010101/00000041
+
+Click to stop the animation by removing the css: action from the page stack. command:/01010101/00000035
+stackinto:/00171000/00000005
+
+stack:/00171000/00000005

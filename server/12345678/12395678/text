@@ -1,0 +1,16 @@
+@import url(http://fonts.googleapis.com/css?family=EB+Garamond);
+
+body {
+  background: black;
+  color: #00ff00;
+  font-family: 'EB Garamond', serif;
+  font-size: 133%;
+}
+
+div {
+  border: 0.1em solid;
+  border-radius: 3em;
+  padding: 1.25em 2.25em 1.25em 2.25em;
+}
+
+/*css:/12345678/12395681*/

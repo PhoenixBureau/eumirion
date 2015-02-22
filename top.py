@@ -1,3 +1,4 @@
+# Script to convert pickle to files...
 from pprint import pformat
 from eumi.main import read_pickle
 from eumi.utilities.server import extract_server_data, out_to_files

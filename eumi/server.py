@@ -24,10 +24,11 @@ from .html import HTML, ok200, err500, posting
 
 class EumiServer(object):
 
-  def __init__(self, pather, page_renderer):
+  def __init__(self, pather, page_renderer, base_dir='./server'):
     self.pather = pather
     self.router = {}
     self.page_renderer = page_renderer
+    self.base_dir = base_dir
     self.modified = False
     self.debug = False
 
@@ -45,7 +46,7 @@ class EumiServer(object):
   def render(self, environ, page_data, head, body):
     page_renderer = self.page_renderer(self.router, environ, page_data, head, body)
     if posting(environ):
-      page_renderer.update_files('./server')
+      page_renderer.update_files(self.base_dir)
     return page_renderer()
 
   def __call__(self, environ, start_response):

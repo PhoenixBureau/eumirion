@@ -22,18 +22,9 @@ def make_argparser():
     )
 
   parser.add_argument(
-    '-p', '--pickle',
-    type=str,
-    help=('The pickle file from which to load and save data.'
-          ' Default: server.pyckle.'
-          ),
-    default='server.pyckle',
-    )
-
-  parser.add_argument(
-    '--crazy-town',
-    action='store_true',
-    help='Run without saving pickles! Yikes!',
+    '-b', '--base-dir',
+    help='The directory to load/store page data. Default: ./server',
+    default='./server',
     )
 
   return parser

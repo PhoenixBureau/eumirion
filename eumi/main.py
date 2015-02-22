@@ -20,25 +20,18 @@
 #
 from os import remove, rename
 from os.path import exists, realpath
-from pickle import dump, load
 from wsgiref.simple_server import make_server
 from .argparser import make_argparser
 from .page import Page
-from .server import EumiServer, pather
-from .joy import initializer  # FIXME these aren't the same as the ones in the pickle...
+from .server import EumiServer, pather, PageHandler
+from .joy import initializer
+from .utilities.loader import load
 
 
 def main(argv=None):
   args = get_args(argv)
-  pickle_name, server = get_server(args)
-  if args.crazy_town:
-    print 'Running without saving pickles.'
-    run(server, args.host, args.port)
-  else:
-    if not exists(pickle_name):
-      print 'Using new pickle file:', pickle_name
-      save_pickle(pickle_name, server)
-    go(args, pickle_name, server)
+  server = get_server(args)
+  run(server, args.host, args.port)
 
 
 def get_args(argv=None):
@@ -49,29 +42,12 @@ def get_args(argv=None):
 
 
 def get_server(args):
-  pickle_name = realpath(args.pickle)
-  if exists(pickle_name):
-    print 'Loading server from pickle file:', pickle_name
-    server = read_pickle(pickle_name)
-  else:
-    print 'Loading new blank server.'
-    server = EumiServer(pather, Page)
-  if not hasattr(server, 'debug'):
-    server.debug = False
-  return pickle_name, server
-
-
-def go(args, pickle_name, server):
-  httpd = make_server(args.host, args.port, server)
-  _print_serving(args.host, args.port)
-  while True:
-    try:
-      httpd.handle_request()
-    except KeyboardInterrupt:
-      break
-    modified, server.modified = server.modified, False
-    if modified:
-      save_pickle(pickle_name, server)
+  base_dir = realpath(args.base_dir)
+  server = EumiServer(pather, Page)
+  print 'Loading server from:', base_dir
+  for path, data in load(base_dir):
+    server.router[path] = pageh = PageHandler(server, data)
+  return server
 
 
 def run(app, host='', port=8000):
@@ -81,32 +57,6 @@ def run(app, host='', port=8000):
     httpd.serve_forever()
   except KeyboardInterrupt:
     pass
-
-
-def read_pickle(fn):
-  with open(fn, 'r') as pickle_file:
-    server = load(pickle_file)
-  return server
-
-
-def save_pickle(fn, server):
-  tfn = fn + '.temp'
-  success = False
-  try:
-    with open(tfn, 'w') as pickle_file:
-      dump(server, pickle_file)
-    success = True
-  finally:
-    if success:
-      move(tfn, fn)
-
-
-def move(from_, to):
-  try:
-    remove(to)
-  except OSError:
-    pass
-  rename(from_, to)
 
 
 def _print_serving(host, port):

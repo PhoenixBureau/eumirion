@@ -39,7 +39,7 @@ class EumiServer(object):
 
   def default_handler(self, environ):
     path = environ['path']
-    self.router[path] = handler = PageHandler(self, environ)
+    self.router[path] = handler = PageHandler(self)
     return handler(environ)
 
   def render(self, environ, page_data, head, body):
@@ -62,13 +62,13 @@ class EumiServer(object):
 
 class PageHandler(object):
 
-  def __init__(self, server, environ, data=None):
+  def __init__(self, server, data=None):
     self.server = server
     self.data = data
-    self.post(environ)
+    self.response = None
 
   def __call__(self, environ):
-    if posting(environ):
+    if posting(environ) or not self.response:
       self.post(environ)
       self.server.modified = True
     return self.response

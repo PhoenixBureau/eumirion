@@ -18,6 +18,8 @@
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
 from cgi import FieldStorage
+from os.path import exists, join
+from os import makedirs
 from .html import posting, all_pages_pre, all_pages_post
 from .joy.joy import joy
 from .joy.stack import strstack
@@ -65,6 +67,25 @@ class Page(object):
     render_body(self.body.div, self, DEFAULT_TEXT)
     all_pages_post(self.body, self.title, self.text, self.link, DEFAULT_TEXT)
     return self.data
+
+  def update_files(self, base_dir):
+    location = join(base_dir, self.link.lstrip('/'))
+    if not exists(location):
+      makedirs(location)
+    write_file(join(location, 'title'), self.data['title'])
+    write_file(join(location, 'text'), self.data['text'])
+    try:
+      expression = self.data['joy']
+    except KeyError:
+      return
+    joy = strstack(expression)
+    write_file(join(location, 'joy'), joy)
+
+
+def write_file(fn, output):
+  print 'writing', fn
+  with open(fn, 'w') as f:
+    f.write(output)
 
 
 def update_page_data(page_data, environ, router):

@@ -130,8 +130,6 @@ class DefinitionWrapper(FunctionWrapper):
   def __call__(self, stack):
     return joy(self.body, stack)
 
-  def __repr__(self):
-    return self.name
 
   @classmethod
   def parse_definition(class_, definition, doc_char='#'):

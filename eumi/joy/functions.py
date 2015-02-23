@@ -59,6 +59,7 @@ class FunctionWrapper(object):
   def __init__(self, f):
     self.f = f
     self.name = f.__name__.rstrip('_')
+    self.__doc__ = f.__doc__ or str(f)
 
   def __call__(self, stack):
     return self.f(stack)

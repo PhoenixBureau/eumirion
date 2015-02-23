@@ -1,0 +1,5 @@
+
+  The cons operator expects a list on top of the stack and the potential
+  member below. The effect is to add the potential member into the
+  aggregate.
+  

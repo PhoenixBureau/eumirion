@@ -4,7 +4,7 @@ from string import hexdigits
 from ..joy.parser import text_to_expression
 
 
-TEXT_SIZE_LIMIT_BYTES = 299 * 1024
+TEXT_SIZE_LIMIT_BYTES = 298 * 1024
 
 
 def valid(component):
@@ -27,17 +27,13 @@ def load(base_dir):
 
 def load_page(path):
   data = {}
-
   with open(join(path, 'text'), 'r') as text:
     data['text'] = text.read(TEXT_SIZE_LIMIT_BYTES)
-
   with open(join(path, 'title'), 'r') as title:
     data['title'] = title.read(1024)
-
   joy = join(path, 'joy')
   if exists(joy):
     with open(joy, 'r') as joy:
       joy_source = joy.read(1024)
     data['joy'] = text_to_expression(joy_source)
-
   return data

@@ -73,6 +73,7 @@ incoming argument and assigning values to the names.  Note that Python
 syntax doesn't require parentheses around tuples used in expressions
 where they would be redundant.
 '''
+from json import dumps
 
 
 def list_to_stack(el, stack=()):
@@ -97,12 +98,16 @@ def stack_to_string(expression):
   passed through tokenize() and parse(), but not yet.
   '''
   if not isinstance(expression, tuple):
+    if isinstance(expression, str):
+      return dumps(expression)
     return repr(expression)
   return '[%s]' % strstack(expression)
 
 
 def strstack(stack):
   if not isinstance(stack, tuple):
+    if isinstance(stack, str):
+      return dumps(stack)
     return repr(stack)
   if not stack: # shortcut
     return ''

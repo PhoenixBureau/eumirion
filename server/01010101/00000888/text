@@ -16,7 +16,7 @@ For convenience we postulate a definition sqr == dup * and the form becomes:
 
 div:/01010101/00000891
 
-Modify this form in the obvious way using dip and dipd to get an intermediate form for Q:
+Modify this form in the obvious way (TODO: show your work) using dip and dipd to get an intermediate form for Q:
 
 div:/01010101/00000892
 

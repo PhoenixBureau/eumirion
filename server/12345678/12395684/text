@@ -9,3 +9,8 @@ h1 {
     font-size: 300%;
   }
 }
+
+/*
+This doesn't work on Chrome, but maybe 
+http://leaverou.github.io/prefixfree/ would help?
+*/

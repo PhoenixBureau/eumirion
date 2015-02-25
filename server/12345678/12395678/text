@@ -4,7 +4,6 @@ body {
   background: black;
   color: #00ff00;
   font-family: 'EB Garamond', serif;
-  font-size: 133%;
 }
 
 div {

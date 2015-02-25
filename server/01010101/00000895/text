@@ -1,0 +1,23 @@
+cssclass:/12345678/12395686
+    3 4 5  sqr [sqr [sqr] dip +] dip =
+
+cssclass:/12345678/12395686
+    3 4 25     [sqr [sqr] dip +] dip =
+
+cssclass:/12345678/12395686
+    3 4         sqr [sqr] dip +   25 =
+
+cssclass:/12345678/12395686
+    3 16            [sqr] dip +   25 =
+
+cssclass:/12345678/12395686
+    3                sqr   16 +   25 =
+
+cssclass:/12345678/12395686
+    9                      16 +   25 =
+
+cssclass:/12345678/12395686
+    25                            25 =
+
+cssclass:/12345678/12395686
+    True

@@ -1,0 +1,15 @@
+@import url(http://fonts.googleapis.com/css?family=EB+Garamond|Inconsolata);
+
+body {
+  background: SeaShell;
+  color: #000;
+  font-family: 'EB Garamond', serif;
+}
+
+textarea,label,input[type=text] {
+  font-family: Inconsolata, sans-serif;
+}
+
+/*css:/12345678/00000008
+The body background is SeaShell (I tried #FFF0FF but it was too bright.)
+*/

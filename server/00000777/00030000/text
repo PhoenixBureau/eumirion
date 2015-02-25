@@ -1,0 +1,25 @@
+  There's a rich deep history behind all this but I don't care.  You go read that if you want to, it's awesome, as far as this goes here today you just learn you these things now.
+
+There is nothing and something, and something around itself is nothing again:
+
+Nothing:
+
+Something: []
+
+Nothing again: [[]]
+
+Do these in a row or file and it's a "bit" pattern: [] [[]] [] [[]] []
+
+We can "count" using the bits as binary digits, so there numbers for you.
+
+Successor function.  Counting. Addition, Multiplication, Subtraction -> negatives,
+Division -> reals, Pairs -> rationals & complex numbers.
+
+Logic, Math
+
+Algorithms are sequence (dependency in time order), concurrent (non-interfering, simultaneous), branch (different Universes)
+
+THAT'S IT.
+
+
+css:/12345678/00000008

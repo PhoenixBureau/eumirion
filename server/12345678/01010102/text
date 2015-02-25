@@ -1,0 +1,11 @@
+@import url(http://fonts.googleapis.com/css?family=Inconsolata);
+
+.joy-snippet {
+  font-family: Inconsolata, sans-serif;
+  background: #fff;
+  color: #000;
+  margin-left: 4em;
+  padding: 1em;
+  border: 1px solid gray;
+  width: 68%;
+}

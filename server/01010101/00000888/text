@@ -1,0 +1,38 @@
+cf. http://www.dyalog.com/blog/2015/02/solving-the-2014-apl-problem-solving-competition-its-all-right/
+
+This is a brief write up of the derivation of a simple function in Joy, inspired by a problem from the 2014 APL Problem Solving Competition.  The problem description states, "Write a dfn that takes the length of the legs of a triangle as its left argument and the length of the hypotenuse as its right argument and returns 1 if the triangle is a right triangle, 0 otherwise."
+
+We modify this problem slightly as follows:  Since it makes no sense in Joy to speak of "right argument" we take all three arguments from the stack, with the "legs" first followed by the hypotenuse.  We also return Boolean values rather than integers.
+
+To begin we state the desired function with its arguments like so:
+
+div:/01010101/00000889
+
+Next we consider a simple form of the problem that allows any functions to be interspersed with the expected arguments:
+
+div:/01010101/00000890
+
+For convenience we postulate a definition sqr == dup * and the form becomes:
+
+div:/01010101/00000891
+
+Modify this form in the obvious way using dip and dipd to get an intermediate form for Q:
+
+div:/01010101/00000892
+
+The first 'sqr' squares c, the '[sqr] dipd' squares a, and then '[sqr +] dip' squares b and adds it to a, then '=' computes the Boolean equality predicate.  This program is complete, but let's see if we can find a more elegant form.  We observe that the sub-program that acts on a can be folded into the sub-program that acts on b:
+
+div:/01010101/00000893
+
+But it seems even more satisfying to put it here:
+
+div:/01010101/00000894
+
+Very nice!
+
+Here it is in action:
+
+div:/01010101/00000895
+
+css:/12345678/00000008
+css:/12345678/01010102

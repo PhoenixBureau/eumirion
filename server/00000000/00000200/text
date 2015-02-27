@@ -5,7 +5,16 @@ Welcome to Eumirion!
 
 
 Unit One
-When you start your own site there are a few interesting details you should be aware of. The first one you might have noticed on your own:  Each web page URL has 32 -bits using hexadecimal digits, i.e. /8 digits/8 digits.  For future reference we will call the first set of eight digits "Kind" and the second set "Unit".
+When you start your own site there are a few interesting details you should be aware of. The first one you might have noticed on your own:  Each web page URL has 32 -bits using hexadecimals.  Hexadecimals are used in mathematics and computing using 16 distinct symbols, as we do, that are the numbers "0" though "9" and the letters "a" through "f" (the latter represent values ten to fifteen), i.e. /8 digits/8 digits.  For future reference we will call the first set of eight digits "Kind" and the second set "Unit".  
 
 
-When you first enter Eumirion we hope you take a moment to look at it and you should notice the link to the index page.
+When you first enter Eumirion we hope you take a moment to look it over.  You should notice the link to the index page.  You should click on the link and once you're on the Index page take a moment to look at that as well.  You will probably notice that each of the items listed in the index are actually links to other pages.  Go ahead and click on a few, using the back arrow at the top left of your screen to return to the Index page.
+
+
+You've probably noticed that a lot of the pages seem pretty simple but did you also notice the absolute path on the URL of each page is using?  Go ahead and take another look.
+
+
+Now, in order to start your own web-site all you need to do is find a page that hasn't been taken yet.  Basically, you can click on the URL and, making sure you don't delete the entire URL, change any of the hexadecimal digits in the absolute path.  Remember that we are using 0-9 and a-f.  Once you've changed the absolute path you will be redirected to another page.  There is chance the digits you changed lead you to a page that is already being used but that's alright.  Just do the same thing again until you reach a page that hasn't been taken yet.  They are fairly easy to recognize because when you open an unclaimed page the title and text are empty.  That's where you come in!
+
+
+ 

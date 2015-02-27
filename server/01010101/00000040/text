@@ -1,5 +1,8 @@
 1 6 d 1 6 d 1 6 d 1 6 d [] cons cons cons cons
-;
+; cssclass:/12345678/12395686
+
+f stack:/01010101/00000040 cssclass:/12345678/12395686 d
+
 
 Results in a list [1d6 1d6 1d6 1d6]
 
@@ -11,4 +14,5 @@ Then you can remove the least of the four and sum the remaining three to get a s
 
 dup min remove sum
 
-joy:/01010101/00000040text:/01010102/00000002
+joy:/01010101/00000040
+text:/01010102/00000002

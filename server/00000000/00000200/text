@@ -1,0 +1,11 @@
+Welcome to Eumirion!
+
+
+(put introduction to manual here later)
+
+
+Unit One
+When you start your own site there are a few interesting details you should be aware of. The first one you might have noticed on your own:  Each web page URL has 32 -bits using hexadecimal digits, i.e. /8 digits/8 digits.  For future reference we will call the first set of eight digits "Kind" and the second set "Unit".
+
+
+When you first enter Eumirion we hope you take a moment to look at it and you should notice the link to the index page.

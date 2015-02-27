@@ -9,3 +9,13 @@
   border: 1px solid gray;
   width: 68%;
 }
+
+.joy-def-snippet {
+  font-family: Inconsolata, sans-serif;
+  background: #fff;
+  color: #000;
+  margin-left: 14%;
+  padding: 1em;
+  border: 0.25em double black;
+  width: 68%;
+}

@@ -1,0 +1,37 @@
+[a b c] dup
+
+[a b c] [a b c] max
+
+[a b c] c tuck
+
+c [a b c] c remove
+
+c [a b] sum
+
+c a+b =
+
+
+dup max tuck remove sum =
+
+
+------------------------
+
+
+
+[a b c] dup
+
+[a b c] [a b c] max
+
+[a b c] c dup
+
+[a b c] c c [remove sum] dip
+
+.. [a b c] c remove sum c
+
+.. [a b] sum c
+
+a+b c =
+
+
+dup max dup [remove sum] dip =
+

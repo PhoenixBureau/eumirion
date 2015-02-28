@@ -26,9 +26,38 @@ Initialize functions.
 '''
 from library import *
 from combinators import *
-from functions import FUNCTIONS, FunctionWrapper
+from functions import (
+  ALIASES,
+  FUNCTIONS,
+  FunctionWrapper,
+  BinaryBuiltinWrapper,
+  )
 from definitions import DefinitionWrapper
 from morewords import d
+
+
+import operator
+
+
+FUNCTIONS['add'] = BinaryBuiltinWrapper(operator.add)
+FUNCTIONS['and'] = BinaryBuiltinWrapper(operator.and_)
+FUNCTIONS['div'] = BinaryBuiltinWrapper(operator.div)
+FUNCTIONS['eq'] = BinaryBuiltinWrapper(operator.eq)
+FUNCTIONS['floordiv'] = BinaryBuiltinWrapper(operator.floordiv)
+FUNCTIONS['ge'] = BinaryBuiltinWrapper(operator.ge)
+FUNCTIONS['gt'] = BinaryBuiltinWrapper(operator.gt)
+FUNCTIONS['le'] = BinaryBuiltinWrapper(operator.le)
+FUNCTIONS['lshift'] = BinaryBuiltinWrapper(operator.lshift)
+FUNCTIONS['lt'] = BinaryBuiltinWrapper(operator.lt)
+FUNCTIONS['mod'] = BinaryBuiltinWrapper(operator.mod)
+FUNCTIONS['mul'] = BinaryBuiltinWrapper(operator.mul)
+FUNCTIONS['ne'] = BinaryBuiltinWrapper(operator.ne)
+FUNCTIONS['or'] = BinaryBuiltinWrapper(operator.or_)
+FUNCTIONS['pow'] = BinaryBuiltinWrapper(operator.pow)
+FUNCTIONS['rshift'] = BinaryBuiltinWrapper(operator.rshift)
+FUNCTIONS['sub'] = BinaryBuiltinWrapper(operator.sub)
+FUNCTIONS['truediv'] = BinaryBuiltinWrapper(operator.truediv)
+FUNCTIONS['xor'] = BinaryBuiltinWrapper(operator.xor)
 
 
 FUNCTIONS.update({
@@ -80,6 +109,13 @@ FUNCTIONS.update({
   'while': FunctionWrapper(while_),
   'x': FunctionWrapper(x),
   })
+
+
+for op, aliases in ALIASES:
+  if op in FUNCTIONS:
+    op = FUNCTIONS[op]
+    for alias in aliases:
+      FUNCTIONS[alias] = op
 
 
 # Definitions.

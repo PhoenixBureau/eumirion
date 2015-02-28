@@ -68,6 +68,14 @@ class FunctionWrapper(object):
     return self.name
 
 
+class BinaryBuiltinWrapper(FunctionWrapper):
+
+  def __call__(self, stack):
+    (a, (b, stack)) = stack
+    result = self.f(b, a)
+    return result, stack
+
+
 ALIASES = (
   ('add', ['+']),
   ('mul', ['*']),

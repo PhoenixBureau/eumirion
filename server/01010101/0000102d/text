@@ -1,1 +1,4 @@
-swap cons
+
+  Accept a quoted program and a list on the stack and run the program
+  with the list as its stack.
+  

@@ -1,1 +1,7 @@
-[i] map
+
+  The cleave combinator expects two quotations, and below that an item X.
+  It first executes [P], with X on top, and saves the top result element.
+  Then it executes [Q], again with X, and saves the top result.
+  Finally it restores the stack to what it was below X and pushes the two
+  results P(X) and Q(X).
+  

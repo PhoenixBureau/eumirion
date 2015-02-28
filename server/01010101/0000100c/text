@@ -1,1 +1,1 @@
-Like dip but expects three items.
+eq(a, b) -- Same as a==b.

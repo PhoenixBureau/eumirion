@@ -1,0 +1,4 @@
+
+  The unstack operator expects a list on top of the stack and makes that
+  the stack discarding the rest of the stack.
+  

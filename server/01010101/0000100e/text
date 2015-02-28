@@ -1,1 +1,1 @@
-Duplicate the second item on the stack.
+ge(a, b) -- Same as a>=b.

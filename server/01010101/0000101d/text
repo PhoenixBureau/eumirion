@@ -1,1 +1,4 @@
-Decrement TOS.
+
+  dip expects a program [P] and below that another item X. It pops both,
+  saves X, executes P and then restores X.
+  

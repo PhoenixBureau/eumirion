@@ -1,5 +1,1 @@
-
-  The step combinator removes the aggregate and the quotation, and then
-  repeatedly puts the members of the aggregate on top of the remaining
-  stack and executes the quotation.
-  
+ge(a, b) -- Same as a>=b.

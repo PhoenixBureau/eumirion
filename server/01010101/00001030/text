@@ -1,1 +1,1 @@
-<function unary at 0x7fee0484ff50>
+lt(a, b) -- Same as a<b.

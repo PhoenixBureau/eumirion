@@ -1,4 +1,4 @@
 
-  Inverse of cons, removes an item from the top of the list on the stack
-  and places it under the remaining list.
+  Run the quoted program on TOS on the items in the list under it, push a
+  new list with the results (in place of the program and original list.
   

@@ -1,1 +1,1 @@
-Execute the quoted program on TOS on the rest of the stack.
+and_(a, b) -- Same as a & b.

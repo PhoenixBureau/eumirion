@@ -1,1 +1,1 @@
-rest rest first
+lshift(a, b) -- Same as a << b.

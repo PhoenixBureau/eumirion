@@ -1,1 +1,5 @@
-<function id_ at 0x7fee0484b500>
+
+  Given a quoted program on TOS and anything as the second stack item run
+  the program and replace the two args with the first result of the
+  program.
+  

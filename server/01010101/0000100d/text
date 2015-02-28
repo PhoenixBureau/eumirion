@@ -1,1 +1,1 @@
-Duplicate the top item on the stack.
+gt(a, b) -- Same as a>b.

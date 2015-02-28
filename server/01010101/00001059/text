@@ -1,0 +1,4 @@
+
+  Inverse of cons, removes an item from the top of the list on the stack
+  and places it under the remaining list.
+  

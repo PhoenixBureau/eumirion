@@ -1,4 +1,1 @@
-
-  The stack operator pushes onto the stack a list containing all the
-  elements of the stack.
-  
+floordiv(a, b) -- Same as a // b.

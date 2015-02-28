@@ -1,2 +1,1 @@
-# This is one of the most basic commands.
-# It provides the rest of a sequence...
+div(a, b) -- Same as a / b when __future__.division is not in effect.

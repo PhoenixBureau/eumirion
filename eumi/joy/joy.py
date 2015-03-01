@@ -27,25 +27,7 @@ Joy is a programming language created by Manfred von Thun that is easy to
 use and understand and has many other nice properties.  This Python script
 is an interpreter for a dialect of Joy that attempts to stay very close
 to the spirit of Joy but does not precisely match the behaviour of the
-original version(s) written in C.  A Tkinter GUI is provided as well.
-
-
-    Copyright © 2014 Simon Forman
-
-    This file is Eumirion
-
-    Eumirion is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    Eumirion is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Eumirion.  If not see <http://www.gnu.org/licenses/>.
+original version(s) written in C.
 
 
 § joy()

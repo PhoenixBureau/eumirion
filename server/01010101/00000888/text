@@ -20,7 +20,7 @@ And the form becomes:
 
 a sqr b sqr + c sqr = cssclass:/12345678/12395686
 
-Modify this form in the obvious way (/01010101/01000888) using dip to get an intermediate form for Q:
+Modify this form in the obvious way (/01010101/0000101d) using dip to get an intermediate form for Q:
 
 a b c [[sqr] dip sqr +] dip sqr = cssclass:/12345678/12395686
 

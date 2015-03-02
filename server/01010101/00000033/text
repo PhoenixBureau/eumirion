@@ -1,5 +1,63 @@
 [-- dip] cons [swap] infra [0 >] swap while pop
+cssclass:/12345678/12395686
 
-Do something n times.
+Given a quoted program and and integer on the stack,
+run the program that many times.
 
+Start with a while program that runs P n times
+
+... n [0 >] [-- P] while
+cssclass:/12345678/12395686
+
+But this means P has n as its first arg
+
+... n P
+cssclass:/12345678/12395686
+
+The general form of P can be some other program Q
+run with dip on the rest of the stack, saving n.
+
+... n [Q] dip
+cssclass:/12345678/12395686
+
+... Q n
+cssclass:/12345678/12395686
+
+So substituing back in we get:
+
+... n [0 >] [-- [Q] dip] while pop
+cssclass:/12345678/12395686
+
+And now we must find a program that builds our "times"
+program for us.
+
+... n [Q] times => ... n [0 >] [-- [Q] dip] while pop
+cssclass:/12345678/12395686
+
+An obvious first step is to put Q into the body of the while program.
+
+... n [Q] [-- dip] cons
+cssclass:/12345678/12395686
+
+... n [[Q] -- dip] [swap] infra
+cssclass:/12345678/12395686
+
+Arrange the test in the expected location.
+
+... n [-- [Q] dip] [0 >] swap while pop
+cssclass:/12345678/12395686
+
+Run the while program.
+
+... n [0 >] [-- [Q] dip] while pop
+cssclass:/12345678/12395686
+
+Putting it all together we get:
+
+times == [-- dip] cons [swap] infra [0 >] swap while pop
+cssclass:/12345678/12415686
+
+
+css:/12345678/00000008
 css:/12345678/01010101
+css:/12345678/01010102

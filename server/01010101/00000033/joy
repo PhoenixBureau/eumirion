@@ -1,0 +1,1 @@
+[pred dip] cons [swap] infra [0 gt] swap while pop

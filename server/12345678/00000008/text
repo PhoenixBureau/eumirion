@@ -10,6 +10,15 @@ textarea,label,input[type=text] {
   font-family: Inconsolata, sans-serif;
 }
 
+h2 {
+  border-top: 2px solid black;
+  border-bottom: 1px dotted black;
+  margin-top: 2em;
+  margin-bottom: 0.25em;
+  padding-top: 0.5em;
+  padding-bottom: 0.25em;
+}
+
 /*css:/12345678/00000008
 The body background is SeaShell (I tried #FFF0FF but it was too bright.)
 */

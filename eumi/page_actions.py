@@ -103,6 +103,16 @@ def render_text(home, page, kind, unit, action):
       render_text_deluxe(home, page, data['text'])
 
 
+def render_section(home, page, kind, unit, action):
+  data = get_page_data(page.router, kind, unit)
+  if data:
+    title = data['title']
+    if not title:
+      title = l(kind, unit)
+    render_text_deluxe(home.h2, page, title)
+    render_text_deluxe(home, page, data['text'])
+
+
 def render_text_deluxe(home, page, text):
   page = copy(page)
   page.text = text
@@ -192,6 +202,7 @@ RENDERERS = {
   'ol': render_text,
   'ul': render_text,
   'li': render_text,
+  'section': render_section,
   'link': render_link,
   'door': render_door,
   'css': add_css,

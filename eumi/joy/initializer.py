@@ -24,16 +24,16 @@ Initialize functions.
 
 
 '''
-from library import *
-from combinators import *
-from functions import (
+from .library import *
+from .combinators import *
+from .functions import (
   ALIASES,
   FUNCTIONS,
   FunctionWrapper,
   BinaryBuiltinWrapper,
   )
-from definitions import DefinitionWrapper
-from morewords import d
+from .definitions import DefinitionWrapper
+from .morewords import d
 
 
 import operator

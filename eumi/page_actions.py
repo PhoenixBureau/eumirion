@@ -149,7 +149,7 @@ def add_joy(_, page, kind, unit, action=None):
   data = get_page_data(page.router, kind, unit)
   if not data:
     return
-  joy, semicolon, doc = data['text'].partition(';')
+  joy = data['text'].partition('cssclass:')[0]
   expression = text_to_expression(joy)
   if 'joy' in page.data:
     stack = (expression, (page.data['joy'], ()))

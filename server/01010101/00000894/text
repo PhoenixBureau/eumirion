@@ -1,0 +1,27 @@
+Here's the process I went through to transform this (from /01010101/00000888) into a version that has all the "arguments" to the left (on the stack) and the functions and combinators on the right (a program):
+
+a sqr b sqr + c sqr = cssclass:/12345678/12395686
+
+Let's consider just this prefix:
+
+a sqr b cssclass:/12345678/12395686
+
+In order to move sqr in front of b we can use the /01010101/0000100a combinator.  Its rule is:
+
+... Q n == ... n [Q] dip cssclass:/12345678/12415686
+
+Apply it to our program prefix:
+
+a b [sqr] dip cssclass:/12345678/12395686
+
+So far, so good.  Let's add the rest of the program back in and see what we have so far:
+
+a b [sqr] dip sqr + c sqr = cssclass:/12345678/12395686
+
+We can use that same transformation again to get:
+
+a b c [[sqr] dip sqr +] dip sqr = cssclass:/12345678/12395686
+
+And we're done.
+css:/12345678/00000008
+css:/12345678/01010102

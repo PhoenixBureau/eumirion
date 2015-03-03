@@ -11,12 +11,13 @@ textarea,label,input[type=text] {
 }
 
 h2 {
-  border-top: 2px solid black;
+  border-top: 1px solid black;
   border-bottom: 1px dotted black;
+  /* background: #888;
+  color: #FFF5EE; */
   margin-top: 2em;
-  margin-bottom: 0.25em;
-  padding-top: 0.5em;
-  padding-bottom: 0.25em;
+  margin-bottom: 0.33em;
+  padding: 0.33em;
 }
 
 /*css:/12345678/00000008

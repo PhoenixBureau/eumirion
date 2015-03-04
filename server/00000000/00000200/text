@@ -5,7 +5,7 @@ Welcome to Eumirion!
 
 
 Unit One
-When you start your own site there are a few interesting details you should be aware of. The first one you might have noticed on your own:  Each web page URL has 32 -bits using hexadecimals.  Hexadecimals are used in mathematics and computing using 16 distinct symbols, as we do, that are the numbers "0" though "9" and the letters "a" through "f" (the latter represent values ten to fifteen), i.e. /8 digits/8 digits.  For future reference we will call the first set of eight digits "Kind" and the second set "Unit".  
+When you start your own site there are a few interesting details you should be aware of. The first one you might have noticed on your own:  Each web page URL has 32 -bits using hexadecimals.  Hexadecimals are used in mathematics and computing using 16 distinct symbols, as we do, that are the numbers "0" through "9" and the letters "a" through "f" (the latter represent values ten to fifteen), i.e. /8 digits/8 digits.  For future reference we will call the first set of eight digits "Kind" and the second set "Unit".  (i.e. /kind/unit)
 
 
 When you first enter Eumirion we hope you take a moment to look it over.  You should notice the link to the index page.  You should click on the link and once you're on the Index page take a moment to look at that as well.  You will probably notice that each of the items listed in the index are actually links to other pages.  Go ahead and click on a few, using the back arrow at the top left of your screen to return to the Index page.

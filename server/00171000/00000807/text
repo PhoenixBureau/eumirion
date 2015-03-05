@@ -1,0 +1,18 @@
+import sys, StringIO
+from difflib import context_diff
+
+
+fake_stdout = StringIO.StringIO()
+data = open('quine.py').read()
+real_stdout, sys.stdout = sys.stdout, fake_stdout
+try:
+  exec data
+finally:
+  sys.stdout = real_stdout
+output = fake_stdout.getvalue()
+
+if not data == output:
+  for line in context_diff(data.splitlines(True), output.splitlines(True), n=0):
+    sys.stdout.write(line)  
+else:
+  print 'Okay!'

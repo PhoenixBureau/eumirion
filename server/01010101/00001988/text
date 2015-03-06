@@ -1,0 +1,86 @@
+Ax**2 + Bx + C = 0
+
+a x dup * * b x * c + +
+cssclass:/12345678/12395686
+
+x a swap dup * * b x * c + +
+cssclass:/12345678/12395686
+
+x x [a swap dup * * b] dip * c + +
+cssclass:/12345678/12395686
+
+x dup [a swap dup * * b] dip * c + +
+cssclass:/12345678/12395686
+
+parameterized-quadratic == dup [a swap dup * * b] dip * c + +
+cssclass:/12345678/12415686
+
+Now then:
+
+a b c Q == dup [a swap dup * * b] dip * c + +
+cssclass:/12345678/12415686
+
+Q == ?
+cssclass:/12345678/12415686
+
+
+
+dup [a swap dup * * b] dip * c + +
+cssclass:/12345678/12395686
+
+[dup a swap dup * * b] uncons dip * c + +
+cssclass:/12345678/12395686
+
+[a dup swap dup * * b] [swap] infra uncons dip * c + +
+cssclass:/12345678/12395686
+
+a [dup swap dup * * b] cons [swap] infra uncons dip * c + +
+cssclass:/12345678/12395686
+
+Concerning b, observe:
+
+[dup swap dup * * b]
+cssclass:/12345678/12395686
+
+[dup swap dup * *] [b] concat
+cssclass:/12345678/12395686
+
+[dup swap dup * *] b [] cons concat
+cssclass:/12345678/12395686
+
+b [dup swap dup * *] swap [] cons concat
+cssclass:/12345678/12395686
+
+We define J:
+
+J == [dup swap dup * *] swap [] cons concat
+cssclass:/12345678/12415686
+
+And so,
+
+a b J cons [swap] infra uncons dip * c + +
+cssclass:/12345678/12395686
+
+a b c [J cons [swap] infra uncons dip *] dip + +
+cssclass:/12345678/12395686
+
+Q == [J cons [swap] infra uncons dip *] dip + +
+cssclass:/12345678/12415686
+
+Or, if you like, we expand J back out again:
+
+Q == [[dup swap dup * *] swap [] cons concat cons [swap] infra uncons dip *] dip + +
+cssclass:/12345678/12415686
+
+
+
+
+
+
+
+
+
+
+css:/12345678/00000008
+css:/12345678/01010101
+css:/12345678/01010102

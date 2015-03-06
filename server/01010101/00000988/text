@@ -1,6 +1,35 @@
 Ax**2 + Bx + C = 0
 
-a x dup * * b x * c + + cssclass:/12345678/12395686
+a x dup * * b x * c + +
+cssclass:/12345678/12395686
+
+
+a x dup * * b x * c + +
+cssclass:/12345678/12395686
+
+a x b [dup * *] dip x * c + +
+cssclass:/12345678/12395686
+
+a x b x [[dup * *] dip] dip * c + +
+cssclass:/12345678/12395686
+
+a b x swap x [[dup * *] dip] dip * c + +
+cssclass:/12345678/12395686
+
+a b x x [swap] dip [[dup * *] dip] dip * c + +
+cssclass:/12345678/12395686
+
+a b x dup [swap] dip [[dup * *] dip] dip * c + +
+cssclass:/12345678/12395686
+
+a b x c [dup [swap] dip [[dup * *] dip] dip *] dip + +
+cssclass:/12345678/12395686
+
+a b c x swap [dup [swap] dip [[dup * *] dip] dip *] dip + +
+cssclass:/12345678/12395686
+
+quadratic-equation == swap [dup [swap] dip [[dup * *] dip] dip *] dip + +
+cssclass:/12345678/12415686
 
 
 x 4a

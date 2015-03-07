@@ -6,7 +6,7 @@ Let's consider just this prefix:
 
 a sqr b cssclass:/12345678/12395686
 
-In order to move sqr in front of b we can use the /01010101/0000100a combinator.  Its rule is:
+In order to move sqr in front of b we can use the /01010101/0000101d combinator.  Its rule is:
 
 ... Q n == ... n [Q] dip cssclass:/12345678/12415686
 
@@ -14,7 +14,7 @@ Apply it to our program prefix:
 
 a b [sqr] dip cssclass:/12345678/12395686
 
-So far, so good.  Let's add the rest of the program back in and see what we have so far:
+So far, so good.  Let's add the rest of the program back in and see what we have:
 
 a b [sqr] dip sqr + c sqr = cssclass:/12345678/12395686
 

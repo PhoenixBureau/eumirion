@@ -115,7 +115,10 @@ class HTML(object):
 
 def all_pages_pre(head, body, title, self_link, default):
   head.title(title or self_link)
-  body.h1.a(title or default, href=self_link)
+  with body.h1 as h1:
+    h1.a('O', href='/00000000/00000000')
+    h1(' ')
+    h1.a(title or default, href=self_link)
 
 
 def all_pages_post(body, title, text, self_link, default):

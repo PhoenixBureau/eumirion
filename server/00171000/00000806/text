@@ -1,0 +1,9 @@
+'''A Quine.'''
+
+p = """'''A Quine.'''
+
+p = %s%s%s
+
+print p %% (chr(34)*3, p, chr(34)*3)"""
+
+print p % (chr(34)*3, p, chr(34)*3)

@@ -1,0 +1,13 @@
+'''
+
+
+p="p=%c%s%c;main(){printf(p,34,p,34);}";main(){printf(p,34,p,34);}
+
+
+'''
+
+
+p="p=%s%s%s;print p %% (chr(34),p,chr(34))";print p % (chr(34),p,chr(34))
+p="""p=%s%s%s;print p %% (chr(34)*3,p,chr(34)*3)""";print p % (chr(34)*3,p,chr(34)*3)
+
+p="""p=%s%s%s;print p %% (chr(34)*3,p,chr(34)*3)""";print p % (chr(34)*3,p,chr(34)*3)

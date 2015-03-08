@@ -1,4 +1,8 @@
-@import url(http://fonts.googleapis.com/css?family=EB+Garamond|Inconsolata);
+@import url(http://fonts.googleapis.com/css?family=EB+Garamond|Inconsolata|Cinzel);
+
+h1, h2 {
+  font-family: Cinzel, sans-serif;
+}
 
 body {
   background: SeaShell;

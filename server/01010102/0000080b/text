@@ -1,0 +1,8 @@
+This is the only way to add "joy" text to /01010102/00000004.  (Commands can affect a page's "joy" expression of course.  That's what they are for.  This is the way to bootstrap the "joy" expressions of command pages from the built-in Joy functions, definitions and combinators.)
+
+
+It constructs "joy" expressions on pages from the text of (the same or other) pages.  It scans the text of the target page up until the first /01010102/0000080a page action (so that the CSS class for Joy code can also serve as the delimiter.)  That text is converted to a joy expression and /01010101/0000101a'd to the page's existing "joy" expression.
+
+One thing to be aware of here is that multiple renderings (either from posting the edit form or from clicking /01010102/0000080c buttons) will cause any /01010102/0000080b actions to be run and more stuff /01010101/0000101a'd to the page's existing "joy" expression.  Typically you'll use this page action to build command expressions and then delete it so that it doesn't mess them up inadvertently later.
+
+css:/12345678/00000008

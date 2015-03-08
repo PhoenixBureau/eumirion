@@ -1,0 +1,5 @@
+Render target page's "joy" expression into the page as text.  Especially, any /01010102/00000008 appearing in any text in the expression will take effect.
+
+This is primary way let a page's "joy" expression affect the rendering of the content.  Any /01010102/0000080c buttons on a page will first modify its "joy" expression (here used as the stack) and then re-render the page.  You can see and example of this on the /00171000/00000005 page.
+
+css:/12345678/00000008

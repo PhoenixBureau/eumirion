@@ -1,0 +1,5 @@
+This page action adds the text of the target page as a "class" attribute to the enclosing HTML element into which it is rendered.
+
+This way you can add styling to e.g. individual paragraphs and whatnot.
+
+css:/12345678/00000008

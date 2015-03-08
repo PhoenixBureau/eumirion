@@ -1,0 +1,5 @@
+Like /01010102/00000800 but it puts the target page's text into a <UL> element.
+
+Use this with the /01010102/00000805 page action to build Unordered Lists.
+
+css:/12345678/00000008

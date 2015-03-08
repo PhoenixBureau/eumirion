@@ -1,0 +1,3 @@
+This renders a hyperlink to the target page using the page's title as the link text.  This action is the default, and you can leave off the "link:" part entirely and just write the /01010102/00000002 to get the same effect.
+
+css:/12345678/00000008

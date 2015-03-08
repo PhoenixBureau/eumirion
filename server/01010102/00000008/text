@@ -1,0 +1,23 @@
+A "page action" is a bit of text in a page's "text" text that refers to a /01010102/00000002 and matches a certain pattern, namely up to thirty-two a-z letters, a colon ":" character and then a /01010102/00000002 "/nnnnnnnn/nnnnnnnn"
+
+action:/nnnnnnnn/nnnnnnnn
+
+
+section:/01010102/00000800
+section:/01010102/00000801
+section:/01010102/00000802
+section:/01010102/00000803
+section:/01010102/00000804
+section:/01010102/00000805
+section:/01010102/00000806
+section:/01010102/00000807
+section:/01010102/00000808
+section:/01010102/00000809
+section:/01010102/0000080a
+section:/01010102/0000080b
+section:/01010102/0000080c
+section:/01010102/00000814
+section:/01010102/00000816
+
+/01010102/00000000
+css:/12345678/00000008

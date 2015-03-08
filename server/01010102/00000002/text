@@ -1,3 +1,4 @@
-command:/01010101/00000035
-css:/12345678/01010101
-css:/12345678/01010102
+Each page has an URL consisting of two parts, each part is made up of a slash and eight hexadecimal digits.  They look like this: /nnnnnnnn/nnnnnnnn
+
+/01010102/00000000
+css:/12345678/00000008

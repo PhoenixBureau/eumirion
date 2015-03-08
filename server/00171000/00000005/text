@@ -3,5 +3,7 @@ If you render the stack into the page and create a command that puts a css: acti
 Click to stop the animation by removing the css: action from the page stack. command:/01010101/00000035
 stackinto:/00171000/00000005
 
+You can't see the css: page action from the stackinto: page action because it is not rendered as text but as a CSS <style> element, so I've included a stack: page action here so you can see that the text containing the css: page action is, indeed, on this page's stack (a.k.a. the "joy" expression.)
+
 stack:/00171000/00000005
 css:/12345678/00000008

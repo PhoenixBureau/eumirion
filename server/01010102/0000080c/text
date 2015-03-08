@@ -1,0 +1,8 @@
+This page action renders a button that, when clicked, will cause the target page's "joy" expression to be evaluated with this page's "joy" expression as the stack.  If the evaluation succeeds this page's "joy" expression is replaced by the resultant stack.  In any event, the page is re-rendered.
+
+The text of the button is the title of the target page.
+
+Buttons look like this: command:/01010102/0000080c
+
+But don't bother clicking that one (you can if you like but it doesn't do anything as the /01010102/0000080c page doesn't have a "joy" expression.  At least it shouldn't have one.  You'll just see an error message, and have to click the back button of your browser.)
+css:/12345678/00000008

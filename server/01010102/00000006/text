@@ -1,0 +1,4 @@
+The text is broken on double-new-lines, if any, into <P> elements.  /01010102/00000008 are detected and run.
+
+/01010102/00000000
+css:/12345678/00000008

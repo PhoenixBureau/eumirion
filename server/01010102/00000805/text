@@ -1,0 +1,5 @@
+Like /01010102/00000800 but it puts the target page's text into a <LI> (List Item) element.
+
+Use this with the /01010102/00000803 and /01010102/00000804 page actions to build Ordered and Unordered Lists.
+
+css:/12345678/00000008

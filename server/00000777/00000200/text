@@ -1,0 +1,15 @@
+A simple model computer.
+
+You have a "register" of named values that comprise the state of the computer at some given instant and a "program" consisting of names from the register mapped to Laws of Form expressions.  The expressions in the program include names also from the register.  In each cycle the expressions in the program are evaluated by substituting the values from the register for the names in the expressions and reducing to one of the primary values, Mark and Void.
+
+In python, using dicts for the register R and program P, the cycle function can be described roughly like so:
+
+R.update({
+  bit: reduce_(reify(expression, R))
+  for bit, expression in P.items()
+  })
+
+With appropriate definitions for reduce_() and reify().
+
+See https://github.com/PhoenixBureau/TheGeneralProgram
+css:/12345678/00000008

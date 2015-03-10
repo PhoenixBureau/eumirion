@@ -1,0 +1,11 @@
+Let a "computer" be defined as a collection of "commands" each of which automates the satisfaction of some human intention.
+
+Most of the time our computers should have approximately one command per intention, in a kind of steady-state.  When this invariant is invalidated, typically due to the growth or evolution of our intentions, there is a regeneration phase during which the software in our computers is altered to bring the invariant back into effect.  In other words, most programming should be done (completed, in the past) most of the time.
+
+There should be a library of software that is generally up-to-date with the best algorithms and data-structures to support the set of all (validly-automate-able) human intentions.
+
+Using the Joy language there is a base of Joy functions and combinators, implemented by an interpreter (and eventually the infamous "sufficiently smart compiler") that can be specified in terms of machines defined by /00000777/00000200 and so close the loop at the bottom.
+
+At the top is the set of commands for achieving whatever we feel like, and in the middle is the library.
+
+css:/12345678/00000008

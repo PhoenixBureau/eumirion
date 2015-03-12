@@ -1,0 +1,9 @@
+The actual server code should need relatively little change.  I do expect to write more page actions, and eventually I'll probably have to buckle and allow e.g. js: actions to load client-side behavior.
+
+Most kinds of enhancement will take the form of adding new Joy primitives and definitions to the system.  Writing new command pages is considered part of the normal operation of the server.  I envision a periodic "mass refactoring" where the most useful commands and definitions are converted into new definitions and built-in functions.  This process must also have a meta-process that gives feedback to improve the improvement.
+
+Other than Joy development as described above, there are a few kinds of basic enhancements that I want to have in before declaring "version 1.0" so to speak.  For one thing I want to add an SVG interface and D3 (or something that works like it), and I'd like to be able to at least display, if not edit, the Python source of the underlying system, with syntax highlighting.  (There is a "recipe" from ActiveState's cookbook site written by Hettinger for generating HTML with color syntax highlighting from Python code in eumi/utilities/recipe-578178-1.py.)
+
+
+
+css:/12345678/00000008

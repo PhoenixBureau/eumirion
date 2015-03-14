@@ -1,0 +1,2 @@
+Adding new Joy primitives and definitions to the system. Writing new command pages is considered part of the normal operation of the server. I envision a periodic "mass refactoring" where the most useful commands and definitions are converted into new definitions and built-in functions. This process must also have a meta-process that gives feedback to improve the improvement.
+css:/12345678/00000008

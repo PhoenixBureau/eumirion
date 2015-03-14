@@ -1,11 +1,13 @@
 The actual server code should need relatively little change.  I do expect to write more page actions, and eventually I'll probably have to buckle and allow e.g. js: actions to load client-side behavior.
 
-Most kinds of enhancement will take the form of adding new Joy primitives and definitions to the system.  
-
 section:/00121000/00000110
 
-Other than Joy development as described above, there are a few kinds of basic enhancements that I want to have in before declaring "version 1.0" so to speak.  For one thing I want to add an SVG interface and D3 (or something that works like it), and I'd like to be able to at least display, if not edit, the Python source of the underlying system, with syntax highlighting.  (There is a "recipe" from ActiveState's cookbook site written by Hettinger for generating HTML with color syntax highlighting from Python code in eumi/utilities/recipe-578178-1.py.)
+section:/00121000/00000120
 
-I think it would be good to have some way to show the trace of a Joy evaluation, especially since the code to do it would be really easy.  It should be optional, but if an error occurs
+section:/00121000/00000130
+
+section:/00121000/00000140
+
+section:/00121000/00000150
 
 css:/12345678/00000008

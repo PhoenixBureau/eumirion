@@ -1,0 +1,1 @@
+I'd like to be able to at least display, if not edit, the Python source of the underlying system, with syntax highlighting.  (There is a "recipe" from ActiveState's cookbook site written by Hettinger for generating HTML with color syntax highlighting from Python code in eumi/utilities/recipe-578178-1.py.)

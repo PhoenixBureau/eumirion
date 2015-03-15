@@ -45,7 +45,7 @@ class EumiServer(object):
 
   def render(self, environ, page_data, head, body):
     page_renderer = self.page_renderer(self.router, environ, page_data, head, body)
-    if posting(environ):
+    if self.base_dir and posting(environ):
       page_renderer.update_files(self.base_dir)
     return page_renderer()
 

@@ -43,10 +43,15 @@ def get_args(argv=None):
 
 def get_server(args):
   base_dir = realpath(args.base_dir)
-  server = EumiServer(pather, Page, base_dir)
   print 'Loading server from:', base_dir
+  server = load_server(base_dir)
+  return server
+
+
+def load_server(base_dir):
+  server = EumiServer(pather, Page, base_dir)
   for path, data in load(base_dir):
-    server.router[path] = pageh = PageHandler(server, data)
+    server.router[path] = PageHandler(server, data)
   return server
 
 

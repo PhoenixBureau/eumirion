@@ -51,5 +51,50 @@ Putting it all together:
 [[[...] unstack [else] i] [[...] unstack [then] i]] [...] [if] infra first truthy getitem i
 cssclass:/12345678/12395686
 
+
+The while combinator has a similar form:
+
+... [test] [body] while
+cssclass:/12345678/12395686
+
+We can reuse the structure of ifte transformed expression:
+
+[futures] select run
+cssclass:/12345678/12395686
+
+futures == [else-future] [then-future]
+cssclass:/12345678/12415686
+
+If the test fails, do nothing:
+
+else-future == [...] unstack
+cssclass:/12345678/12415686
+
+But if the test succeeds:
+
+then-future == [...] unstack [body] i [test] [body] while
+cssclass:/12345678/12415686
+
+select and run are as for ifte.
+
+Putting it all together:
+
+[[[...] unstack] [[...] unstack [body] i [test] [body] while]] [...] [test] infra first truthy getitem i
+cssclass:/12345678/12395686
+
+The infra combinator is defined easily in terms of dip and a combinator swaack (which swaps the stack with a quoted list, see below.)
+
+... [n] [Q] infra == ... [n Q]
+cssclass:/12345678/12415686
+
+... [n] [Q] infra == ... [n] swaack [Q] dip swaack
+cssclass:/12345678/12415686
+
+
+The "swaack" combinator just swaps the stack with a quoted stack.
+
+ ... [n] swaack == n [...]
+cssclass:/12345678/12415686
+
 css:/12345678/00000008
 css:/12345678/01010102

@@ -1,0 +1,90 @@
+<html><head><title>"It's All Right" in Joy</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond|Inconsolata|Cinzel);
+
+h1, h2 {
+  font-family: Cinzel, sans-serif;
+}
+
+body {
+  background: SeaShell;
+  color: #000;
+  font-family: 'EB Garamond', serif;
+}
+
+textarea,label,input[type=text] {
+  font-family: Inconsolata, sans-serif;
+}
+
+h2 {
+  border-top: 1px solid black;
+  border-bottom: 1px dotted black;
+  /* background: #888;
+  color: #FFF5EE; */
+  margin-top: 2em;
+  margin-bottom: 0.33em;
+  padding: 0.33em;
+}
+
+/*css:/12345678/00000008
+The body background is SeaShell (I tried #FFF0FF but it was too bright.)
+*/</style><style>@import url(http://fonts.googleapis.com/css?family=Inconsolata);
+
+.joy-snippet {
+  font-family: Inconsolata, sans-serif;
+  background: #fff;
+  color: #000;
+  margin-left: 14%;
+  padding: 1em;
+  border: 1px solid gray;
+  width: 68%;
+}
+
+.joy-def-snippet {
+  font-family: Inconsolata, sans-serif;
+  background: #fff;
+  color: #000;
+  margin-left: 14%;
+  padding: 1em;
+  border: 0.25em double black;
+  width: 68%;
+}
+</style></head><body><h1><a href="/00000000/00000000">O</a> <a href="/01010101/00000888">"It's All Right" in Joy</a></h1><div><p>cf. http://www.dyalog.com/blog/2015/02/solving-the-2014-apl-problem-solving-competition-its-all-right/</p><p>This is a brief write up of the derivation of a simple function in Joy, inspired by a problem from the 2014 APL Problem Solving Competition.  The problem description states, "Write a dfn that takes the length of the legs of a triangle as its left argument and the length of the hypotenuse as its right argument and returns 1 if the triangle is a right triangle, 0 otherwise."</p><p>We modify this problem slightly as follows:  Since it makes no sense in Joy to speak of "right argument" we take all three arguments from the stack, with the "legs" first followed by the hypotenuse.  We also return Boolean values rather than integers.</p><p>To begin we state the desired function with its arguments like so:</p><p class="joy-snippet">a b c Q </p><p>Next we consider a simple form of the problem that allows any functions to be interspersed with the expected arguments:</p><p class="joy-snippet">a dup * b dup * + c dup * = </p><p>For convenience we postulate a definition:</p><p class="joy-def-snippet">sqr == dup *  </p><p>And the form becomes:</p><p class="joy-snippet">a sqr b sqr + c sqr = </p><p>Modify this form in the obvious way (<a href="/01010101/0000101d">dip</a>) using dip to get an intermediate form for Q:</p><p class="joy-snippet">a b c [[sqr] dip sqr +] dip sqr = </p><p>Notice that we can rearrange it a little to get something I feel is more elegant:</p><p class="joy-snippet">a b c sqr [sqr [sqr] dip +] dip = </p><p>Isn't that nice?</p><p>Here it is in action:</p><p><div class="joy-snippet">
+<p>    3 4 5  sqr [sqr [sqr] dip +] dip =</p><p>    3 4 25     [sqr [sqr] dip +] dip =</p><p>    3 4         sqr [sqr] dip +   25 =</p><p>    3 16            [sqr] dip +   25 =</p><p>    3                sqr   16 +   25 =</p><p>    9                      16 +   25 =</p><p>    25                            25 =</p><p>    True
+</p></div></p><p>
+</p></div><hr><form action="/01010101/00000888" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="&quot;It's All Right&quot; in Joy"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">cf. http://www.dyalog.com/blog/2015/02/solving-the-2014-apl-problem-solving-competition-its-all-right/
+
+This is a brief write up of the derivation of a simple function in Joy, inspired by a problem from the 2014 APL Problem Solving Competition.  The problem description states, "Write a dfn that takes the length of the legs of a triangle as its left argument and the length of the hypotenuse as its right argument and returns 1 if the triangle is a right triangle, 0 otherwise."
+
+We modify this problem slightly as follows:  Since it makes no sense in Joy to speak of "right argument" we take all three arguments from the stack, with the "legs" first followed by the hypotenuse.  We also return Boolean values rather than integers.
+
+To begin we state the desired function with its arguments like so:
+
+a b c Q cssclass:/12345678/12395686
+
+Next we consider a simple form of the problem that allows any functions to be interspersed with the expected arguments:
+
+a dup * b dup * + c dup * = cssclass:/12345678/12395686
+
+For convenience we postulate a definition:
+
+sqr == dup *  cssclass:/12345678/12415686
+
+And the form becomes:
+
+a sqr b sqr + c sqr = cssclass:/12345678/12395686
+
+Modify this form in the obvious way (/01010101/0000101d) using dip to get an intermediate form for Q:
+
+a b c [[sqr] dip sqr +] dip sqr = cssclass:/12345678/12395686
+
+Notice that we can rearrange it a little to get something I feel is more elegant:
+
+a b c sqr [sqr [sqr] dip +] dip = cssclass:/12345678/12395686
+
+Isn't that nice?
+
+Here it is in action:
+
+div:/01010101/00000896
+
+css:/12345678/00000008
+css:/12345678/01010102</textarea><br><input name="fake_out_caching" type="hidden" value="246052320"><input type="submit" value="post"></form></body></html>

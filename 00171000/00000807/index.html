@@ -1,0 +1,33 @@
+<html><head><title>checkquine.py</title></head><body><h1><a href="/00000000/00000000">O</a> <a href="/00171000/00000807">checkquine.py</a></h1><div><p>import sys, StringIO
+from difflib import context_diff</p><p>
+fake_stdout = StringIO.StringIO()
+data = open('quine.py').read()
+real_stdout, sys.stdout = sys.stdout, fake_stdout
+try:
+  exec data
+finally:
+  sys.stdout = real_stdout
+output = fake_stdout.getvalue()</p><p>if not data == output:
+  for line in context_diff(data.splitlines(True), output.splitlines(True), n=0):
+    sys.stdout.write(line)  
+else:
+  print 'Okay!'
+</p></div><hr><form action="/00171000/00000807" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="checkquine.py"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">import sys, StringIO
+from difflib import context_diff
+
+
+fake_stdout = StringIO.StringIO()
+data = open('quine.py').read()
+real_stdout, sys.stdout = sys.stdout, fake_stdout
+try:
+  exec data
+finally:
+  sys.stdout = real_stdout
+output = fake_stdout.getvalue()
+
+if not data == output:
+  for line in context_diff(data.splitlines(True), output.splitlines(True), n=0):
+    sys.stdout.write(line)  
+else:
+  print 'Okay!'
+</textarea><br><input name="fake_out_caching" type="hidden" value="110979724"><input type="submit" value="post"></form></body></html>

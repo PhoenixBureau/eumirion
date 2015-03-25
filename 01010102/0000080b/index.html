@@ -1,0 +1,37 @@
+<html><head><title>joy:</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond|Inconsolata|Cinzel);
+
+h1, h2 {
+  font-family: Cinzel, sans-serif;
+}
+
+body {
+  background: SeaShell;
+  color: #000;
+  font-family: 'EB Garamond', serif;
+}
+
+textarea,label,input[type=text] {
+  font-family: Inconsolata, sans-serif;
+}
+
+h2 {
+  border-top: 1px solid black;
+  border-bottom: 1px dotted black;
+  /* background: #888;
+  color: #FFF5EE; */
+  margin-top: 2em;
+  margin-bottom: 0.33em;
+  padding: 0.33em;
+}
+
+/*css:/12345678/00000008
+The body background is SeaShell (I tried #FFF0FF but it was too bright.)
+*/</style></head><body><h1><a href="/00000000/00000000">O</a> <a href="/01010102/0000080b">joy:</a></h1><div><p>This is the only way to add "joy" text to <a href="/01010102/00000004">Page Data</a>.  (Commands can affect a page's "joy" expression of course.  That's what they are for.  This is the way to bootstrap the "joy" expressions of command pages from the <a href="/01010101/00000044">Built-in Joy Functions, Combinators, and Definitions</a>.)</p><p>
+It constructs "joy" expressions on pages from the text of (the same or other) pages.  It scans the text of the target page up until the first <a href="/01010102/0000080a">cssclass:</a> page action (so that the CSS class for Joy code can also serve as the delimiter.)  That text is converted to a joy expression and <a href="/01010101/0000101a">concat</a>'d to the page's existing "joy" expression.</p><p>One thing to be aware of here is that multiple renderings (either from posting the edit form or from clicking <a href="/01010102/0000080c">command:</a> buttons) will cause any <a href="/01010102/0000080b">joy:</a> actions to be run and more stuff <a href="/01010101/0000101a">concat</a>'d to the page's existing "joy" expression.  Typically you'll use this page action to build command expressions and then delete it so that it doesn't mess them up inadvertently later.</p><p></p></div><hr><form action="/01010102/0000080b" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="joy:"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">This is the only way to add "joy" text to /01010102/00000004.  (Commands can affect a page's "joy" expression of course.  That's what they are for.  This is the way to bootstrap the "joy" expressions of command pages from the /01010101/00000044.)
+
+
+It constructs "joy" expressions on pages from the text of (the same or other) pages.  It scans the text of the target page up until the first /01010102/0000080a page action (so that the CSS class for Joy code can also serve as the delimiter.)  That text is converted to a joy expression and /01010101/0000101a'd to the page's existing "joy" expression.
+
+One thing to be aware of here is that multiple renderings (either from posting the edit form or from clicking /01010102/0000080c buttons) will cause any /01010102/0000080b actions to be run and more stuff /01010101/0000101a'd to the page's existing "joy" expression.  Typically you'll use this page action to build command expressions and then delete it so that it doesn't mess them up inadvertently later.
+
+css:/12345678/00000008</textarea><br><input name="fake_out_caching" type="hidden" value="106203834"><input type="submit" value="post"></form></body></html>

@@ -1,0 +1,47 @@
+<html><head><title>Computer Model I</title><style>@import url(http://fonts.googleapis.com/css?family=EB+Garamond|Inconsolata|Cinzel);
+
+h1, h2 {
+  font-family: Cinzel, sans-serif;
+}
+
+body {
+  background: SeaShell;
+  color: #000;
+  font-family: 'EB Garamond', serif;
+}
+
+textarea,label,input[type=text] {
+  font-family: Inconsolata, sans-serif;
+}
+
+h2 {
+  border-top: 1px solid black;
+  border-bottom: 1px dotted black;
+  /* background: #888;
+  color: #FFF5EE; */
+  margin-top: 2em;
+  margin-bottom: 0.33em;
+  padding: 0.33em;
+}
+
+/*css:/12345678/00000008
+The body background is SeaShell (I tried #FFF0FF but it was too bright.)
+*/</style></head><body><h1><a href="/00000000/00000000">O</a> <a href="/00000777/00000200">Computer Model I</a></h1><div><p>A simple model computer.</p><p>You have a "register" of named values that comprise the state of the computer at some given instant and a "program" consisting of names from the register mapped to Laws of Form expressions.  The expressions in the program include names also from the register.  In each cycle the expressions in the program are evaluated by substituting the values from the register for the names in the expressions and reducing to one of the primary values, Mark and Void.</p><p>In python, using dicts for the register R and program P, the cycle function can be described roughly like so:</p><p>R.update({
+  bit: reduce_(reify(expression, R))
+  for bit, expression in P.items()
+  })</p><p>With appropriate definitions for reduce_() and reify().</p><p>See https://github.com/PhoenixBureau/TheGeneralProgram
+</p></div><hr><form action="/00000777/00000200" method="POST"><h4>Edit</h4><label for="title">Title:</label><input name="title" placeholder="You can use the editor below to write some text..." size="44" type="text" value="Computer Model I"><br><label for="text">Text:</label><br><textarea cols="58" name="text" placeholder="Write something..." rows="15">A simple model computer.
+
+You have a "register" of named values that comprise the state of the computer at some given instant and a "program" consisting of names from the register mapped to Laws of Form expressions.  The expressions in the program include names also from the register.  In each cycle the expressions in the program are evaluated by substituting the values from the register for the names in the expressions and reducing to one of the primary values, Mark and Void.
+
+In python, using dicts for the register R and program P, the cycle function can be described roughly like so:
+
+R.update({
+  bit: reduce_(reify(expression, R))
+  for bit, expression in P.items()
+  })
+
+With appropriate definitions for reduce_() and reify().
+
+See https://github.com/PhoenixBureau/TheGeneralProgram
+css:/12345678/00000008</textarea><br><input name="fake_out_caching" type="hidden" value="430998459"><input type="submit" value="post"></form></body></html>

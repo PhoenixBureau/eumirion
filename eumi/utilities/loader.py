@@ -1,7 +1,7 @@
 from os.path import exists, join
 from os import listdir
 from string import hexdigits
-from ..joy.parser import text_to_expression
+from joy.parser import text_to_expression
 
 
 TEXT_SIZE_LIMIT_BYTES = 298 * 1024

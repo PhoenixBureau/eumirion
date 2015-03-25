@@ -1,8 +1,8 @@
 from collections import defaultdict
 from os.path import exists, join, realpath
 from os import makedirs
+from joy.stack import strstack
 from .loader import load
-from ..joy.stack import strstack
 from ..page_actions import scan_text, linkerate, l
 
 

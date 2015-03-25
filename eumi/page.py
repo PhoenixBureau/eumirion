@@ -20,9 +20,9 @@
 from cgi import FieldStorage
 from os.path import exists, join
 from os import makedirs
+from joy.joy import joy
+from joy.stack import strstack
 from .html import posting, all_pages_pre, all_pages_post
-from .joy.joy import joy
-from .joy.stack import strstack
 from .page_actions import (
   linkerate,
   render_body,

@@ -21,14 +21,17 @@
 from os import remove, rename
 from os.path import exists, realpath
 from wsgiref.simple_server import make_server
+from joy import combinators # Import loads combinators.
+# page_actions imports joy.library, lucky accident. FIXME.
+from joy.initializer import initialize
 from .argparser import make_argparser
 from .page import Page
 from .server import EumiServer, pather, PageHandler
-from .joy import initializer
 from .utilities.loader import load
 
 
 def main(argv=None):
+  initialize()
   args = get_args(argv)
   server = get_server(args)
   run(server, args.host, args.port)

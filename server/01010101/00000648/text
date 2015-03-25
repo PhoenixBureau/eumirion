@@ -1,0 +1,96 @@
+While reading about Godel Machines (gotta implement extra-ASCII glyphs) I decided to implement Joy in the so-called "continuation-passing style".  This involves modifying the functions and interpreter to pass and return the expression under evaluation as well as the stack.  This permits any function to rewrite the expression, in effect changing the future expression ("continuation") that is about to be evaluated.
+
+Doing this, each combinator must be defined as a transformation of the expression into a form that will carry on with the evaluation.
+
+The i combinator is easy:
+
+... [Q] i == ... Q
+cssclass:/12345678/12415686
+
+The implementation of i just puts the terms in the quoted expression Q into the to-be-executed expression in the proper order and returns that along with the unmodified stack to the main joy() interpreter loop.
+
+Now that we have i we can define the dip combinator in terms of it:
+
+... n [Q] dip == ... [Q] i n
+cssclass:/12345678/12415686
+
+Normally this form would be impossible because dip would not be able to "pull" the n term out of the stack and into the expression after i, but now it is no problem.
+
+Let's consider the ifte combinator:
+
+... [if] [then] [else] ifte  cssclass:/12345678/12395686
+
+We can approximate the structure of the transformed expression as:
+
+... [futures] select run
+cssclass:/12345678/12395686
+
+Where futures is the pair of quoted programs, the two possible future computations the ifte combinator might evaluate:
+
+futures == [else] [then]
+cssclass:/12345678/12415686
+
+select is a program to select one of the futures based on the test program
+
+select == [...] [if] infra first truthy getitem
+cssclass:/12345678/12415686
+
+and run evaluates that selected future computation.
+
+run == i
+cssclass:/12345678/12415686
+
+Putting it all together:
+
+... [[else] [then]] [...] [if] infra first truthy getitem i
+cssclass:/12345678/12395686
+
+
+The while combinator has a similar form:
+
+... [test] [body] while
+cssclass:/12345678/12395686
+
+We can reuse the structure of ifte transformed expression:
+
+... [futures] select run
+cssclass:/12345678/12395686
+
+If the test fails, do nothing:
+
+futures == [] [then-future]
+cssclass:/12345678/12415686
+
+But if the test succeeds:
+
+then-future == [body] i [test] [body] while
+cssclass:/12345678/12415686
+
+select and run are as for ifte.
+
+Putting it all together:
+
+... [[] [[body] i [test] [body] while]] [...] [test] infra first truthy getitem i
+cssclass:/12345678/12395686
+
+The infra combinator is defined easily in terms of dip and a combinator swaack (which swaps the stack with a quoted list, see below.)
+
+... [n] [Q] infra == ... [n Q]
+cssclass:/12345678/12415686
+
+... [n] [Q] infra == ... [n] swaack [Q] dip swaack
+cssclass:/12345678/12415686
+
+Or:
+
+... [n] [Q] infra == ... [n] [Q] [swaack] dip dip swaack
+cssclass:/12345678/12415686
+
+
+The "swaack" combinator just swaps the stack with a quoted stack.
+
+ ... [n] swaack == n [...]
+cssclass:/12345678/12415686
+
+css:/12345678/00000008
+css:/12345678/01010102

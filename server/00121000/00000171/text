@@ -1,0 +1,304 @@
+Addition from first principals
+
+
+Laws of Form Notation
+=====================
+
+nothing: either actually nothing or the underscore '_' character for concreteness.
+
+something: Crossing, Mark, distinction, boundary, name, etc..
+
+Spencer-Brown used an overbar with right-hand downstroke to indicate it (this can be emulated in HTML and CSS with e.g. style="border-top:1px solid black;border-right:1px solid black" on some SPAN or DIV enclosing element.)  This shows containment by the "scope" of the mark without actually graphically containing the "inner" terms, and when working expressions by hand it is a great aid to efficiency over drawing complete circles or boxes around terms.
+
+In what follows I will used paired parentheses in the ususal way to denote containment.
+
+
+Bricken Basis
+-------------
+
+Without further ado,
+
+    B0: A((B)) =  AB
+    B1: oA = o
+    B2: A(AB) = A(B)
+
+Where A and B are understood to stand for any expressions, and o is the Crossing/Mark.
+
+
+Truth Table for Adder Circuit
+=============================
+
+Given two binary digits (bits) a and b and a "carry in" bit c we can define two binary Boolean functions that will give us the sum and the output carry bit from those bits, here are their Truth tables:
+
+
+    a b c | Sum
+    -------------
+    _ _ _ | _
+    _ _ o | o
+    _ o _ | o
+    _ o o | _
+    o _ _ | o
+    o _ o | _
+    o o _ | _
+    o o o | o
+
+
+    a b c | Carry
+    -------------
+    _ _ _ | _
+    _ _ o | _
+    _ o _ | _
+    _ o o | o
+    o _ _ | _
+    o _ o | o
+    o o _ | o
+    o o o | o
+
+
+We can produce LoF expressions for these functions by the simple method of OR'ing together terms that each correspond to one row of the table where the output bit is on.
+
+    Sum = (a b(c)) (a(b)c) ((a)b c) ((a)(b)(c))
+
+    Carry = (a(b)(c)) ((a)b(c)) ((a)(b)c) ((c)(a)(b))
+
+
+
+Using "Each-Way" to Simplify Expressions
+========================================
+
+The "Each-Way" rule states:
+
+    E = ((E x)(E (x)))
+
+In effect, this rule is saying, "if x then E else E", which is obviously true, but along with Bricken Basis axiom B2 it gives us a powerful method for dealing with expressions.  ("Truth Value Analysis", Davis-Putnam-Logemann-Loveland (DPLL) algorithm, etc.)  We can apply it to our expressions to simplify them in preparation for attempting to efficiently build them in a programming language.
+
+    Carry = (a(b)(c)) ((a)b(c)) ((a)(b)c) ((c)(a)(b))
+    w/ c: _
+          = (a(b)( )) ((a)b( )) ((a)(b) ) (( )(a)(b))
+          = (a(b) o ) ((a)b o ) ((a)(b) ) ( o (a)(b))
+    by B1
+          = (     o ) (     o ) ((a)(b) ) ( o       )
+    by B0
+          =                     ((a)(b) )
+
+       C_ = ((a)(b))
+
+
+
+    Carry = (a(b)(c)) ((a)b(c)) ((a)(b)c) ((c)(a)(b))
+    w/ c: o
+          = (a(b)(o)) ((a)b(o)) ((a)(b)o) ((o)(a)(b))
+    by B0
+          = (a(b)   ) ((a)b   ) ((a)(b)o) (   (a)(b))
+    by B1
+          = (a(b)   ) ((a)b   ) (      o) (   (a)(b))
+    by B0
+          = (a(b)   ) ((a)b   )           (   (a)(b))
+
+       Co = (a(b)) ((a)b) ((a)(b))
+
+Note that:
+    (a(b)) ((a)b) ((a)(b)) == a b
+
+       Co = a b
+
+
+    Carry = ((C_ c)(Co (c)))
+
+    Carry = ( (((a)(b)) c) (a b (c)) )
+
+
+The Sum expression corresponds to:
+
+    a XOR b XOR c
+
+and cannot be simplified further.  However, one application of the above method will put the expression into a form that will be easier to implement:
+
+    Sum = ( 
+            ( c  (a(b))  ((a)b) )
+            ((c) (a b)  ((a)(b)) )
+          )
+
+
+Implementing Laws of Form in Time Using Joy
+===========================================
+
+
+To use the above expressions to add we encode the bits as LoF forms, build the expressions from above, and then reduce them to Mark or Void with a function:
+
+    def void(form):
+     return any(not void(i) for i in form)
+
+This Python function returns True if a form has the value of Void and False if it has the value of Mark.
+
+We will derive a Joy function FBA that accepts a carry bit and two addem bits in a list and replaces them twith the sum and result carry bits.
+
+    c [a b] FBA == carry sum
+
+
+Working first just with the
+
+  Sum = [ [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] ]
+
+  [ [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] ]
+
+  [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] . [] cons cons
+
+  c [[a[b]] [[a]b]] cons [[c] [a b] [[a][b]]] . [] cons cons
+
+  c [[a[b]] [[a]b]] [[c] [a b] [[a][b]]] . [cons] dip [] cons cons
+
+  c [[a[b]] [[a]b]] [c] [[a b] [[a][b]]] . cons [cons] dip [] cons cons
+
+  c [c] [[a[b]] [[a]b]] swap [[a b] [[a][b]]] . cons [cons] dip [] cons cons
+
+  c [c] [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
+
+  c c [] cons [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
+
+  c dup [] cons [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
+
+  c [[a[b]] [[a]b]] [[a b] [[a][b]]] . [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+
+  c [[a[b]] [[a]b]] [a b] [[a][b]] . [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+
+  c [[a[b]] [[a]b]] [a b] . dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+
+  c [a b] [[a[b]] [[a]b]] . swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+
+  c [a b] [a[b]] [[a]b] . [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+
+  c [a b] [a[b]] [a b] . [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+
+  c [a b] [a b] [a[b]] . swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+
+  c [a b] [a b] [a b] . [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+
+  c [a b] . dup dup [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Use Distribute
+--------------
+
+    ((pr)(qr)) = r((p)(q))
+
+
+    Carry = ( ( ((a)(b)) c) ( (a(b)) ((a)b) ((a)(b)) (c)) )
+
+    Distribute with:
+      r: ((a)(b))
+      p: c
+      q: (a(b)) ((a)b) (c)
+
+    Carry = ((a)(b)) ( (c) ( (a(b)) ((a)b) (c) ) )
+    
+    by B2, w/ A: (c)
+          = ((a)(b)) ( (c) ( (a(b)) ((a)b)     ) )
+
+
+    Carry = ((a)(b)) ((c) ((a(b)) ((a)b)
+
+
+
+
+
+
+Note that:
+    (a(b)) ((a)b) ((a)(b)) == a b
+
+
+Proof, using:
+
+    X = Y iif (X)Y = X(Y) = o
+
+
+
+    ((a(b)) ((a)b) ((a)(b))) a b
+    by B2:
+    (( ( )) (( ) ) (( )( ))) a b
+    ((  o ) ( o  ) ( o  o )) a b
+    by B1:
+    ((  o ) ( o  ) ( o    )) a b
+    by B0:
+    (                      ) a b
+    by B1:
+    o
+
+
+
+
+    (a(b)) ((a)b) ((a)(b)) (a b)
+
+    Consider just:
+    (a(b)) (a b)
+
+    by B2 (Insert (a b) into (b):
+    (a(b (a b))) (a b)
+
+    Consider just:
+    (a(b (a b)))
+    by B2:
+    (a(b (   )))
+    (a(b   o  ))
+    by B2:
+    (a(    o  ))
+    by B0:
+    (a         )
+
+
+    So:
+    (a(b)) (a b) = (a) (a b)
+
+    Likewise:
+    ((a)b) (a b) = (b) (a b)
+
+    So:
+    (a) (b) ((a)(b)) (a b)
+    by B2:
+    (a) (b) (      ) (a b)
+    by B1:
+    o
+
+QED

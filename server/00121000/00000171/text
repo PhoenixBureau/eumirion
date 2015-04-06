@@ -6,9 +6,9 @@ Laws of Form Notation
 
 nothing: either actually nothing or the underscore '_' character for concreteness.
 
-something: Crossing, Mark, distinction, boundary, name, etc..
+something: Crossing, Mark, distinction, boundary, name, etc.. [^GSBs-Crossing]
 
-Spencer-Brown used an overbar with right-hand downstroke to indicate it (this can be emulated in HTML and CSS with e.g. style="border-top:1px solid black;border-right:1px solid black" on some SPAN or DIV enclosing element.)  This shows containment by the "scope" of the mark without actually graphically containing the "inner" terms, and when working expressions by hand it is a great aid to efficiency over drawing complete circles or boxes around terms.
+[^GSBs-Crossing]: Spencer-Brown used an overbar with right-hand downstroke to indicate it (this can be emulated in HTML and CSS with e.g. style="border-top:1px solid black;border-right:1px solid black" on some SPAN or DIV enclosing element.)  This shows containment by the "scope" of the mark without actually graphically containing the "inner" terms, and when working expressions by hand it is a great aid to efficiency over drawing complete circles or boxes around terms.
 
 In what follows I will used paired parentheses in the ususal way to denote containment.
 
@@ -138,43 +138,43 @@ We will derive a Joy function FBA that accepts a carry bit and two addem bits in
 
 Working first just with the
 
-  Sum = [ [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] ]
+    Sum = [ [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] ]
 
-  [ [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] ]
+    [ [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] ]
 
-  [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] . [] cons cons
+    [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] . [] cons cons
 
-  c [[a[b]] [[a]b]] cons [[c] [a b] [[a][b]]] . [] cons cons
+    c [[a[b]] [[a]b]] cons [[c] [a b] [[a][b]]] . [] cons cons
 
-  c [[a[b]] [[a]b]] [[c] [a b] [[a][b]]] . [cons] dip [] cons cons
+    c [[a[b]] [[a]b]] [[c] [a b] [[a][b]]] . [cons] dip [] cons cons
 
-  c [[a[b]] [[a]b]] [c] [[a b] [[a][b]]] . cons [cons] dip [] cons cons
+    c [[a[b]] [[a]b]] [c] [[a b] [[a][b]]] . cons [cons] dip [] cons cons
 
-  c [c] [[a[b]] [[a]b]] swap [[a b] [[a][b]]] . cons [cons] dip [] cons cons
+    c [c] [[a[b]] [[a]b]] swap [[a b] [[a][b]]] . cons [cons] dip [] cons cons
 
-  c [c] [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
+    c [c] [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
 
-  c c [] cons [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
+    c c [] cons [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
 
-  c dup [] cons [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
+    c dup [] cons [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
 
-  c [[a[b]] [[a]b]] [[a b] [[a][b]]] . [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+    c [[a[b]] [[a]b]] [[a b] [[a][b]]] . [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
 
-  c [[a[b]] [[a]b]] [a b] [[a][b]] . [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+    c [[a[b]] [[a]b]] [a b] [[a][b]] . [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
 
-  c [[a[b]] [[a]b]] [a b] . dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+    c [[a[b]] [[a]b]] [a b] . dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
 
-  c [a b] [[a[b]] [[a]b]] . swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+    c [a b] [[a[b]] [[a]b]] . swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
 
-  c [a b] [a[b]] [[a]b] . [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+    c [a b] [a[b]] [[a]b] . [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
 
-  c [a b] [a[b]] [a b] . [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+    c [a b] [a[b]] [a b] . [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
 
-  c [a b] [a b] [a[b]] . swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+    c [a b] [a b] [a[b]] . swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
 
-  c [a b] [a b] [a b] . [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+    c [a b] [a b] [a b] . [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
 
-  c [a b] . dup dup [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
+    c [a b] . dup dup [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [[dup [] cons] dip] dip [swap] dip cons [cons] dip [] cons cons
 
 
 

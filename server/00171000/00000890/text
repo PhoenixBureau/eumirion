@@ -1,0 +1,16 @@
+cf. http://matt.might.net/articles/by-example-continuation-passing-style/
+
+I think I got this right:
+
+... [Q] callcc z y x == ... [F] Q z y x
+cssclass:/12345678/12415686
+
+Where:
+
+F ... = z y x
+cssclass:/12345678/12415686
+
+cssclass:/12345678/12395686
+
+css:/12345678/00000008
+css:/12345678/01010102

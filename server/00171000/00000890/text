@@ -1,4 +1,34 @@
-cf. http://matt.might.net/articles/by-example-continuation-passing-style/
+cf. http://matt.might.net/articles/by-example-continuation-passing-style/ also https://news.ycombinator.com/item?id=9341300
+
+In Lambda Calculus:
+
+call/cc => (lambda (f cc) (f (lambda (x k) (cc x)) cc))
+cssclass:/12345678/12395686
+
+In Javascript:
+
+function callcc (f,cc) {
+  f(function(x,k) { cc(x) },cc)
+}
+cssclass:/12345678/12395686
+
+In Python for Joy:
+
+def callcc(stack, expression):
+  quoted, stack = stack
+  def f(stk, expr):
+    return joy(stk, expression)
+  stack = (f, ()), stack
+  return joy(stack, (quoted, (i, expression)))
+cssclass:/12345678/12395686
+
+hmm...
+
+Get a quoted program off the stack.
+Create a new function f that runs the "captured" expression at the time of calling callcc,
+Put the quoted function [f] onto the stack.
+Run the original quoted program on the new stack
+
 
 I think I got this right:
 
@@ -7,10 +37,15 @@ cssclass:/12345678/12415686
 
 Where:
 
-F ... = z y x
+F ... == z y x
 cssclass:/12345678/12415686
 
-cssclass:/12345678/12395686
+And I believe that F must throw away whatever expression follows it (the '...' above) and only execute 'z y x' to match the behaviour of the e.g. lambda version that throws away the 'k' continuation.
+
+But perhaps it should just be:
+
+... [Q] callcc z y x == ... [z y x] Q z y x 
+cssclass:/12345678/12415686
 
 css:/12345678/00000008
 css:/12345678/01010102

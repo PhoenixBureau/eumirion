@@ -47,5 +47,55 @@ But perhaps it should just be:
 ... [Q] callcc z y x == ... [z y x] Q z y x 
 cssclass:/12345678/12415686
 
+callcc == [dup [concat] dip swap [pop] swap concat swaexpr] swaexpr
+cssclass:/12345678/12415686
+
+
 css:/12345678/00000008
 css:/12345678/01010102
+
+------------------
+
+
+... [a b c] swaexpr z y x == ... [z y x] a b c
+
+... [dup swaexpr] swaexpr z y x == ... [z y x] dup swaexpr
+
+... [z y x] dup swaexpr
+... [z y x] [z y x] swaexpr
+... [z y x] [] z y x
+
+
+
+H == [dup [pop] swap concat swaexpr] swaexpr
+
+... H z y x == ... [z y x] z y x
+
+... [dup [pop] swap concat swaexpr] swaexpr z y x
+... [z y x] dup [pop] swap concat swaexpr
+... [z y x] [z y x] [pop] swap concat swaexpr
+... [z y x] [pop] [z y x] concat swaexpr
+... [z y x] [pop z y x] swaexpr
+... [z y x] [] pop z y x
+... [z y x] z y x
+
+
+
+Call with Current Continuation
+
+C == [dup [concat] dip swap [pop] swap concat swaexpr] swaexpr
+
+... [Q] C z y x == ... [z y x] Q z y x
+
+... [Q] [dup [concat] dip swap [pop] swap concat swaexpr] swaexpr z y x
+... [Q] [z y x] dup [concat] dip swap [pop] swap concat swaexpr
+... [Q] [z y x] [z y x] [concat] dip swap [pop] swap concat swaexpr
+... [Q] [z y x] concat [z y x] swap [pop] swap concat swaexpr
+... [Q z y x] [z y x] swap [pop] swap concat swaexpr
+... [z y x] [Q z y x] [pop] swap concat swaexpr
+... [z y x] [pop] [Q z y x] concat swaexpr
+... [z y x] [pop Q z y x] swaexpr
+... [z y x] [] pop Q z y x
+... [z y x] Q z y x
+
+What's it useful for, in Joy?  I have no idea.

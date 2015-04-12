@@ -20,7 +20,6 @@
 from cgi import FieldStorage
 from os.path import exists, join
 from os import makedirs
-from joy.joy import joy
 from joy.stack import strstack
 from .html import posting, all_pages_pre, all_pages_post
 from .page_actions import (
@@ -30,6 +29,7 @@ from .page_actions import (
   match_dict,
   get_page_data,
   )
+from .utilities.joy_wrapper import JOY
 
 
 DEFAULT_TITLE = 'No Title'
@@ -113,7 +113,7 @@ def run_command(page_data, command, router):
   except KeyError:
     raise ValueError('No available expression for: %r' % (command,))
   stack = page_data.get('joy', ())
-  result = joy(expression, stack)
+  result = JOY(expression, stack)
   print 'running', strstack(expression)
   print 'on', strstack(stack)
   print 'result', strstack(result)

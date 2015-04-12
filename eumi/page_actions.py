@@ -25,6 +25,7 @@ from joy.stack import iter_stack, stack_to_string
 from joy.parser import text_to_expression
 from joy.library import concat
 from .html import fake_out_caching
+from .utilities import joy_wrapper
 
 
 def render_body(content, page, default=''):
@@ -150,7 +151,7 @@ def add_joy(_, page, kind, unit, action=None):
   if not data:
     return
   joy = data['text'].partition('cssclass:')[0]
-  expression = text_to_expression(joy)
+  expression = text_to_expression(joy, joy_wrapper.dictionary)
   if 'joy' in page.data:
     stack = (expression, (page.data['joy'], ()))
     result = concat(stack)[0]

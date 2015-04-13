@@ -1,0 +1,101 @@
+cf. http://matt.might.net/articles/by-example-continuation-passing-style/ also https://news.ycombinator.com/item?id=9341300
+
+In Lambda Calculus:
+
+call/cc => (lambda (f cc) (f (lambda (x k) (cc x)) cc))
+cssclass:/12345678/12395686
+
+In Javascript:
+
+function callcc (f,cc) {
+  f(function(x,k) { cc(x) },cc)
+}
+cssclass:/12345678/12395686
+
+In Python for Joy:
+
+def callcc(stack, expression):
+  quoted, stack = stack
+  def f(stk, expr):
+    return joy(stk, expression)
+  stack = (f, ()), stack
+  return joy(stack, (quoted, (i, expression)))
+cssclass:/12345678/12395686
+
+hmm...
+
+Get a quoted program off the stack.
+Create a new function f that runs the "captured" expression at the time of calling callcc,
+Put the quoted function [f] onto the stack.
+Run the original quoted program on the new stack
+
+
+I think I got this right:
+
+... [Q] callcc z y x == ... [F] Q z y x
+cssclass:/12345678/12415686
+
+Where:
+
+F ... == z y x
+cssclass:/12345678/12415686
+
+And I believe that F must throw away whatever expression follows it (the '...' above) and only execute 'z y x' to match the behaviour of the e.g. lambda version that throws away the 'k' continuation.
+
+But perhaps it should just be:
+
+... [Q] callcc z y x == ... [z y x] Q z y x 
+cssclass:/12345678/12415686
+
+callcc == [dup [concat] dip swap [pop] swap concat swaexpr] swaexpr
+cssclass:/12345678/12415686
+
+
+css:/12345678/00000008
+css:/12345678/01010102
+
+------------------
+
+
+... [a b c] swaexpr z y x == ... [z y x] a b c
+
+... [dup swaexpr] swaexpr z y x == ... [z y x] dup swaexpr
+
+... [z y x] dup swaexpr
+... [z y x] [z y x] swaexpr
+... [z y x] [] z y x
+
+
+
+H == [dup [pop] swap concat swaexpr] swaexpr
+
+... H z y x == ... [z y x] z y x
+
+... [dup [pop] swap concat swaexpr] swaexpr z y x
+... [z y x] dup [pop] swap concat swaexpr
+... [z y x] [z y x] [pop] swap concat swaexpr
+... [z y x] [pop] [z y x] concat swaexpr
+... [z y x] [pop z y x] swaexpr
+... [z y x] [] pop z y x
+... [z y x] z y x
+
+
+
+Call with Current Continuation
+
+C == [dup [concat] dip swap [pop] swap concat swaexpr] swaexpr
+
+... [Q] C z y x == ... [z y x] Q z y x
+
+... [Q] [dup [concat] dip swap [pop] swap concat swaexpr] swaexpr z y x
+... [Q] [z y x] dup [concat] dip swap [pop] swap concat swaexpr
+... [Q] [z y x] [z y x] [concat] dip swap [pop] swap concat swaexpr
+... [Q] [z y x] concat [z y x] swap [pop] swap concat swaexpr
+... [Q z y x] [z y x] swap [pop] swap concat swaexpr
+... [z y x] [Q z y x] [pop] swap concat swaexpr
+... [z y x] [pop] [Q z y x] concat swaexpr
+... [z y x] [pop Q z y x] swaexpr
+... [z y x] [] pop Q z y x
+... [z y x] Q z y x
+
+What's it useful for, in Joy?  I have no idea.

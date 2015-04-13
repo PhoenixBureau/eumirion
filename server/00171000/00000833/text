@@ -1,0 +1,83 @@
+'''
+
+lambda blah blah
+
+
+'''
+
+class LexEnv(dict):
+  def __call__(self, variable):
+    return self[variable]
+  def add(self, variable, value):
+    it = self.__class__(self)
+    it[variable] = value
+    return it
+
+
+def E(e, p):
+  if isinstance(e, basestring):
+    res = p(e)
+  elif e[0] == 'L':
+    variable, rest = e[1], e[2]
+    res = lambda value: E(rest, p.add(variable, value))
+  else:
+    assert len(e) == 2, repr(e)
+    f, a = e
+    f = E(f, p)
+    a = E(a, p)
+    res = f(a)
+  return res
+
+
+
+
+def Ek(e, p, k):
+  if isinstance(e, basestring):
+    res = k(p(e))
+  elif e[0] == 'L':
+    variable, M = e[1], e[2]
+    res = k(lambda value: lambda ktick: Ek(M, p.add(variable, value), ktick))
+  else:
+    assert len(e) == 2, repr(e)
+    M, N = e
+    res = Ek(M, p, lambda f: Ek(N, p, lambda x: f(x)(k)))
+  return res
+
+
+
+
+    
+
+a, b, c, d, e = 'abcde'
+p = LexEnv(a=23)
+
+
+##L0 = ('L', 'x', ('L', 'p', ('p', 'x')))
+##
+##L1 = ('L', 'ex', ('L', 'p', (
+##
+##  ('L', 'e', ...)
+##
+##
+##  )))
+
+
+##print E(L0, p)(a)(p)
+
+
+I = lambda n: n
+
+print Ek(a, p, I)
+
+s0 = ('L', b, b)
+P0 = Ek(s0, p, I)
+##
+##s1 = (s0, a)
+##P = E(s1, p)
+##print P == 23
+##
+##s2 = 'L', c, (s0, c)
+##s3 = s2, a
+##print E(s3, p)
+
+

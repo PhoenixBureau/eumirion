@@ -1,0 +1,24 @@
+http://pythontutor.com/
+
+
+def joy(stack, expression, dictionary):
+  '''
+  Evaluate the Joy expression on the stack.
+  '''
+  while expression:
+    term, expression = expression
+    if callable(term):
+      stack, expression, dictionary = term(stack, expression, dictionary)
+    else:
+      stack = term, stack
+  return stack, expression, dictionary
+
+
+
+def swaack(stack, expression, dictionary):
+  old_stack, stack = stack
+  stack = stack, old_stack
+  return stack, expression, dictionary
+
+e = 1, (2, ((), (swaack, (4, ()))))
+joy((), e, ())

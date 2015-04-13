@@ -1,0 +1,1063 @@
+Addition from first principals
+
+
+Laws of Form Notation
+=====================
+
+nothing: either actually nothing or the underscore '_' character for concreteness.
+
+something: Crossing, Mark, distinction, boundary, name, etc.. 'o' [^GSBs-Crossing]
+
+[^GSBs-Crossing]: Spencer-Brown used an overbar with right-hand downstroke to indicate it (this can be emulated in HTML and CSS with e.g. style="border-top:1px solid black;border-right:1px solid black" on some SPAN or DIV enclosing element.)  This shows containment by the "scope" of the mark without actually graphically containing the "inner" terms, and when working expressions by hand it is a great aid to efficiency over drawing complete circles or boxes around terms.
+
+In what follows I will used paired parentheses in the ususal way to denote containment.
+
+
+Bricken Basis
+-------------
+
+Without further ado,
+
+    B0: A((B)) =  AB
+    B1: oA = o
+    B2: A(AB) = A(B)
+
+Where A and B are understood to stand for any expressions, and o is the Crossing/Mark.
+
+
+Truth Table for Adder Circuit
+=============================
+
+Given two binary digits (bits) a and b and a "carry in" bit c we can define two binary Boolean functions that will give us the sum and the output carry bit from those bits, here are their Truth tables:
+
+
+    a b c | Sum
+    ------+------
+    _ _ _ | _
+    _ _ o | o
+    _ o _ | o
+    _ o o | _
+    o _ _ | o
+    o _ o | _
+    o o _ | _
+    o o o | o
+
+
+    a b c | Carry
+    ------+------
+    _ _ _ | _
+    _ _ o | _
+    _ o _ | _
+    _ o o | o
+    o _ _ | _
+    o _ o | o
+    o o _ | o
+    o o o | o
+
+
+We can produce LoF expressions for these functions by the simple method of OR'ing together terms that each correspond to one row of the table where the output bit is on.
+
+    Sum = (a b(c)) (a(b)c) ((a)b c) ((a)(b)(c))
+
+    Carry = (a(b)(c)) ((a)b(c)) ((a)(b)c) ((a)(b)(c))
+
+
+
+Using "Each-Way" to Simplify Expressions
+========================================
+
+The "Each-Way" rule states:
+
+    E = ((E x)(E (x)))
+
+In effect, this rule is saying, "if x then E else E", which is obviously true and, along with Bricken Basis axiom B2, it gives us a powerful method for dealing with expressions ("Truth Value Analysis", Davis-Putnam-Logemann-Loveland (DPLL) algorithm, etc.)  We can apply it to our expressions to simplify them in preparation for attempting to efficiently build them in a programming language.
+
+    Carry = (a(b)(c)) ((a)b(c)) ((a)(b)c) ((c)(a)(b))
+    w/ c: _
+          = (a(b)( )) ((a)b( )) ((a)(b) ) (( )(a)(b))
+          = (a(b) o ) ((a)b o ) ((a)(b) ) ( o (a)(b))
+    by B1
+          = (     o ) (     o ) ((a)(b) ) ( o       )
+    by B0
+          =                     ((a)(b) )
+
+       C_ = ((a)(b))
+
+
+
+    Carry = (a(b)(c)) ((a)b(c)) ((a)(b)c) ((c)(a)(b))
+    w/ c: o
+          = (a(b)(o)) ((a)b(o)) ((a)(b)o) ((o)(a)(b))
+    by B1
+          = (a(b)(o)) ((a)b(o)) (      o) ((o)(a)(b))
+    by B0
+          = (a(b)   ) ((a)b   )           (   (a)(b))
+
+       Co = (a(b)) ((a)b) ((a)(b))
+
+Note that:
+    (a(b)) ((a)b) ((a)(b)) == a b
+
+       Co = a b
+
+
+    Carry = ((C_ c)(Co (c)))
+
+    Carry = ( (((a)(b)) c) (a b (c)) )
+
+
+The Sum expression corresponds to:
+
+    a XOR b XOR c
+
+and cannot be simplified further.  However, one application of the above method will put the expression into a form that will be easier to implement:
+
+    Sum = ( 
+            ( c  (a(b))  ((a)b) )
+            ((c) (a b)  ((a)(b)) )
+          )
+
+
+Implementing Laws of Form in Time Using Joy
+===========================================
+
+
+To use the above expressions to add we encode the bits as LoF forms, build the expressions from above, and then reduce them to Mark or Void with a function:
+
+    def void(form):
+     return any(not void(i) for i in form)
+
+This Python function returns True if a form has the value of Void and False if it has the value of Mark.
+
+We will derive a Joy function FBA that accepts a carry bit and two addem bits in a list and replaces them twith the sum and result carry bits.
+
+    c [a b] FBA == carry sum
+
+
+Working first just with the
+
+  Sum = [ [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] ]
+
+  [ [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] ]
+
+  [c [a[b]] [[a]b]] [[c] [a b] [[a][b]]] . [] cons cons
+
+  c [[a[b]] [[a]b]] cons [[c] [a b] [[a][b]]] . [] cons cons
+
+  c [[a[b]] [[a]b]] [[c] [a b] [[a][b]]] . [cons] dip [] cons cons
+
+  c [[a[b]] [[a]b]] [c] [[a b] [[a][b]]] . cons [cons] dip [] cons cons
+
+  c [c] [[a[b]] [[a]b]] swap [[a b] [[a][b]]] . cons [cons] dip [] cons cons
+
+  c [c] [[a[b]] [[a]b]] [[a b] [[a][b]]] . [swap] dip cons [cons] dip [] cons cons
+
+  c [c] [[a[b]] [[a]b]] [a b] [[a][b]] . [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c [c] [[a[b]] [[a]b]] [a b] . dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c [c] [a b] [[a[b]] [[a]b]] . swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c [c] [a b] [a[b]] [[a]b] . [] cons cons swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c [c] [a b] [a[b]] [a b] . [unit] infra [] cons cons swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c [c] [a b] [a b] [a[b]] . swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c [c] [a b] [a b] [a b] . [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c [c] [a b] . dup dup [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c c . [] cons [a b] dup dup [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c . dup [] cons [a b] dup dup [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+  c [a b] . [dup [] cons] dip dup dup [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+
+
+
+
+
+
+  Carry = [ [[[a][b]] c] [a b [c]] ]
+
+  [ [[[a][b]] c] [[c] a b] ]
+
+  [[[a][b]] c] [[c] a b] . [] cons cons
+
+  [[a][b]] [c] . cons [[c] a b] [] cons cons
+
+  [[a][b]] [c] [[c] a b] . [cons] dip [] cons cons
+
+  [[a][b]] [c] [c] [a b] . cons [cons] dip [] cons cons
+
+  [[a][b]] [a b] [c] [c] . roll< cons [cons] dip [] cons cons
+
+  [[a][b]] [a b] [c] . dup roll< cons [cons] dip [] cons cons
+
+  [[a][b]] [a b] c . unit dup roll< cons [cons] dip [] cons cons
+
+  c [[a][b]] [a b] . roll< unit dup roll< cons [cons] dip [] cons cons
+
+  c [a b] [[a][b]] . swap roll< unit dup roll< cons [cons] dip [] cons cons
+
+  c [a b] [a b] . [unit] map swap roll< unit dup roll< cons [cons] dip [] cons cons
+
+  c [a b] . dup [unit] map swap roll< unit dup roll< cons [cons] dip [] cons cons
+
+
+
+
+
+  Sum == [dup [] cons] dip dup dup [[unit] dip] infra swap [unit] infra [] cons cons swap dup [unit] map [] cons cons [swap] dip cons [cons] dip [] cons cons
+  Carry == dup [unit] map swap roll< unit dup roll< cons [cons] dip [] cons cons
+
+  w/
+    unit == [] cons
+    umap == [unit] map
+    unit2 == [] cons cons
+
+  Sum == [dup unit] dip dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2
+  Carry == dup umap swap roll< unit dup roll< cons [cons] dip unit2
+
+We can define FBA as:
+
+  c [a b] . [Sum] nullary Carry
+
+In order to reduce the expressions so constructed, we include the void command in the quoted programs:
+
+
+  FBA == [Sum void] nullary [Carry void] dip
+
+
+
+Using FBA to Sum Two Numbers
+============================
+
+
+    zip [] swap [[]] swap [FBA roll< cons swap] step swap reverse
+
+
+
+    [a0 a1 a2] [b0 b1 b2] zip [] swap [[]] swap
+
+    [[a0 b0] [a1 b1] [a2 b2]] [] swap [[]] swap
+
+    [] [[a0 b0] [a1 b1] [a2 b2]] [[]] swap
+
+    [] [[]] [[a0 b0] [a1 b1] [a2 b2]]
+
+
+    [] [[]] [[a0 b0] [a1 b1] [a2 b2]]
+    [FBA roll< cons swap] step swap reverse
+
+
+    [] [[]] [[a0 b0] [a1 b1] [a2 b2]] [FBA roll< cons swap] step swap reverse
+
+    [] [[]] [a0 b0] FBA roll< cons swap
+
+    [] carry sum0 roll< cons swap
+
+    carry sum0 [] cons swap
+
+    carry [sum0] swap
+
+    [sum0] carry
+
+Next step
+
+    [sum0] carry [a1 b1] FBA roll< cons swap
+
+    [sum0] carry sum1 roll< cons swap
+
+    carry sum1 [] cons swap
+
+    carry [sum1 sum0] swap
+
+    [sum1 sum0] carry
+
+Next step
+
+    [sum1 sum0] carry [a2 b2] FBA roll< cons swap
+
+    [sum1 sum0] carry sum1 roll< cons swap
+
+    carry sum2 [sum1 sum0] cons swap
+
+    carry [sum2 sum1 sum0] swap
+
+    [sum2 sum1 sum0] carry
+
+Finish
+
+    [sum2 sum1 sum0] carry swap reverse
+
+    carry [sum2 sum1 sum0] reverse
+
+    carry [sum0 sum1 sum2]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+umap == [unit] map
+unit2 == unit cons
+Sum == [dup unit] dip dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2
+Carry == dup roll< unit dup roll< cons roll> [cons] cons map cons
+FBA == [Sum void] nullary [Carry void] dip
+
+
+
+[[][][]] [[][][]] zip [] swap [[]] swap [FBA roll< cons swap] step swap reverse
+
+ . [[] [] []] [[] [] []] zip [] swap [[]] swap [FBA rolldown cons swap] step swap reverse
+[[] [] []] . [[] [] []] zip [] swap [[]] swap [FBA rolldown cons swap] step swap reverse
+[[] [] []] [[] [] []] . zip [] swap [[]] swap [FBA rolldown cons swap] step swap reverse
+[[[] []] [[] []] [[] []]] . [] swap [[]] swap [FBA rolldown cons swap] step swap reverse
+[[[] []] [[] []] [[] []]] [] . swap [[]] swap [FBA rolldown cons swap] step swap reverse
+[] [[[] []] [[] []] [[] []]] . [[]] swap [FBA rolldown cons swap] step swap reverse
+[] [[[] []] [[] []] [[] []]] [[]] . swap [FBA rolldown cons swap] step swap reverse
+[] [[]] [[[] []] [[] []] [[] []]] . [FBA rolldown cons swap] step swap reverse
+[] [[]] [[[] []] [[] []] [[] []]] [FBA rolldown cons swap] . step swap reverse
+[] [[]] [[] []] . FBA rolldown cons swap
+[] [[]] [[] []] . [Sum void] nullary [Carry void] dip rolldown cons swap
+[] [[]] [[] []] [Sum void] . nullary [Carry void] dip rolldown cons swap
+[] [[]] [[] []] . Sum void
+[] [[]] [[] []] . [dup unit] dip dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[] []] [dup unit] . dip dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [dup unit] . i [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] . dup unit [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[]] . unit [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[]] . [] cons [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[]] [] . cons [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] . [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] . dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] []] . dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] []] [[] []] . [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] []] [[] []] [[unit] dip] . infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [[unit] dip] . i [[[] []] [[] []] [[[]]] [[]] []] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . [unit] dip [[[] []] [[] []] [[[]]] [[]] []] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [unit] . dip [[[] []] [[] []] [[[]]] [[]] []] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [unit] . i [] [[[] []] [[] []] [[[]]] [[]] []] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] . unit [] [[[] []] [[] []] [[[]]] [[]] []] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] . [] cons [] [[[] []] [[] []] [[[]]] [[]] []] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . cons [] [[[] []] [[] []] [[[]]] [[]] []] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[]] . [] [[[] []] [[] []] [[[]]] [[]] []] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[]] [] . [[[] []] [[] []] [[[]]] [[]] []] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[]] [] [[[] []] [[] []] [[[]]] [[]] []] . swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] []] [[] [[]]] . swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] [[]]] [[] []] . [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] [[]]] [[] []] [unit] . infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [unit] . i [[[] [[]]] [[] []] [[[]]] [[]] []] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . unit [[[] [[]]] [[] []] [[[]]] [[]] []] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . [] cons [[[] [[]]] [[] []] [[[]]] [[]] []] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [] . cons [[[] [[]]] [[] []] [[[]]] [[]] []] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] . [[[] [[]]] [[] []] [[[]]] [[]] []] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[] [[]]] [[] []] [[[]]] [[]] []] . swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] [[]]] [[[]] []] . unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] [[]]] [[[]] []] . unit cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] [[]]] [[[]] []] . [] cons cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] [[]]] [[[]] []] [] . cons cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[] [[]]] [[[[]] []]] . cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[] []] [[[] [[]]] [[[]] []]] . swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] . dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[] []] . umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[] []] . [unit] map unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[] []] [unit] . map unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [] . unit
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [] . [] cons
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [] [] . cons
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[]] . 
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [] . unit
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [] . [] cons
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [] [] . cons
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[]] . 
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] . unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] . unit cons [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] . [] cons cons [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] [] . cons cons [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[] []] [[[[]] [[]]]] . cons [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[[] []] [[[]] [[]]]] . [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [[[] []] [[[]] [[]]]] [swap] . dip cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] [swap] . i [[[] []] [[[]] [[]]]] cons [cons] dip unit2 void
+[] [[]] [[[]]] [[[] [[]]] [[[]] []]] . swap [[[] []] [[[]] [[]]]] cons [cons] dip unit2 void
+[] [[]] [[[] [[]]] [[[]] []]] [[[]]] . [[[] []] [[[]] [[]]]] cons [cons] dip unit2 void
+[] [[]] [[[] [[]]] [[[]] []]] [[[]]] [[[] []] [[[]] [[]]]] . cons [cons] dip unit2 void
+[] [[]] [[[] [[]]] [[[]] []]] [[[[]]] [[] []] [[[]] [[]]]] . [cons] dip unit2 void
+[] [[]] [[[] [[]]] [[[]] []]] [[[[]]] [[] []] [[[]] [[]]]] [cons] . dip unit2 void
+[] [[]] [[[] [[]]] [[[]] []]] [cons] . i [[[[]]] [[] []] [[[]] [[]]]] unit2 void
+[] [[]] [[[] [[]]] [[[]] []]] . cons [[[[]]] [[] []] [[[]] [[]]]] unit2 void
+[] [[[]] [[] [[]]] [[[]] []]] . [[[[]]] [[] []] [[[]] [[]]]] unit2 void
+[] [[[]] [[] [[]]] [[[]] []]] [[[[]]] [[] []] [[[]] [[]]]] . unit2 void
+[] [[[]] [[] [[]]] [[[]] []]] [[[[]]] [[] []] [[[]] [[]]]] . unit cons void
+[] [[[]] [[] [[]]] [[[]] []]] [[[[]]] [[] []] [[[]] [[]]]] . [] cons cons void
+[] [[[]] [[] [[]]] [[[]] []]] [[[[]]] [[] []] [[[]] [[]]]] [] . cons cons void
+[] [[[]] [[] [[]]] [[[]] []]] [[[[[]]] [[] []] [[[]] [[]]]]] . cons void
+[] [[[[]] [[] [[]]] [[[]] []]] [[[[]]] [[] []] [[[]] [[]]]]] . void
+[] [[]] . 
+[] [[]] [[] []] [[]] . [Carry void] dip rolldown cons swap
+[] [[]] [[] []] [[]] [Carry void] . dip rolldown cons swap
+[] [[]] [[] []] [Carry void] . i [[]] rolldown cons swap
+[] [[]] [[] []] . Carry void [[]] rolldown cons swap
+[] [[]] [[] []] . dup rolldown unit dup rolldown cons rollup [cons] cons map cons void [[]] rolldown cons swap
+[] [[]] [[] []] [[] []] . rolldown unit dup rolldown cons rollup [cons] cons map cons void [[]] rolldown cons swap
+[] [[] []] [[] []] [[]] . unit dup rolldown cons rollup [cons] cons map cons void [[]] rolldown cons swap
+[] [[] []] [[] []] [[]] . [] cons dup rolldown cons rollup [cons] cons map cons void [[]] rolldown cons swap
+[] [[] []] [[] []] [[]] [] . cons dup rolldown cons rollup [cons] cons map cons void [[]] rolldown cons swap
+[] [[] []] [[] []] [[[]]] . dup rolldown cons rollup [cons] cons map cons void [[]] rolldown cons swap
+[] [[] []] [[] []] [[[]]] [[[]]] . rolldown cons rollup [cons] cons map cons void [[]] rolldown cons swap
+[] [[] []] [[[]]] [[[]]] [[] []] . cons rollup [cons] cons map cons void [[]] rolldown cons swap
+[] [[] []] [[[]]] [[[[]]] [] []] . rollup [cons] cons map cons void [[]] rolldown cons swap
+[] [[[[]]] [] []] [[] []] [[[]]] . [cons] cons map cons void [[]] rolldown cons swap
+[] [[[[]]] [] []] [[] []] [[[]]] [cons] . cons map cons void [[]] rolldown cons swap
+[] [[[[]]] [] []] [[] []] [[[[]]] cons] . map cons void [[]] rolldown cons swap
+[] [[[[]]] [] []] [] . [[[]]] cons
+[] [[[[]]] [] []] [] [[[]]] . cons
+[] [[[[]]] [] []] [[] [[]]] . 
+[] [[[[]]] [] []] [] . [[[]]] cons
+[] [[[[]]] [] []] [] [[[]]] . cons
+[] [[[[]]] [] []] [[] [[]]] . 
+[] [[[[]]] [] []] [[[] [[]]] [[] [[]]]] . cons void [[]] rolldown cons swap
+[] [[[[[]]] [] []] [[] [[]]] [[] [[]]]] . void [[]] rolldown cons swap
+[] [] . [[]] rolldown cons swap
+[] [] [[]] . rolldown cons swap
+[] [[]] [] . cons swap
+[] [[[]]] . swap
+[[[]]] [] . 
+[[[]]] [] [[] []] . FBA rolldown cons swap
+[[[]]] [] [[] []] . [Sum void] nullary [Carry void] dip rolldown cons swap
+[[[]]] [] [[] []] [Sum void] . nullary [Carry void] dip rolldown cons swap
+[[[]]] [] [[] []] . Sum void
+[[[]]] [] [[] []] . [dup unit] dip dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[] []] [dup unit] . dip dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [dup unit] . i [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] . dup unit [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [] . unit [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [] . [] cons [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [] [] . cons [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] . [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] . dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] []] . dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] []] [[] []] . [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] []] [[] []] [[unit] dip] . infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [[unit] dip] . i [[[] []] [[] []] [[]] [] [[[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . [unit] dip [[[] []] [[] []] [[]] [] [[[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [unit] . dip [[[] []] [[] []] [[]] [] [[[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [unit] . i [] [[[] []] [[] []] [[]] [] [[[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] . unit [] [[[] []] [[] []] [[]] [] [[[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] . [] cons [] [[[] []] [[] []] [[]] [] [[[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . cons [] [[[] []] [[] []] [[]] [] [[[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[]] . [] [[[] []] [[] []] [[]] [] [[[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[]] [] . [[[] []] [[] []] [[]] [] [[[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[]] [] [[[] []] [[] []] [[]] [] [[[]]]] . swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] []] [[] [[]]] . swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] [[]]] [[] []] . [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] [[]]] [[] []] [unit] . infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [unit] . i [[[] [[]]] [[] []] [[]] [] [[[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . unit [[[] [[]]] [[] []] [[]] [] [[[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . [] cons [[[] [[]]] [[] []] [[]] [] [[[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [] . cons [[[] [[]]] [[] []] [[]] [] [[[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] . [[[] [[]]] [[] []] [[]] [] [[[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[] [[]]] [[] []] [[]] [] [[[]]]] . swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] [[]]] [[[]] []] . unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] [[]]] [[[]] []] . unit cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] [[]]] [[[]] []] . [] cons cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] [[]]] [[[]] []] [] . cons cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[] [[]]] [[[[]] []]] . cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[] []] [[[] [[]]] [[[]] []]] . swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] . dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[] []] . umap unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[] []] . [unit] map unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[] []] [unit] . map unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] . unit
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] . [] cons
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] [] . cons
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[]] . 
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] . unit
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] . [] cons
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] [] . cons
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[]] . 
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] . unit2 [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] . unit cons [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] . [] cons cons [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] [] . cons cons [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[[]] [[]]]] . cons [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[[] []] [[[]] [[]]]] . [swap] dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [[[] []] [[[]] [[]]]] [swap] . dip cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] [swap] . i [[[] []] [[[]] [[]]]] cons [cons] dip unit2 void
+[[[]]] [] [[]] [[[] [[]]] [[[]] []]] . swap [[[] []] [[[]] [[]]]] cons [cons] dip unit2 void
+[[[]]] [] [[[] [[]]] [[[]] []]] [[]] . [[[] []] [[[]] [[]]]] cons [cons] dip unit2 void
+[[[]]] [] [[[] [[]]] [[[]] []]] [[]] [[[] []] [[[]] [[]]]] . cons [cons] dip unit2 void
+[[[]]] [] [[[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] . [cons] dip unit2 void
+[[[]]] [] [[[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] [cons] . dip unit2 void
+[[[]]] [] [[[] [[]]] [[[]] []]] [cons] . i [[[]] [[] []] [[[]] [[]]]] unit2 void
+[[[]]] [] [[[] [[]]] [[[]] []]] . cons [[[]] [[] []] [[[]] [[]]]] unit2 void
+[[[]]] [[] [[] [[]]] [[[]] []]] . [[[]] [[] []] [[[]] [[]]]] unit2 void
+[[[]]] [[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] . unit2 void
+[[[]]] [[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] . unit cons void
+[[[]]] [[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] . [] cons cons void
+[[[]]] [[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] [] . cons cons void
+[[[]]] [[] [[] [[]]] [[[]] []]] [[[[]] [[] []] [[[]] [[]]]]] . cons void
+[[[]]] [[[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]]] . void
+[[[]]] [] . 
+[[[]]] [] [[] []] [] . [Carry void] dip rolldown cons swap
+[[[]]] [] [[] []] [] [Carry void] . dip rolldown cons swap
+[[[]]] [] [[] []] [Carry void] . i [] rolldown cons swap
+[[[]]] [] [[] []] . Carry void [] rolldown cons swap
+[[[]]] [] [[] []] . dup rolldown unit dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[[]]] [] [[] []] [[] []] . rolldown unit dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[[]]] [[] []] [[] []] [] . unit dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[[]]] [[] []] [[] []] [] . [] cons dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[[]]] [[] []] [[] []] [] [] . cons dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[[]]] [[] []] [[] []] [[]] . dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[[]]] [[] []] [[] []] [[]] [[]] . rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[[]]] [[] []] [[]] [[]] [[] []] . cons rollup [cons] cons map cons void [] rolldown cons swap
+[[[]]] [[] []] [[]] [[[]] [] []] . rollup [cons] cons map cons void [] rolldown cons swap
+[[[]]] [[[]] [] []] [[] []] [[]] . [cons] cons map cons void [] rolldown cons swap
+[[[]]] [[[]] [] []] [[] []] [[]] [cons] . cons map cons void [] rolldown cons swap
+[[[]]] [[[]] [] []] [[] []] [[[]] cons] . map cons void [] rolldown cons swap
+[[[]]] [[[]] [] []] [] . [[]] cons
+[[[]]] [[[]] [] []] [] [[]] . cons
+[[[]]] [[[]] [] []] [[] []] . 
+[[[]]] [[[]] [] []] [] . [[]] cons
+[[[]]] [[[]] [] []] [] [[]] . cons
+[[[]]] [[[]] [] []] [[] []] . 
+[[[]]] [[[]] [] []] [[[] []] [[] []]] . cons void [] rolldown cons swap
+[[[]]] [[[[]] [] []] [[] []] [[] []]] . void [] rolldown cons swap
+[[[]]] [] . [] rolldown cons swap
+[[[]]] [] [] . rolldown cons swap
+[] [] [[[]]] . cons swap
+[] [[] [[]]] . swap
+[[] [[]]] [] . 
+[[] [[]]] [] [[] []] . FBA rolldown cons swap
+[[] [[]]] [] [[] []] . [Sum void] nullary [Carry void] dip rolldown cons swap
+[[] [[]]] [] [[] []] [Sum void] . nullary [Carry void] dip rolldown cons swap
+[[] [[]]] [] [[] []] . Sum void
+[[] [[]]] [] [[] []] . [dup unit] dip dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[] []] [dup unit] . dip dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [dup unit] . i [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] . dup unit [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [] . unit [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [] . [] cons [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [] [] . cons [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] . [[] []] dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] . dup dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] []] . dup [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] []] [[] []] . [[unit] dip] infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] []] [[] []] [[unit] dip] . infra swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [[unit] dip] . i [[[] []] [[] []] [[]] [] [[] [[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . [unit] dip [[[] []] [[] []] [[]] [] [[] [[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [unit] . dip [[[] []] [[] []] [[]] [] [[] [[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [unit] . i [] [[[] []] [[] []] [[]] [] [[] [[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] . unit [] [[[] []] [[] []] [[]] [] [[] [[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] . [] cons [] [[[] []] [[] []] [[]] [] [[] [[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . cons [] [[[] []] [[] []] [[]] [] [[] [[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[]] . [] [[[] []] [[] []] [[]] [] [[] [[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[]] [] . [[[] []] [[] []] [[]] [] [[] [[]]]] swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[]] [] [[[] []] [[] []] [[]] [] [[] [[]]]] . swaack swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] []] [[] [[]]] . swap [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] [[]]] [[] []] . [unit] infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] [[]]] [[] []] [unit] . infra unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [unit] . i [[[] [[]]] [[] []] [[]] [] [[] [[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . unit [[[] [[]]] [[] []] [[]] [] [[] [[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] . [] cons [[[] [[]]] [[] []] [[]] [] [[] [[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [] [] . cons [[[] [[]]] [[] []] [[]] [] [[] [[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] . [[[] [[]]] [[] []] [[]] [] [[] [[]]]] swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[] [[]] [[[] [[]]] [[] []] [[]] [] [[] [[]]]] . swaack unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] [[]]] [[[]] []] . unit2 swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] [[]]] [[[]] []] . unit cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] [[]]] [[[]] []] . [] cons cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] [[]]] [[[]] []] [] . cons cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[] [[]]] [[[[]] []]] . cons swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[] []] [[[] [[]]] [[[]] []]] . swap dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] . dup umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[] []] . umap unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[] []] . [unit] map unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[] []] [unit] . map unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] . unit
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] . [] cons
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] [] . cons
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[]] . 
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] . unit
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] . [] cons
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [] [] . cons
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[]] . 
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] . unit2 [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] . unit cons [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] . [] cons cons [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[]] [[]]] [] . cons cons [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[] []] [[[[]] [[]]]] . cons [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[[] []] [[[]] [[]]]] . [swap] dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [[[] []] [[[]] [[]]]] [swap] . dip cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] [swap] . i [[[] []] [[[]] [[]]]] cons [cons] dip unit2 void
+[[] [[]]] [] [[]] [[[] [[]]] [[[]] []]] . swap [[[] []] [[[]] [[]]]] cons [cons] dip unit2 void
+[[] [[]]] [] [[[] [[]]] [[[]] []]] [[]] . [[[] []] [[[]] [[]]]] cons [cons] dip unit2 void
+[[] [[]]] [] [[[] [[]]] [[[]] []]] [[]] [[[] []] [[[]] [[]]]] . cons [cons] dip unit2 void
+[[] [[]]] [] [[[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] . [cons] dip unit2 void
+[[] [[]]] [] [[[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] [cons] . dip unit2 void
+[[] [[]]] [] [[[] [[]]] [[[]] []]] [cons] . i [[[]] [[] []] [[[]] [[]]]] unit2 void
+[[] [[]]] [] [[[] [[]]] [[[]] []]] . cons [[[]] [[] []] [[[]] [[]]]] unit2 void
+[[] [[]]] [[] [[] [[]]] [[[]] []]] . [[[]] [[] []] [[[]] [[]]]] unit2 void
+[[] [[]]] [[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] . unit2 void
+[[] [[]]] [[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] . unit cons void
+[[] [[]]] [[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] . [] cons cons void
+[[] [[]]] [[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]] [] . cons cons void
+[[] [[]]] [[] [[] [[]]] [[[]] []]] [[[[]] [[] []] [[[]] [[]]]]] . cons void
+[[] [[]]] [[[] [[] [[]]] [[[]] []]] [[[]] [[] []] [[[]] [[]]]]] . void
+[[] [[]]] [] . 
+[[] [[]]] [] [[] []] [] . [Carry void] dip rolldown cons swap
+[[] [[]]] [] [[] []] [] [Carry void] . dip rolldown cons swap
+[[] [[]]] [] [[] []] [Carry void] . i [] rolldown cons swap
+[[] [[]]] [] [[] []] . Carry void [] rolldown cons swap
+[[] [[]]] [] [[] []] . dup rolldown unit dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [] [[] []] [[] []] . rolldown unit dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [[] []] [[] []] [] . unit dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [[] []] [[] []] [] . [] cons dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [[] []] [[] []] [] [] . cons dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [[] []] [[] []] [[]] . dup rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [[] []] [[] []] [[]] [[]] . rolldown cons rollup [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [[] []] [[]] [[]] [[] []] . cons rollup [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [[] []] [[]] [[[]] [] []] . rollup [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [[[]] [] []] [[] []] [[]] . [cons] cons map cons void [] rolldown cons swap
+[[] [[]]] [[[]] [] []] [[] []] [[]] [cons] . cons map cons void [] rolldown cons swap
+[[] [[]]] [[[]] [] []] [[] []] [[[]] cons] . map cons void [] rolldown cons swap
+[[] [[]]] [[[]] [] []] [] . [[]] cons
+[[] [[]]] [[[]] [] []] [] [[]] . cons
+[[] [[]]] [[[]] [] []] [[] []] . 
+[[] [[]]] [[[]] [] []] [] . [[]] cons
+[[] [[]]] [[[]] [] []] [] [[]] . cons
+[[] [[]]] [[[]] [] []] [[] []] . 
+[[] [[]]] [[[]] [] []] [[[] []] [[] []]] . cons void [] rolldown cons swap
+[[] [[]]] [[[[]] [] []] [[] []] [[] []]] . void [] rolldown cons swap
+[[] [[]]] [] . [] rolldown cons swap
+[[] [[]]] [] [] . rolldown cons swap
+[] [] [[] [[]]] . cons swap
+[] [[] [] [[]]] . swap
+[[] [] [[]]] [] . 
+[[] [] [[]]] [] . swap reverse
+[] [[] [] [[]]] . reverse
+[] [[] [] [[]]] . [] swap shunt
+[] [[] [] [[]]] [] . swap shunt
+[] [] [[] [] [[]]] . shunt
+[] [] [[] [] [[]]] . [swons] step
+[] [] [[] [] [[]]] [swons] . step
+[] [] [] . swons
+[] [] [] . swap cons
+[] [] [] . cons
+[] [[]] . 
+[] [[]] [] . swons
+[] [[]] [] . swap cons
+[] [] [[]] . cons
+[] [[] []] . 
+[] [[] []] [[]] . swons
+[] [[] []] [[]] . swap cons
+[] [[]] [[] []] . cons
+[] [[[]] [] []] . 
+[] [[[]] [] []] . 
+
+-> [[[]] [] []] []
+
+joy? 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nothing
+Make a distinction
+Names itself,
+  calling twice is the same as calling once,
+  crossing then crossing again is the same as not crossing.
+
+Whether you consider this a simple mnemonic story or a deep mystic truth seems to be a matter of opinion.
+
+
+
+
+
+
+
+
+
+    Carry = ( (((a)(b)) c) (a b (c)) )
+    by Distribute:
+          = ( (((a c)(b c))) (a b (c)) )
+    by B0:
+          = (   (a c)(b c)   (a b (c)) )
+
+
+
+
+    [[[c] a b] [a c] [b c]]
+
+    [[c] a b] [[a c] [b c]] cons
+
+    [[c] a b] [a b] [[c] cons] map
+
+    [[c] a b] [a b] [c] [cons] cons map
+
+    [a b] [c] [[c] a b] roll> [cons] cons map
+
+    [a b] [c] [c] [a b] cons roll> [cons] cons map
+
+    [a b] [a b] [c] [c] roll< cons roll> [cons] cons map
+
+    [a b] [a b] [c] dup roll< cons roll> [cons] cons map
+
+    [a b] [a b] c unit dup roll< cons roll> [cons] cons map
+
+    c [a b] [a b] roll< unit dup roll< cons roll> [cons] cons map
+
+    c [a b] dup roll< unit dup roll< cons roll> [cons] cons map
+
+
+
+
+                       c [a b] . dup roll< unit dup roll< cons roll> [cons] cons map cons
+                 c [a b] [a b] . roll< unit dup roll< cons roll> [cons] cons map cons
+                 [a b] [a b] c . unit dup roll< cons roll> [cons] cons map cons
+               [a b] [a b] [c] . dup roll< cons roll> [cons] cons map cons
+           [a b] [a b] [c] [c] . roll< cons roll> [cons] cons map cons
+           [a b] [c] [c] [a b] . cons roll> [cons] cons map cons
+           [a b] [c] [[c] a b] . roll> [cons] cons map cons
+           [[c] a b] [a b] [c] . [cons] cons map cons
+    [[c] a b] [a b] [c] [cons] . cons map cons
+    [[c] a b] [a b] [[c] cons] . map cons
+       [[c] a b] [[a c] [b c]] . cons
+       [[[c] a b] [a c] [b c]] .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Use Distribute
+--------------
+
+    ((pr)(qr)) = r((p)(q))
+
+
+    Carry = ( ( ((a)(b)) c) ( (a(b)) ((a)b) ((a)(b)) (c)) )
+
+    Distribute with:
+      r: ((a)(b))
+      p: c
+      q: (a(b)) ((a)b) (c)
+
+    Carry = ((a)(b)) ( (c) ( (a(b)) ((a)b) (c) ) )
+    
+    by B2, w/ A: (c)
+          = ((a)(b)) ( (c) ( (a(b)) ((a)b)     ) )
+
+
+    Carry = ((a)(b)) ((c) ((a(b)) ((a)b)
+
+
+
+
+
+
+Note that:
+    (a(b)) ((a)b) ((a)(b)) == a b
+
+Proof, using:
+
+    X = Y iif (X)Y = X(Y) = o
+
+
+    ((a(b)) ((a)b) ((a)(b))) a b
+    by B2:
+    (( ( )) (( ) ) (( )( ))) a b
+    ((  o ) ( o  ) ( o  o )) a b
+    by B1:
+    ((  o ) ( o  ) ( o    )) a b
+    by B0:
+    (                      ) a b
+    by B1:
+    o
+
+
+    (a(b)) ((a)b) ((a)(b)) (a b)
+
+    Consider just:
+    (a(b)) (a b)
+
+    by B2 (Insert (a b) into (b)):
+    (a(b (a b))) (a b)
+
+    Consider just:
+    (a(b (a b)))
+
+    by B2:
+    (a(b (   )))
+    (a(b   o  ))
+    by B2:
+    (a(    o  ))
+    by B0:
+    (a         )
+
+
+    So:
+    (a(b)) (a b) = (a) (a b)
+
+    Likewise:
+    ((a)b) (a b) = (b) (a b)
+
+    So:
+    (a) (b) ((a)(b)) (a b)
+    by B2:
+    (a) (b) (      ) (a b)
+    (a) (b)     o    (a b)
+    by B1:
+    o
+
+QED

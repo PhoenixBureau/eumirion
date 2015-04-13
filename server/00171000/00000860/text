@@ -1,0 +1,28 @@
+from egg import *
+from void import truth_table, pretty
+
+a, b, c = 'abc'
+
+
+Cout = ((
+  ( c,  (a,),(b,)),
+  ((c,), a,  (b,)),
+  ((c,),(a,), b  ),
+  ((c,),(a,),(b,)),
+  ),)
+
+Sum = ((
+  ( c,   a,  (b,)),
+  ( c,  (a,), b ),
+  ((c,), a,   b ),
+  ((c,),(a,),(b,)),
+  ),)
+
+
+#truth_table(Cout)
+#truth_table(Sum)
+
+print pretty(Cout)
+for ch in (c, a, b):
+  Cout = Reduce(standard_form(ch, Cout))
+  print pretty(Cout)

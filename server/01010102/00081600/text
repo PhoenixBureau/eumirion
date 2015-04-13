@@ -1,0 +1,1 @@
+There are a few demonstration scripts and some utilities for the server.  They show how to do things like load a server from a server content directory and write out static HTML files to a web document directory.

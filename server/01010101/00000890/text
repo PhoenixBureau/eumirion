@@ -1,0 +1,38 @@
+diff --git a/eumi/joy/combinators.py b/eumi/joy/combinators.py
+index 1ca8976..b8ea7e5 100644
+--- a/eumi/joy/combinators.py
++++ b/eumi/joy/combinators.py
+@@ -199,3 +199,21 @@ def ternary(S):
+   _, (_, (_, return_stack)) = stack
+   result = joy(quote, stack)
+   return result[0], return_stack
++
++
++def linrec(S):
++  '''
++  The linrec combinator for linear recursion expects an if-part, a then-
++  part, an else1-part and on top an else2-part. Like the ifte combinator it
++  executes the if-part, and if that yields true it executes the then-part.
++  Otherwise it executes the else1-part, then it recurses with all four
++  parts, and finally it executes the else2-part.
++  '''
++  else2, (else1, (then, (if_, stack))) = S
++  n = joy(if_, stack)[0]
++  if n:
++    stack = joy(then, stack)
++  else:
++    stack = joy(else1, stack)
++    stack = linrec((else2, (else1, (then, (if_, stack)))))
++  return joy(else2, stack)
+diff --git a/eumi/joy/initializer.py b/eumi/joy/initializer.py
+index 8f8d4a0..5995bb2 100644
+--- a/eumi/joy/initializer.py
++++ b/eumi/joy/initializer.py
+@@ -79,6 +79,7 @@ FUNCTIONS.update({
+   'unary': FunctionWrapper(unary),
+   'while': FunctionWrapper(while_),
+   'x': FunctionWrapper(x),
++  'linrec': FunctionWrapper(linrec),
+   })
+ 
+ 

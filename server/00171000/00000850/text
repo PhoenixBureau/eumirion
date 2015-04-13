@@ -1,0 +1,67 @@
+Full Bit Adder
+
+A function FBA that takes a pair of bits and a carry-in bit and
+returns a carry-out bit and a sum bit.
+
+Cin [a b] FBA -> Cout Sum
+
+
+The Truth table:
+
+C a b | C S
+_ _ _ | _ _
+_ _ o | _ o
+_ o _ | _ o
+_ o o | o _
+o _ _ | _ o
+o _ o | o _
+o o _ | o _
+o o o | o o
+
+
+Standard forms for the two output bits.
+
+Cout = ( c (a)(b))
+       ((c) a (b))
+       ((c)(a) b )
+       ((c)(a)(b))
+
+Sum =  ( c  a (b))
+       ( c (a) b )
+       ((c) a  b )
+       ((c)(a)(b))
+
+
+Simplify the forms (just a little to make them easy to implement in Joy.)
+
+E = ( (a Ea) ((a) E_a_) )
+======================================================
+Cout = ( c (a)(b)) ((c) a (b)) ((c)(a) b ) ((c)(a)(b))
+------------------------------------------------------
+Cout = (   (a)(b)) (( ) a (b)) (( )(a) b ) (( )(a)(b))
+
+Cout = ( o (a)(b)) ((o) a (b)) ((o)(a) b ) ((o)(a)(b))
+------------------------------------------------------
+Cout = ((a)(b)) (( )) (( )) (( ))
+
+Cout = (o) (a (b)) ((a) b ) ((a)(b))
+------------------------------------------------------
+Cout = ((a)(b))
+
+Cout = (a (b)) ((a) b ) ((a)(b))
+------------------------------------------------------
+E = ( (c ((a)(b))) ((c) (a (b)) ((a) b ) ((a)(b))) )
+
+Distribute/Collect: p((q)(r)) == ((pq)(pr))
+  w/ {p: ((a)(b))}
+
+E = ((a)(b)) ( (c) ((c) (a(b)) ((a)b)) )
+E = ((a)(b)) ( (c) (___ (a(b)) ((a)b)) )  # Occlude
+
+E = ((a)(b)) ( (c) ( (a(b))((a)b) ) )
+
+Cout = OR(AND(a, b), AND(c, XOR(a, b))
+
+(There are other possible forms. ((b ((a)(c))) ((b) a c))... )
+
+

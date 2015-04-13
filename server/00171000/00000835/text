@@ -1,0 +1,55 @@
+'''
+
+lambda blah blah
+
+"A Language of Two-Tuples and Strings"
+
+'''
+
+a, b, c, d, e = 'abcde'
+
+s0 = b, b  # Identity function.
+s1 = s0, a  # Evaluate it on 'a'.
+s2 = c, (s0, c)  # lambda c: identity(c)
+s3 = s2, a  # Call s2 on 'a'.
+
+L = 'x', ('p', ('p', 'x'))
+
+class LexEnv(dict):
+  def __call__(self, variable):
+    return self[variable]
+  def add(self, variable, value):
+    it = self.__class__(self)
+    it[variable] = value
+    return it
+
+
+def E(e, p):
+  if isinstance(e, basestring):
+    res = p(e)
+  elif isinstance(e[0], basestring):
+    variable, rest = e
+    res = lambda value: E(rest, p.add(variable, value))
+  else:
+    f, a = e
+    f = E(f, p)
+    a = E(a, p)
+    res = f(a)
+  return res
+
+
+
+# E(L, p)(s0)(p)
+
+##
+p = LexEnv(a=23)
+##print E(a, p)
+##
+##P = E(s1, p)
+##print P == 23
+##
+##print E(s3, p)
+##
+##P0 = E(s0, p)
+
+

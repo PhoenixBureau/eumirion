@@ -1,0 +1,31 @@
+"HALT" causes the rest of the expression under evaluation to be quoted and put on the stack, after which there is nothing left to evaluate and so evaluation stops.
+
+
+HALT == [] swaexpr
+cssclass:/12345678/12415686
+
+
+...  a b c HALT d e f == ... a b c [d e f]
+cssclass:/12345678/12415686
+
+
+... [] swaexpr z y x
+cssclass:/12345678/12395686
+
+... [z y x]
+cssclass:/12345678/12395686
+
+It can, of course, be resumed by evaluating the i combinator on the resultant stack.
+
+... [z y x] i
+cssclass:/12345678/12395686
+
+
+Used as part of Call/CC maybe?
+
+... [Q] callcc z y x == ... [z y x HALT] Q z y x 
+cssclass:/12345678/12395686
+
+
+css:/12345678/00000008
+css:/12345678/01010102

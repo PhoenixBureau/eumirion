@@ -1,0 +1,637 @@
+diff --git a/joy/btree.py b/joy/btree.py
+index 826622a..3948108 100644
+--- a/joy/btree.py
++++ b/joy/btree.py
+@@ -32,11 +32,11 @@ lower and higher branches of the tree.
+ 
+ This module defines the following functions:
+ 
+-  insert(node, key, value)
++    insert(node, key, value)
+ 
+-  get(node, key)
++    get(node, key)
+ 
+-  delete(node, key)
++    delete(node, key)
+ 
+ Both insert() and delete() return a new tuple that is the result of
+ applying the operation to the existing node.  (And both get() and delete()
+@@ -52,13 +52,12 @@ raise a RuntimeError if the maximum recursion depth is exceeded.  This
+ should only be a problem if used with very large trees.  To avoid this
+ issue you can use sys.setrecursionlimit(), but I think I might just
+ rewrite these to not use recursion.
+-'''
+ 
++## insert()
+ 
++Return a tree with value stored under key. Replaces old value if any.
++'''
+ def insert(node, key, value):
+-  '''
+-  Return a tree with value stored under key. Replaces old value if any.
+-  '''
+   if not node:
+     return key, (value, ((), ((), ())))
+ 
+@@ -73,10 +72,12 @@ def insert(node, key, value):
+   return key, (value, (lower, (higher, ())))
+ 
+ 
++'''
++## get()
++
++Return the value stored under key or raise KeyError if not found.
++'''
+ def get(node, key):
+-  '''
+-  Return the value stored under key or raise KeyError if not found.
+-  '''
+   if not node:
+     raise KeyError, key
+ 
+@@ -88,11 +89,13 @@ def get(node, key):
+   return get(lower if key < node_key else higher, key)
+ 
+ 
++'''
++## delete()
++
++Return a tree with the value (and key) removed or raise KeyError if
++not found.
++'''
+ def delete(node, key):
+-  '''
+-  Return a tree with the value (and key) removed or raise KeyError if
+-  not found.
+-  '''
+   if not node:
+     raise KeyError, key
+ 
+@@ -129,15 +132,17 @@ def delete(node, key):
+   return key, (value, (delete(lower, key), (higher, ())))
+ 
+ 
+-# The above functions are the "core" functionality for dealing with this
+-# tuple-based persistant BTree datastructure.  The rest of this module is
+-# just helper functions.
++'''
++
++The above functions are the "core" functionality for dealing with this
++tuple-based persistant BTree datastructure.  The rest of this module is
++just helper functions.
+ 
++## items()
+ 
++Iterate in order over the (key, value) pairs in a tree.
++'''
+ def items(node):
+-  '''
+-  Iterate in order over the (key, value) pairs in a tree.
+-  '''
+   if not node:
+     return
+ 
+@@ -152,44 +157,54 @@ def items(node):
+     yield kv
+ 
+ 
++'''
++### yield_balanced()
++
++Recursive generator function to yield the items in a sorted sequence
++in such a way as to fill a btree in a balanced fashion.
++'''
+ def _yield_balanced(sorted_items):
+   '''
+-  Recursive generator function to yield the items in a sorted sequence
+-  in such a way as to fill a btree in a balanced fashion.
++  For empty sequences do nothing.
+   '''
+-  # For empty sequences do nothing.
+   if not sorted_items:
+     return
+-
+-  # Find the index of the middle item (rounding down for even-length
+-  # sequences due to integer division.)
++  '''
++  Find the index of the middle item (rounding down for even-length
++  sequences due to integer division.)
++  '''
+   i = len(sorted_items) / 2
+-
+-  # Yield the middle item.
++  '''
++  Yield the middle item.
++  '''
+   yield sorted_items[i]
+-
+-  # Shortcut in case len(sorted_items) == 1
++  '''
++  Shortcut in case the length of `sorted_items` is one.
++  '''
+   if not i:
+     return 
+-
+-  # Now recurse on lower and higher halves of the sequence.
++  '''
++  Now recurse on lower and higher halves of the sequence.
++  '''
+   for low in _yield_balanced(sorted_items[:i]):
+     yield low
+   for high in _yield_balanced(sorted_items[i+1:]):
+     yield high
+ 
+ 
+-def fill_tree(node, items):
+-  '''
+-  Add the (key, value) pairs in items to a btree in a balanced way.
++'''
++## fill_tree()
++
++Add the (key, value) pairs in items to a btree in a balanced way.
+ 
+-  You can balance a tree like so:
++You can balance a tree like so:
+ 
+     tree = fill_tree((), items(tree))
+ 
+-  This iterates through the tree and returns a new, balanced tree from
+-  its contents.
+-  '''
++This iterates through the tree and returns a new, balanced tree from
++its contents.
++'''
++def fill_tree(node, items):
+   for key, value in _yield_balanced(sorted(items)):
+     node = insert(node, key, value)
+   return node
+diff --git a/joy/combinators.py b/joy/combinators.py
+index b8b08f8..6090563 100644
+--- a/joy/combinators.py
++++ b/joy/combinators.py
+@@ -22,13 +22,25 @@
+ 
+ # Combinators
+ 
++TODO: Brief description of combinators (as contrasted with "normal" functions.)
+ 
++Note: the combinators that have calls to joy() in them haven't been
++rewritten to be in Continuation-Passing Style yet.
+ '''
+ from .joy import joy
+ from .btree import get
+ from .stack import list_to_stack, iter_stack
+ 
++'''
++## i
++
++The most straightforward combinator is called "i".  It just executes the
++quoted program on the stack.
+ 
++In the Continuation-Passing Style (CSP) it works by transferring the
++terms from the quoted list on TOS into the pending expression before
++returning back to the main joy() loop.
++'''
+ def i(stack, expression, dictionary):
+   (quote, stack) = stack
+   accumulator = list(iter_stack(quote))
+@@ -36,21 +48,52 @@ def i(stack, expression, dictionary):
+   return stack, expression, dictionary
+ 
+ 
+-def x(stack, expression, dictionary):
+-  '''
+-  x == dup i
++'''
++## x
++
++Given a quoted program on the stack, the "x" combinator duplicates it and
++then runs it.
+ 
+-  ... [Q] x = ... [Q] dup i
+-  ... [Q] x = ... [Q] [Q] i
+-  ... [Q] x = ... [Q]  Q
++    ... [Q] x = ... [Q] Q
+ 
+-  '''
++It could be defined like so:
++
++    x == dup i
++
++    ... [Q] x = ... [Q] dup i
++    ... [Q] x = ... [Q] [Q] i
++    ... [Q] x = ... [Q]  Q
++
++But rather than implement "x" as a definition, we write a Python function
++that is almost exactly like the "i" combinator.
++'''
++def x(stack, expression, dictionary):
+   quote = stack[0]
+   accumulator = list(iter_stack(quote))
+   expression = list_to_stack(accumulator, expression)
+   return stack, expression, dictionary
+ 
++'''
++## b
++
++The "b" combinator...
++
++
++    ... [P] [Q] b = ... P Q
++
++This combinator is slightly more involved than the "x" combinator, so
++we look up the current "i" combinator and use it to make things simpler.
++The "i" combinator is interleaved with the [P] and [Q] quoted programs:
++
++    b == [i] dip i
+ 
++    ... [P] [Q] b = ... [P] [Q] [i] dip i
++    ... [P] [Q] b = ... [P] i [Q] i
++    ... [P] [Q] b = ... P [Q] i
++    ... [P] [Q] b = ... P Q
++
++The implementation is straightforward:
++'''
+ def b(stack, expression, dictionary):
+   i = get(dictionary, 'i')
+   (q, (p, (stack))) = stack
+@@ -58,11 +101,13 @@ def b(stack, expression, dictionary):
+   return stack, expression, dictionary
+ 
+ 
++'''
++## infra
++
++Accept a quoted program and a list on the stack and run the program
++with the list as its stack.
++'''
+ def infra(stack, expression, dictionary):
+-  '''
+-  Accept a quoted program and a list on the stack and run the program
+-  with the list as its stack.
+-  '''
+   i = get(dictionary, 'i')
+   swaack = get(dictionary, 'swaack')
+   (quote, (aggregate, stack)) = stack
+@@ -70,17 +115,34 @@ def infra(stack, expression, dictionary):
+   return (quote, aggregate), Q, dictionary
+ 
+ 
++'''
++## swaack
++
++The name comes from "SWAp stACK".  I am considering dropping the extra a.
++
++This is a weird combinator that takes a quoted literal and swaps the
++existing stack contents with the contents of the quoted literal:
++
++    c b a [x y z] swaack = z y x [a b c]
++
++It is very useful (you can write a function much like call/cc with it for
++example.)
++
++The Python implementation is delightful:
++'''
+ def swaack(stack, expression, dictionary):
+   old_stack, stack = stack
+   stack = stack, old_stack
+   return stack, expression, dictionary
+ 
+ 
++'''
++## map
++
++Run the quoted program on TOS on the items in the list under it, push a
++new list with the results (in place of the program and original list.
++'''
+ def map_(S, expression, dictionary):
+-  '''
+-  Run the quoted program on TOS on the items in the list under it, push a
+-  new list with the results (in place of the program and original list.
+-  '''
+   (quote, (aggregate, stack)) = S
+   results = list_to_stack([
+     joy((term, stack), quote, dictionary)[0][0]
+@@ -89,53 +151,39 @@ def map_(S, expression, dictionary):
+   return (results, stack), expression, dictionary
+ 
+ 
+-##def i(S):
+-##  '''Execute the quoted program on TOS on the rest of the stack.'''
+-##  (quote, stack) = S
+-##  return joy(quote, stack)
+-
+-
+-##def x(S):
+-##  '''
+-##  Like i but don't remove the program first.  In other words the
+-##  program gets itself as its first arg.
+-##  '''
+-##  (quote, stack) = S
+-##  return joy(quote, (quote, stack))
+-
+-
+-##def infra(S):
+-##  '''
+-##  Accept a quoted program and a list on the stack and run the program
+-##  with the list as its stack.
+-##  '''
+-##  (quote, (aggregate, stack)) = S
+-##  return joy(quote, aggregate), stack
+-
+-
+-##def b(S):
+-##  '''
+-##  Given two quoted programs on the stack run the second one then the one
+-##  on TOS.
+-##  '''
+-##  (Q, (P, stack)) = S
+-##  return joy(Q, joy(P, stack))
+-
++'''
++## cleave
+ 
++The cleave combinator expects two quotations, and below that an item X.
++It first executes [P], with X on top, and saves the top result element.
++Then it executes [Q], again with X, and saves the top result.
++Finally it restores the stack to what it was below X and pushes the two
++results P(X) and Q(X).
++'''
+ def cleave(S, expression, dictionary):
+-  '''
+-  The cleave combinator expects two quotations, and below that an item X.
+-  It first executes [P], with X on top, and saves the top result element.
+-  Then it executes [Q], again with X, and saves the top result.
+-  Finally it restores the stack to what it was below X and pushes the two
+-  results P(X) and Q(X).
+-  '''
+   (Q, (P, (x, stack))) = S
+   p = joy((x, stack), P, dictionary)[0][0]
+   q = joy((x, stack), Q, dictionary)[0][0]
+   return (q, (p, stack)), expression, dictionary
+ 
++'''
++## ifte
++
++    [if] [then] [else] ifte
++
+ 
++    ... [if] [then] [else] . ifte
++
++    [
++      [[...] [else] infra]
++      [[...] [then] infra]
++    ]
++    [...] [if] infra
++    first truthy getitem
++    i
++    unstack
++
++'''
+ def ifte(stack, expression, dictionary):
+   i = get(dictionary, 'i')
+   infra = get(dictionary, 'infra')
+@@ -151,69 +199,72 @@ def ifte(stack, expression, dictionary):
+   return stack, expression, dictionary
+ 
+ 
+-##def ifte(S):
+-##  '''[if] [then] [else] ifte'''
+-##  (else_, (then, (if_, stack))) = S
+-##  if_res = joy(if_, stack)[0]
+-##  if if_res:
+-##    result = joy(then, stack)[0]
+-##  else:
+-##    result = joy(else_, stack)[0]
+-##  return result, stack
+-
++'''
++## dip
+ 
++The dip combinator expects a program [P] and below that another item X. It pops both,
++saves X, executes P and then restores X.
++'''
+ def dip(stack, expression, dictionary):
+   i = get(dictionary, 'i')
+-  x = get(dictionary, 'x')
+   (quote, (x, stack)) = stack
+   expression = i, (x, expression)
+   return (quote, stack), expression, dictionary
+ 
+ 
+-##def dip(S):
+-##  '''
+-##  dip expects a program [P] and below that another item X. It pops both,
+-##  saves X, executes P and then restores X.
+-##  '''
+-##  (quote, (x, stack)) = S
+-##  return x, joy(quote, stack)
+-
++'''
++## dipd
+ 
++Like dip but expects two items.
++'''
+ def dipd(S, expression, dictionary):
+-  '''Like dip but expects two items.'''
+   (quote, (x, (y, stack))) = S
+   stack = joy(stack, quote, dictionary)[0]
+   return (x, (y, stack)), expression, dictionary
+ 
+ 
++'''
++## dipdd
++
++Like dip but expects three items.
++'''
+ def dipdd(S, expression, dictionary):
+-  '''Like dip but expects three items.'''
+   (quote, (x, (y, (z, stack)))) = S
+   stack = joy(stack, quote, dictionary)[0]
+   return (x, (y, (z, stack))), expression, dictionary
+ 
+ 
++'''
++## app1
++
++Given a quoted program on TOS and anything as the second stack item run
++the program and replace the two args with the first result of the
++program.
++'''
+ def app1(S, expression, dictionary):
+-  '''
+-  Given a quoted program on TOS and anything as the second stack item run
+-  the program and replace the two args with the first result of the
+-  program.
+-  '''
+   (quote, (x, stack)) = S
+   result = joy((x, stack), quote, dictionary)[0]
+   return (result[0], stack), expression, dictionary
+ 
+ 
++'''
++## app2
++
++Like app1 with two items.
++'''
+ def app2(S, expression, dictionary):
+-  '''Like app1 with two items.'''
+   (quote, (x, (y, stack))) = S
+   resultx = joy((x, stack), quote, dictionary)[0][0]
+   resulty = joy((y, stack), quote, dictionary)[0][0]
+   return (resultx, (resulty, stack)), expression, dictionary
+ 
+ 
++'''
++## app3
++
++Like app1 with three items.
++'''
+ def app3(S, expression, dictionary):
+-  '''Like app1 with three items.'''
+   (quote, (x, (y, (z, stack)))) = S
+   resultx = joy((x, stack), quote, dictionary)[0][0]
+   resulty = joy((y, stack), quote, dictionary)[0][0]
+@@ -221,36 +272,51 @@ def app3(S, expression, dictionary):
+   return (resultx, (resulty, (resultz, stack))), expression, dictionary
+ 
+ 
++'''
++## step
++
++The step combinator removes the aggregate and the quotation, and then
++repeatedly puts the members of the aggregate on top of the remaining
++stack and executes the quotation.
++'''
+ def step(S, expression, dictionary):
+-  '''
+-  The step combinator removes the aggregate and the quotation, and then
+-  repeatedly puts the members of the aggregate on top of the remaining
+-  stack and executes the quotation.
+-  '''
+   (quote, (aggregate, stack)) = S
+   for term in iter_stack(aggregate):
+     stack = joy((term, stack), quote, dictionary)[0]
+   return stack, expression, dictionary
+ 
+ 
++'''
++## while
++
++    [if] [body] while
++
++'''
+ def while_(S, expression, dictionary):
+-  '''[if] [body] while'''
+   (body, (if_, stack)) = S
+   while joy(stack, if_, dictionary)[0][0]:
+     stack = joy(stack, body, dictionary)[0]
+   return stack, expression, dictionary
+ 
+ 
++'''
++## nullary
++
++Run the program on TOS and return its first result without consuming
++any of the stack (except the program on TOS.)
++'''
+ def nullary(S, expression, dictionary):
+-  '''
+-  Run the program on TOS and return its first result without consuming
+-  any of the stack (except the program on TOS.)
+-  '''
+   (quote, stack) = S
+   result = joy(stack, quote, dictionary)
+   return (result[0][0], stack), expression, dictionary
+ 
+ 
++'''
++## unary
++
++Run the program on TOS and return its first result, consuming exactly one
++item from the stack (in addition to the program on TOS.)
++'''
+ def unary(S, expression, dictionary):
+   (quote, stack) = S
+   _, return_stack = stack
+@@ -258,6 +324,12 @@ def unary(S, expression, dictionary):
+   return (result[0], return_stack), expression, dictionary
+ 
+ 
++'''
++## binary
++
++Run the program on TOS and return its first result, consuming exactly two
++items from the stack (in addition to the program on TOS.)
++'''
+ def binary(S, expression, dictionary):
+   (quote, stack) = S
+   _, (_, return_stack) = stack
+@@ -265,8 +337,66 @@ def binary(S, expression, dictionary):
+   return (result[0], return_stack), expression, dictionary
+ 
+ 
++'''
++## ternary
++
++Run the program on TOS and return its first result, consuming exactly
++three items from the stack (in addition to the program on TOS.)
++'''
+ def ternary(S, expression, dictionary):
+   (quote, stack) = S
+   _, (_, (_, return_stack)) = stack
+   result = joy(stack, quote, dictionary)[0]
+   return (result[0], return_stack), expression, dictionary
++
++
++'''
++### Miscellaneous Commented-out Code
++'''
++##def dip(S):
++##  (quote, (x, stack)) = S
++##  return x, joy(quote, stack)
++
++
++##def ifte(S):
++##  '''[if] [then] [else] ifte'''
++##  (else_, (then, (if_, stack))) = S
++##  if_res = joy(if_, stack)[0]
++##  if if_res:
++##    result = joy(then, stack)[0]
++##  else:
++##    result = joy(else_, stack)[0]
++##  return result, stack
++
++
++##def i(S):
++##  '''Execute the quoted program on TOS on the rest of the stack.'''
++##  (quote, stack) = S
++##  return joy(quote, stack)
++
++
++##def x(S):
++##  '''
++##  Like i but don't remove the program first.  In other words the
++##  program gets itself as its first arg.
++##  '''
++##  (quote, stack) = S
++##  return joy(quote, (quote, stack))
++
++
++##def infra(S):
++##  '''
++##  Accept a quoted program and a list on the stack and run the program
++##  with the list as its stack.
++##  '''
++##  (quote, (aggregate, stack)) = S
++##  return joy(quote, aggregate), stack
++
++
++##def b(S):
++##  '''
++##  Given two quoted programs on the stack run the second one then the one
++##  on TOS.
++##  '''
++##  (Q, (P, stack)) = S
++##  return joy(Q, joy(P, stack))

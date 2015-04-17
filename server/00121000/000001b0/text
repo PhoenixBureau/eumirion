@@ -1,0 +1,27 @@
+                                                                   . 23 [23 eq] [dup mul] [pred] ifte
+                                                                23 . [23 eq] [dup mul] [pred] ifte
+                                                        23 [23 eq] . [dup mul] [pred] ifte
+                                              23 [23 eq] [dup mul] . [pred] ifte
+                                       23 [23 eq] [dup mul] [pred] . ifte
+         [[[23] [pred] infra] [[23] [dup mul] infra]] [23] [23 eq] . infra first truthy getitem i unstack
+                                                        23 [23 eq] . i [[[[23] [pred] infra] [[23] [dup mul] infra]]] swaack first truthy getitem i unstack
+                                                                23 . 23 eq [[[[23] [pred] infra] [[23] [dup mul] infra]]] swaack first truthy getitem i unstack
+                                                             23 23 . eq [[[[23] [pred] infra] [[23] [dup mul] infra]]] swaack first truthy getitem i unstack
+                                                              True . [[[[23] [pred] infra] [[23] [dup mul] infra]]] swaack first truthy getitem i unstack
+               True [[[[23] [pred] infra] [[23] [dup mul] infra]]] . swaack first truthy getitem i unstack
+               [[[23] [pred] infra] [[23] [dup mul] infra]] [True] . first truthy getitem i unstack
+               [[[23] [pred] infra] [[23] [dup mul] infra]] [True] . uncons pop truthy getitem i unstack
+              [[[23] [pred] infra] [[23] [dup mul] infra]] True [] . pop truthy getitem i unstack
+                 [[[23] [pred] infra] [[23] [dup mul] infra]] True . truthy getitem i unstack
+                 [[[23] [pred] infra] [[23] [dup mul] infra]] True . getitem i unstack
+                                            [[23] [dup mul] infra] . i unstack
+                                                                   . [23] [dup mul] infra unstack
+                                                              [23] . [dup mul] infra unstack
+                                                    [23] [dup mul] . infra unstack
+                                                      23 [dup mul] . i [] swaack unstack
+                                                                23 . dup mul [] swaack unstack
+                                                             23 23 . mul [] swaack unstack
+                                                               529 . [] swaack unstack
+                                                            529 [] . swaack unstack
+                                                             [529] . unstack
+                                                               529 . 

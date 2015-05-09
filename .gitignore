@@ -1,1 +1,5 @@
 *.pyc
+joypy/build/
+scripts/static/
+v/
+

@@ -65,7 +65,8 @@ class Page(object):
   def __call__(self):
     all_pages_pre(self.head, self.body, self.title, self.link, DEFAULT_TITLE)
     render_body(self.body.div, self, DEFAULT_TEXT)
-    all_pages_post(self.body, self.title, self.text, self.link, DEFAULT_TEXT)
+    if 'NO-EDIT' not in self.environ:
+      all_pages_post(self.body, self.title, self.text, self.link, DEFAULT_TEXT)
     return self.data
 
   def update_files(self, base_dir):

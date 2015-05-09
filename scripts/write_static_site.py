@@ -30,6 +30,7 @@ out_dir = './static'
 env = {
   'REQUEST_METHOD': 'POST',
   'wsgi.input': StringIO(),
+  'NO-EDIT': True,  # The actual value doesn't matter, just the presence.
   }
 server = load_server(base_dir)
 server.base_dir = None  # Don't modify files in base_dir.

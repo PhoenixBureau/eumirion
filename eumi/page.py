@@ -23,11 +23,11 @@ from os import makedirs
 from joy.stack import strstack
 from .html import posting, all_pages_pre, all_pages_post
 from .page_actions import (
+  get_page_data,
   linkerate,
-  render_body,
   link_finder,
   match_dict,
-  get_page_data,
+  render_body,
   )
 from .utilities.joy_wrapper import JOY
 
@@ -101,17 +101,7 @@ def update_page_data(page_data, environ, router):
 
 
 def run_command(page_data, command, router):
-  match = link_finder.match(command)
-  if match is None:
-    raise ValueError('The command arg is messed up: %r' % (command,))
-  _, kind, unit = match_dict(match)
-  command_data = get_page_data(router, kind, unit)
-  if command_data is None:
-    raise ValueError('No page for: %r' % (command,))
-  try:
-    expression = command_data['joy']
-  except KeyError:
-    raise ValueError('No available expression for: %r' % (command,))
+  expression = expression_of(command, router)
   stack = page_data.get('joy', ())
   result = JOY(expression, stack)
   print 'running', strstack(expression)
@@ -127,3 +117,22 @@ def get_form_data(environ):
     environ=environ,
     keep_blank_values=True,
     )
+
+
+def expression_of(command, router):
+  kind, unit = kind_and_unit_from_command(command)
+  command_data = get_page_data(router, kind, unit)
+  if command_data is None:
+    raise ValueError('No page for: %r' % (command,))
+  try:
+    return command_data['joy']
+  except KeyError:
+    raise ValueError('No available expression for: %r' % (command,))
+
+
+def kind_and_unit_from_command(command):
+  match = link_finder.match(command)
+  if match is None:
+    raise ValueError('The command arg is messed up: %r' % (command,))
+  _, kind, unit = match_dict(match)
+  return kind, unit

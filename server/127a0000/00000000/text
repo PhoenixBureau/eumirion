@@ -1,0 +1,12 @@
+Just sitting here at Foglifters cafe and thinking a few thoughts.
+
+I was thinking this morning about firing up the old "dendrite network" project.  It seems like it would be more cromulent than ever.  I realized, however, that the infrastructure (the "ops") are really the challenge and the app itself is not the crucial foreground task it seems to be.
+
+I've had this thought before, that setting up servers and making sure they work and can connect to each other, etc., is the real challenge in *any* online application.
+
+HTTP is for serving documents, never for supporting live game-like workflows (like e.g. Twitter) so expecting it to do so is already setting yourself up for issues.
+
+One of the neat things about the demo design of DN is that the web server logs pretty much contain ALL the data of interest from user interaction.  By the time the log line has been written we are done recording the request, we only respond to meet the protocol.
+
+This immediately suggests that simply storing the logs durably is enough of a first step for the app to work.  Then we can concentrate on things like monitoring, reliability (redundancy), and ... things!  :-d
+

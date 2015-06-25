@@ -1,0 +1,3 @@
+s = 'processname:foo 01 groupname:test from_state:STARTING pid:4424'
+d = s.split(':')
+a = [n.rsplit(None, 1) for n in d]

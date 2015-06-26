@@ -1,1 +1,4 @@
-0 1  ;text:/01010102/00000002
+So, I've got this "eumirion" server, which is a static pile of files that you can view and edit, and you have Joy embedded in it in the form of a piece of Joy code/datastructure attached to every page callable as "commands" that act on the content of other pages by means of HTML form buttons in their content.
+
+
+css:/12345678/00000008

@@ -1,4 +1,11 @@
 So, I've got this "eumirion" server, which is a static pile of files that you can view and edit, and you have Joy embedded in it in the form of a piece of Joy code/datastructure attached to every page callable as "commands" that act on the content of other pages by means of HTML form buttons in their content.
 
+If you squint a little this could be considered an IDE for Joy.  In terms of the Functional Programming paradigm this is quite complete and satisfactory.  Because the underlying Joy "library" of primitive functions includes the Void function we know we can compute (however slowly) any computable function using this Joy implementation.
+
+All actual computation happens during the processing of a POST request, and the server proceeds in effect from state to state after each command/transition.  If we wanted to we could retain the entire server state as a Persistant datastructure and have the whole thing (including intermediate stages of Joy runs if we like) available throughout time.
+
+Polishing this "turd" would be worthwhile, I think.
+
+In addition to client-side dynamism (which I won't further talk about on this page) it would be fun and instructive to figure out how to implement the server itself in Joy.  This implies some sort of running loop (one way to accomplish this would be what I like to call the "bike chain" method: use a list for the last "link" in you expression and put the head tuple into it as its tail item.  Presto!  A circular list.  The joy() function works fine with heterogeneous linked lists as long as each link contains just two items: term and tail.)
 
 css:/12345678/00000008

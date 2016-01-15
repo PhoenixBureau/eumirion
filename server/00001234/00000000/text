@@ -1,0 +1,56 @@
+In order to develop reliable software start with a fundamental abstraction that captures First Order Logic and apply mathematical operations (algorithms) to achieve human intentions.  Where provably correct rewrites increase efficiency take advantage.
+
+
+Approximate Table of Contents:
+
+# Flux and Self
+
+The Greek word "flux" - contents of awareness - experiencer and experienced,
+
+# Distinction
+
+Marking - Naming - an act of perception and choice.
+
+# "Is 'it' light out?"
+
+What does it mean to say a machine "knows" whether or not "it" is light out? - Simple photodetector - Is it on?
+
+# Laws of Form
+  circuits
+  logical equations
+
+GSB's wonderful notation - Logical Circuit Schematics - Logical Equations - The Solver (TVA is basically LLDP sans normalization of the expressions) - Mapping to Set Theory - Set Theory as Model of Programming (link to paper)
+
+# Models I & II of "Computer"
+
+Model I is a register of bits and a program of equations (LoF forms) - Model II is a library of automation to satisfy some human intention - ecology
+
+# Sequence, Branch, Loop, Parallel
+
+Mapping between human intentions and digital logic circuits - Time - Sequence, Branch, Loop, Parallel/Concurrent/Independent (HOS and Dr. Hamilton)
+
+# Joy Notation
+
+Etc.
+
+# Wirth RISC, Joy Implementation
+
+Representing containers in bits and logical equations - The main loop - Functions and combinators - Void function
+
+# Joy Model of Wirth RISC
+
+Close the loop by modelling the W-RISC in Joy/LoF equations - Permits down-to-the-gate metaprogramming
+
+# "Sufficiently Smart Compiler"
+
+Detecting opportunities to reach the correct result with less time (or space but that's less important these days except it contributes to time to read/write more RAM) and taking advantage of them - pattern matching at the Joy expression level - finding more efficient implementations at the machine level
+
+# Metaprogramming
+
+Programs that write other programs - algorithms that develop new algorithms - Goedel Machines
+
+# Cybernetics
+
+Circular Causality - Self
+
+css:/12345678/00000008

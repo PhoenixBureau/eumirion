@@ -2,7 +2,7 @@ Each page is made up of three pieces of text data, the "title", the "text", and 
 
 When a page is requested the HTML for that paged is generated (and cached) from the text in the "text" text.  The title of the page is taken from the "title" text.
 
-The rendering of the HTML never evaluates any Joy code.  The only way the "joy" text of a page can affect the HTML is by means of the /01010102/00000816 or /01010102/00000816 page actions.
+The rendering of the HTML never evaluates any Joy code.  The only way the "joy" text of a page can affect the HTML is by means of the /01010102/00000814 or /01010102/00000816 page actions.
 
 /01010102/00000000
 css:/12345678/00000008

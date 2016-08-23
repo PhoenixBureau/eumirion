@@ -1,11 +1,11 @@
 Consider the dip combinator:
 
-n [Q] . dip == . Q n
+n [Q] dip == Q n
 cssclass:/12345678/12415686
 
-(The period denotes the "position" of the interpreter "head".)
-
 If n is a [unquoted] function the CPS semantics will diverge from the normal "pocket universe" semantics.
+
+(The period denotes the "position" of the interpreter "head".)
 
 2 3 dup [+] . dip
 cssclass:/12345678/12395686
@@ -25,6 +25,39 @@ cssclass:/12345678/12395686
 cssclass:/12345678/12395686
 
 
+With "pocket universe":
+
+2 3 dup [+] . dip
+cssclass:/12345678/12395686
+
+(Dip executes in a "pocket Universe", dup is in stasis.)
+
+2 3 . +
+cssclass:/12345678/12395686
+
+(Return from pocket Universe, dup is restored to the stack without being executed.)
+
+5 dup .
+cssclass:/12345678/12395686
+
+5 dup
+cssclass:/12345678/12395686
+
+I am making a note of this.  I've thought about it before, and my tentative conclusion so far is: Just go with it.
+
+If you're writing definitions for CSP Joy you can either take care that they never leave "bare" unquoted function on the stack so they would never engender an unintended function execution, or you can embrace the possibility and write definitions that deliberately make use of it.  Without more experience, I favor the former.
+
+Conceivably, you could specify a "sanitary" version of dip (et. al.) that quoted the saved term(s) and explicitly unquoted them.  This is still not the same semantics as normal "pocket universe" Joy as the pending cruft is available to e.g. Q, whereas it would be safely tucked in stasis otherwise.
+
+n [Q] dip == Q [n] unquote
+cssclass:/12345678/12415686
+
+Clarity of thought and reasoning is paramount here.
+
+At this time I think the best thing to do is to have a care not to leave "bare" functions unquoted on the stack, unless you really know what you're doing or you're just fooling around exploring things.
+
+------
+What if the interpreter started scanning for unquoted functions from left-to-right (stack+expression) and just executes them as found, then dip et. al. just trigger a new scan after they do whatever processing...
 
 css:/12345678/00000008
 css:/12345678/01010102

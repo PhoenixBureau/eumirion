@@ -1,0 +1,30 @@
+Consider the dip combinator:
+
+n [Q] . dip == . Q n
+cssclass:/12345678/12415686
+
+(The period denotes the "position" of the interpreter "head".)
+
+If n is a [unquoted] function the CPS semantics will diverge from the normal "pocket universe" semantics.
+
+2 3 dup [+] . dip
+cssclass:/12345678/12395686
+
+With CSP:
+
+2 3 dup [+] . dip
+cssclass:/12345678/12395686
+
+2 3 . + dup
+cssclass:/12345678/12395686
+
+5 . dup
+cssclass:/12345678/12395686
+
+5 5
+cssclass:/12345678/12395686
+
+
+
+css:/12345678/00000008
+css:/12345678/01010102

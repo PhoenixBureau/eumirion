@@ -20,7 +20,7 @@
 from cgi import FieldStorage
 from os.path import exists, join
 from os import makedirs
-from joy.stack import strstack
+from joy.utils.stack import strstack
 from .html import posting, all_pages_pre, all_pages_post
 from .page_actions import (
   get_page_data,

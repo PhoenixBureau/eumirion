@@ -21,7 +21,7 @@ from copy import copy
 from itertools import groupby
 from operator import itemgetter
 from re import compile as RegularExpression, IGNORECASE
-from joy.stack import iter_stack, stack_to_string
+from joy.utils.stack import iter_stack, stack_to_string
 from joy.parser import text_to_expression
 from joy.library import concat
 from .html import fake_out_caching

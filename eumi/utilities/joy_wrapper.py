@@ -1,4 +1,4 @@
-from joy.initializer import initialize
+from joy.library import initialize
 from joy.joy import joy
 
 

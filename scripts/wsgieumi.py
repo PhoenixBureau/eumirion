@@ -18,11 +18,14 @@
 #    along with Eumirion.  If not, see <http://www.gnu.org/licenses/>.
 #
 from os.path import join, realpath
+
 base_dir = realpath('..')
+
 import sys
 sys.path.insert(0, base_dir)
-sys.path.insert(0, join(base_dir, 'joypy'))
+
 from eumi.main import get_args, get_server
+
 base_dir = join(base_dir, 'server')
 
 application = get_server(get_args(['-b', base_dir]))
